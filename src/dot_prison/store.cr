@@ -1,3 +1,5 @@
+require "json"
+
 struct DotPrison::Store
   alias Type = Hash(String, String | Store)
 
