@@ -1,0 +1,13 @@
+name: dot_prison
+version: 0.1.0
+
+authors:
+  - Samual Black <samuallb@hotmail.com>
+
+targets:
+  dot_prison:
+    main: src/dot_prison.cr
+
+crystal: 0.27.1
+
+license: MIT
