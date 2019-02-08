@@ -44,7 +44,7 @@ class DotPrison::Prison
   def parse_objects(store : Store)
     obj_store = store["Objects"]?
     unless obj_store.is_a?(Store)
-      DotPrison.logger.debug "'Objects' is not a store!"
+      DotPrison.logger.debug "'Objects' is not a store! Malformed file?"
       return
     end
     obj_store.each do |id, obj|
