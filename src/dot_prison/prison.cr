@@ -56,8 +56,20 @@ class DotPrison::Prison
     end
   end
 
-  def find_room
+  def find_room(id)
     raise "Unimplemented \#find_room"
+  end
+
+  def find_room?(id)
+    nil
+  end
+
+  def find_unique_room(id)
+    raise "Unimplemented \#find_unique_room"
+  end
+
+  def find_unique_room?(id)
+    nil
   end
 end
 
