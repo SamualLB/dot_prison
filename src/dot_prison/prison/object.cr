@@ -3,6 +3,8 @@ abstract class DotPrison::Prison::Object
 
   property id = 0
   property unique_id = 0
+  property x = 0.0
+  property y = 0.0
 
   # Delegate to sub classes
   #
@@ -16,6 +18,10 @@ abstract class DotPrison::Prison::Object
           when {{sub.name.split("::").last}} then {{sub.name.id}}.new(prison, store)
         {% end %}
       {% end %}
+      when "CctvMonitor"  then CCTVMonitor.new(prison, store)
+      when "Cctv"         then CCTV.new(prison, store)
+      when "LargeTv"      then LargeTV.new(prison, store)
+      when "Tv"           then TV.new(prison, store)
       else DotPrison.logger.debug "Unknown object: #{type}"
       end
     {% end %}
@@ -25,4 +31,4 @@ abstract class DotPrison::Prison::Object
   end
 end
 
-require "./object/*"
+require "./object/**"
