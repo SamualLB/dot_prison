@@ -1,10 +1,15 @@
 abstract class DotPrison::Prison::Object
-  getter prison : Prison
+end
 
-  property id = 0
-  property unique_id = 0
-  property x = 0.0
-  property y = 0.0
+require "./object/module/*"
+
+abstract class DotPrison::Prison::Object
+  include Helper
+  include Module::ID
+  include Module::Type
+  include Module::Position
+
+  getter prison : Prison
 
   # Delegate to sub classes
   #
@@ -28,6 +33,7 @@ abstract class DotPrison::Prison::Object
   end
 
   def initialize(@prison, store : Store)
+    super
   end
 end
 
