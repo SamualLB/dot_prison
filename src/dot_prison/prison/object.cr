@@ -1,8 +1,15 @@
 abstract class DotPrison::Prison::Object
-  getter prison : Prison
+end
 
-  property id = 0
-  property unique_id = 0
+require "./object/module/*"
+
+abstract class DotPrison::Prison::Object
+  include Helper
+  include Module::ID
+  include Module::Type
+  include Module::Position
+
+  getter prison : Prison
 
   # Delegate to sub classes
   #
@@ -16,13 +23,18 @@ abstract class DotPrison::Prison::Object
           when {{sub.name.split("::").last}} then {{sub.name.id}}.new(prison, store)
         {% end %}
       {% end %}
+      when "CctvMonitor"  then CCTVMonitor.new(prison, store)
+      when "Cctv"         then CCTV.new(prison, store)
+      when "LargeTv"      then LargeTV.new(prison, store)
+      when "Tv"           then TV.new(prison, store)
       else DotPrison.logger.debug "Unknown object: #{type}"
       end
     {% end %}
   end
 
   def initialize(@prison, store : Store)
+    super
   end
 end
 
-require "./object/*"
+require "./object/**"
