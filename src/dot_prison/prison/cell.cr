@@ -8,9 +8,7 @@ class DotPrison::Prison::Cell
   property condition = 0.0
   property indoors = false
 
-  @room_id : Int32? = nil
-  @room_unique_id : Int32? = nil
-  @room : Room? = nil
+  property! room_reference : RoomReference
 
   def initialize(@prison, store : Store)
     x, y = store.name.split ' '
@@ -21,22 +19,7 @@ class DotPrison::Prison::Cell
     parse_room(store)
   end
 
-  def room
-    return nil unless @room || @room_id || @room_unique_id
-    @room ||= prison.find_room?(@room_id) || prison.find_unique_room?(@room_unique_id)
-  end
-
-  def room=(room : Room)
-    @room = room
-    @room_id = room.id
-    @room_unique_id = room.unique_id
-  end
-
-  def room=(nothing : Nil)
-    @room = nil
-    @room_id = nil
-    @room_unique_id = nil
-  end
+  delegate room, to: room_reference
 
   private def parse_material(store : Store)
     string = store["Mat"]?
@@ -57,7 +40,11 @@ class DotPrison::Prison::Cell
     string = store["Con"]?
     return unless string.is_a?(String)
     float = string.to_f?
-    @condition = float if float
+    if float
+      @condition = float
+    else
+      DotPrison.logger.debug "Malformed float: #{string}"
+    end
   end
 
   private def parse_indoors(store : Store)
@@ -69,10 +56,14 @@ class DotPrison::Prison::Cell
   private def parse_room(store : Store)
     id_str = store["Room.i"]?
     unique_id_str = store["Room.u"]?
+    @room_reference = RoomReference.new(@prison)
     return unless id_str.is_a?(String) && unique_id_str.is_a?(String)
     id = id_str.to_i?; unique_id = unique_id_str.to_i?
-    return unless id && unique_id
-    @room_id = id; @room_unique_id = unique_id
+    unless id && unique_id
+      DotPrison.logger.debug "Malformed room ids: #{id_str}, #{unique_id_str}"
+      return
+    end
+    room_reference.room = {id, unique_id}
   end
 
   enum Material
