@@ -1,25 +1,21 @@
 abstract class DotPrison::Prison::Object
-end
-
-<<<<<<< HEAD
-require "./object/property/*"
-
-abstract class DotPrison::Prison::Object
-  include Property::Helper
-  include Property::ID
-  include Property::Type
-  include Property::Position
-=======
-require "./object/module/*"
-
-abstract class DotPrison::Prison::Object
-  include Helper
-  include Module::ID
-  include Module::Type
-  include Module::Position
->>>>>>> 9099314105c2d4fe8fe5d06ea2e13af316539592
-
   getter prison : Prison
+
+  property id = 0
+  property unique_id = 0
+  property x = 0.0
+  property y = 0.0
+  property type : String? = nil
+  property sub_type = 0
+
+  def initialize(@prison, store : Store)
+    @id = store.parse_integer("Id.i")
+    @unique_id = store.parse_integer("Id.u")
+    @x = store.parse_float( "Pos.x")
+    @y = store.parse_float("Pos.y")
+    @type = store.parse_string("Type")
+    @sub_type = store.parse_integer("SubType")
+  end
 
   # Delegate to sub classes
   #
@@ -40,10 +36,6 @@ abstract class DotPrison::Prison::Object
       else DotPrison.logger.debug "Unknown object: #{type}"
       end
     {% end %}
-  end
-
-  def initialize(@prison, store : Store)
-    super
   end
 end
 
