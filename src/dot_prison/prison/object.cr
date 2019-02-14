@@ -1,6 +1,7 @@
 abstract class DotPrison::Prison::Object
 end
 
+<<<<<<< HEAD
 require "./object/property/*"
 
 abstract class DotPrison::Prison::Object
@@ -8,6 +9,15 @@ abstract class DotPrison::Prison::Object
   include Property::ID
   include Property::Type
   include Property::Position
+=======
+require "./object/module/*"
+
+abstract class DotPrison::Prison::Object
+  include Helper
+  include Module::ID
+  include Module::Type
+  include Module::Position
+>>>>>>> 9099314105c2d4fe8fe5d06ea2e13af316539592
 
   getter prison : Prison
 
