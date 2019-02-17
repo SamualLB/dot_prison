@@ -39,4 +39,5 @@ abstract class DotPrison::Prison::Object
   end
 end
 
+require "./object/abstracts/*"
 require "./object/**"
