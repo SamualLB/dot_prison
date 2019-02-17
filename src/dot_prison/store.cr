@@ -37,7 +37,7 @@ struct DotPrison::Store
 
   def parse_bool(key : String) : Bool
     str_val = parse_string(key, "")
-    str_val == true ? true : false
+    str_val == "true"
   end
 
   forward_missing_to @content
