@@ -15,9 +15,9 @@ module DotPrison::Prison::Object::Rotation
     #1, +EPSILON   => Right
     if x.abs <= Float64::EPSILON*2
       if y.abs <= Float64::EPSILON*2
-        Direction::Up
-      elsif y.abs >= 1.0-Float64::EPSILON*2
         Direction::Down
+      elsif y.abs >= 1.0-Float64::EPSILON*2
+        Direction::Up
       else
         raise "Orientation not in range for Rotation: #{x}, #{y}"
       end

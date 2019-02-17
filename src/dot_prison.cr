@@ -14,6 +14,7 @@ end
 parsed : DotPrison::Store? = nil
 
 File.open("/home/sam/.Prison Architect/saves/Ship.prison") do |file|
+#File.open("/home/sam/.Prison Architect/saves/Test.prison") do |file|
   parsed = DotPrison::Parser.new(file).parse
 end
 
