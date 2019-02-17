@@ -4,9 +4,10 @@ module DotPrison::Prison::Object::Orientation
   @or_y = 0.0
 
   def initialize(prison : Prison, store : Store)
-    super()
+    super
     @or_x = store.parse_float("Or.x")
     @or_y = store.parse_float("Or.y")
+    
   end
 
   def orientation : Float64
