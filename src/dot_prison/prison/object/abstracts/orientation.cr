@@ -21,7 +21,8 @@ module DotPrison::Prison::Object::Orientation
     res
   end
 
-  #private def convert_angle(ang)
-  #  {Math.sin(ang), -Math.cos(ang)}
-  #end
+  # Needs to be in radians... not PI radians
+  def convert_angle(ang)
+    {Math.sin(ang), -Math.cos(ang)}
+  end
 end
