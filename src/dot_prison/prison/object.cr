@@ -9,12 +9,12 @@ abstract class DotPrison::Prison::Object
   property sub_type = 0
 
   def initialize(@prison, store : Store)
-    @id = store.parse_integer("Id.i")
-    @unique_id = store.parse_integer("Id.u")
+    @id = store.parse_int("Id.i")
+    @unique_id = store.parse_int("Id.u")
     @x = store.parse_float( "Pos.x")
     @y = store.parse_float("Pos.y")
     @type = store.parse_string("Type")
-    @sub_type = store.parse_integer("SubType")
+    @sub_type = store.parse_int("SubType")
   end
 
   # Delegate to sub classes

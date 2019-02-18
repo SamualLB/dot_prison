@@ -13,57 +13,21 @@ class DotPrison::Prison::Cell
   def initialize(@prison, store : Store)
     x, y = store.name.split ' '
     @x = x.to_i; @y = y.to_i
-    parse_material(store)
-    parse_condition(store)
-    parse_indoors(store)
+    @material = Material.parse?(store.parse_string("Mat") || "") || DEFAULT_MATERIAL
+    @condition = store.parse_float("Con")
+    @indoors = store.parse_bool("Ind")
     parse_room(store)
   end
 
   delegate room, to: room_reference
 
-  private def parse_material(store : Store)
-    string = store["Mat"]?
-    return if string.is_a? Store
-    if string
-      mat = Material.parse?(string)
-    else
-      mat = DEFAULT_MATERIAL
-    end
-    if mat
-      @material = mat
-    else
-      DotPrison.logger.debug "Unknown material when parsing Store: #{string}"
-    end
-  end
-
-  private def parse_condition(store : Store)
-    string = store["Con"]?
-    return unless string.is_a?(String)
-    float = string.to_f?
-    if float
-      @condition = float
-    else
-      DotPrison.logger.debug "Malformed float: #{string}"
-    end
-  end
-
-  private def parse_indoors(store : Store)
-    string = store["Ind"]?
-    bool = string == "true" ? true : false
-    @indoors = bool
-  end
-
   private def parse_room(store : Store)
-    id_str = store["Room.i"]?
-    unique_id_str = store["Room.u"]?
+    id = store.parse_int("Room.i")
+    uid = store.parse_int("Room.u")
     @room_reference = RoomReference.new(@prison)
-    return unless id_str.is_a?(String) && unique_id_str.is_a?(String)
-    id = id_str.to_i?; unique_id = unique_id_str.to_i?
-    unless id && unique_id
-      DotPrison.logger.debug "Malformed room ids: #{id_str}, #{unique_id_str}"
-      return
-    end
-    room_reference.room = {id, unique_id}
+    return unless id && uid
+    return if id == 0 && uid == 0
+    room_reference.room = {id, uid}
   end
 
   enum Material

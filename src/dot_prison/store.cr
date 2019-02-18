@@ -15,11 +15,11 @@ struct DotPrison::Store
     val
   end
 
-  def parse_integer(key : String, default_value : Int32 = 0) : Int32
+  def parse_int(key : String, default_value : Int32 = 0) : Int32
     str_val = parse_string(key, "")
     int_val = str_val.to_i?
     unless int_val
-      #DotPrison.logger.debug "Invalid integer #{str_val} for #{key}"
+      #DotPrison.logger.debug "Invalid int #{str_val} for #{key}"
       return default_value
     end
     int_val
