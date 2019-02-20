@@ -18,22 +18,27 @@ abstract class DotPrison::Prison::Object
   end
 
   # Delegate to sub classes
-  #
+  def self.new(prison : Prison, store : Store) : Object
+    type = store.parse_string("Type") || ""
+    parse_object(type).new(prison, store)
+  end
+
   # Use macro to generate 'when', contains the class name
-  def self.new(prison : Prison, store : Store)
+  protected def self.parse_object(name : String) : Class
     {% begin %}
-      type = store["Type"]?
-      case type
+      case name
       {% for sub in @type.subclasses %}
         {% unless sub.abstract? %}
-          when {{sub.name.split("::").last}} then {{sub.name.id}}.new(prison, store)
+          when {{sub.name.split("::").last}} then {{sub.name.id}}
         {% end %}
       {% end %}
-      when "CctvMonitor"  then CCTVMonitor.new(prison, store)
-      when "Cctv"         then CCTV.new(prison, store)
-      when "LargeTv"      then LargeTV.new(prison, store)
-      when "Tv"           then TV.new(prison, store)
-      else DotPrison.logger.debug "Unknown object: #{type}"
+      when "CctvMonitor" then CCTVMonitor
+      when "Cctv"        then CCTV
+      when "LargeTv"     then LargeTV
+      when "Tv"          then TV
+      else
+        DotPrison.logger.debug "Unknown object: #{name}"
+        UnknownObject
       end
     {% end %}
   end

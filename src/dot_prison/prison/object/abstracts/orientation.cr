@@ -1,5 +1,4 @@
 module DotPrison::Prison::Object::Orientation
-
   @or_x = 0.0
   @or_y = 0.0
   @orientation : Float64? = nil
