@@ -1,6 +1,6 @@
 module DotPrison::Prison::Object::Velocity
-  @velocity_x : Float64 = 0.0
-  @velocity_y : Float64 = 0.0
+  @velocity_x = 0.0
+  @velocity_y = 0.0
 
   def initialize(prison : Prison, store : Store)
     super
