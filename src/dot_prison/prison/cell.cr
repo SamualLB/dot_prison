@@ -2,11 +2,11 @@ class DotPrison::Prison::Cell
   DEFAULT_MATERIAL = Material::Dirt
 
   property prison : Prison
-  property x = 0
-  property y = 0
-  property material = DEFAULT_MATERIAL
-  property condition = 0.0
-  property indoors = false
+  property x : Int32
+  property y : Int32
+  property material : Material
+  property condition : Float64
+  property indoors : Bool
 
   property! room_reference : RoomReference
 

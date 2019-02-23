@@ -1,12 +1,12 @@
 abstract class DotPrison::Prison::Object
   getter prison : Prison
 
-  property id = 0
-  property unique_id = 0
-  property x = 0.0
-  property y = 0.0
+  property id : Int32
+  property unique_id : Int32
+  property x : Float64
+  property y : Float64
   property type : String? = nil
-  property sub_type = 0
+  property sub_type : Int32
 
   def initialize(@prison, store : Store)
     @id = store.parse_int("Id.i")
