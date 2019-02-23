@@ -1,9 +1,18 @@
 class DotPrison::Prison
+  class Reference
+    getter id : Int32? = nil
+    getter unique_id : Int32? = nil
+
+    def initialize(@prison : Prison)
+    end
+
+    def initialize(@prison : Prison, @id, @unique_id)
+    end
+  end
+
   macro reference(opt)
-    class DotPrison::Prison::{{opt.type.id.split("::").last.id}}Reference
-      getter id : Int32? = nil
-      getter unique_id : Int32? = nil
-      @{{opt.var}} : {{opt.type}}? = nil
+    class {{opt.type.id.split("::").last.id}}Reference < Reference
+      getter {{opt.var}} : {{opt.type}}? = nil
 
       def initialize(@prison : Prison)
       end
@@ -33,6 +42,8 @@ class DotPrison::Prison
         @id = nil
         @unique_id = nil
       end
+
+      forward_missing_to @{{opt.var}}
     end
 
     # Prison#
