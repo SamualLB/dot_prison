@@ -1,6 +1,21 @@
 abstract class DotPrison::Prison::Object
   macro inherited
     HANDLED_PROPERTIES = ["Id.i", "Id.u", "Pos.x", "Pos.y", "Type", "SubType"]
+
+    private def find_unhandled
+      @store.each do |k, v|
+        found = HANDLED_PROPERTIES.each do |prop|
+          if prop == k
+            break true
+          end
+          false
+        end
+        unless found
+          @unhandled[k] = v
+          DotPrison.logger.debug "Unhandled property #{k} for {{@type}} (#{v})"
+        end
+      end
+    end
   end
 
   getter prison : Prison
@@ -12,13 +27,17 @@ abstract class DotPrison::Prison::Object
   property type : String? = nil
   property sub_type : Int32
 
-  def initialize(@prison, store : Store)
+  @unhandled = Store.new
+
+
+  def initialize(@prison, @store : Store)
     @id = store.parse_int("Id.i")
     @unique_id = store.parse_int("Id.u")
     @x = store.parse_float( "Pos.x")
     @y = store.parse_float("Pos.y")
     @type = store.parse_string("Type")
     @sub_type = store.parse_int("SubType")
+    find_unhandled
   end
 
   # Delegate to sub classes
