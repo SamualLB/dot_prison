@@ -1,4 +1,8 @@
 module DotPrison::Prison::Object::Velocity
+  macro included
+    HANDLED_PROPERTIES.push "Vel.x", "Vel.y"
+  end
+
   @velocity_x = 0.0
   @velocity_y = 0.0
 

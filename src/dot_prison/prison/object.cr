@@ -1,4 +1,8 @@
 abstract class DotPrison::Prison::Object
+  macro inherited
+    HANDLED_PROPERTIES = ["Id.i", "Id.u", "Pos.x", "Pos.y", "Type", "SubType"]
+  end
+
   getter prison : Prison
 
   property id : Int32

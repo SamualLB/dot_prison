@@ -1,6 +1,10 @@
 module DotPrison::Prison::Object::WallContact
-  @wall_contact_x = LRContact::None
-  @wall_contact_y = UDContact::None
+  macro included
+    HANDLED_PROPERTIES.push "Walls.x", "Walls.y"
+  end
+
+  @wall_contact_x : LRContact
+  @wall_contact_y : UDContact
 
   def initialize(prison : Prison, store : Store)
     super

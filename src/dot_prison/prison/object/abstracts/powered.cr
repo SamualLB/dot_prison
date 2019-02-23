@@ -1,4 +1,8 @@
 module DotPrison::Prison::Object::Powered
+  macro included
+    HANDLED_PROPERTIES.push "Powered", "On"
+  end
+
   @powered = false
   @power_on = false
 

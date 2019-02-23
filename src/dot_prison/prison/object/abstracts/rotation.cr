@@ -1,4 +1,8 @@
 module DotPrison::Prison::Object::Rotation
+  macro included
+    HANDLED_PROPERTIES.push "Or.x", "Or.y"
+  end
+
   @rotation : Direction = Direction::Down
 
   def initialize(prison : Prison, store : Store)

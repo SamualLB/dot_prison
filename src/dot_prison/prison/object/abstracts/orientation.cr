@@ -1,4 +1,8 @@
 module DotPrison::Prison::Object::Orientation
+  macro included
+    HANDLED_PROPERTIES.push "Or.x", "Or.y"
+  end
+
   @or_x = 0.0
   @or_y = 0.0
   @orientation : Float64? = nil
