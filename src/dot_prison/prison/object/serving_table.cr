@@ -5,6 +5,5 @@ class DotPrison::Prison::Object::ServingTable < DotPrison::Prison::Object
 
   def initialize(prison : Prison, store : Store)
     super
-    puts @slots.size
   end
 end

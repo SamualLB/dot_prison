@@ -18,26 +18,26 @@ class DotPrison::Prison
   property visibility_enabled = false
   property weather_enabled = false
 
-  property cells = Hash(Int32, Hash(Int32, Cell)).new
+  #property cells = Hash(Int32, Hash(Int32, Cell)).new
+  property cells = Hash({Int32, Int32}, Cell).new
   property objects = Hash(Int32, Object).new
 
   def initialize(store : Store)
-    @width = store["NumCellsX"].as(String).to_i
-    @height = store["NumCellsY"].as(String).to_i
+    #@width = store["NumCellsX"].as(String).to_i
+    #@height = store["NumCellsY"].as(String).to_i
+    @width = store.parse_int("NumCellsX")
+    @height = store.parse_int("NumCellsY")
     parse_cells(store)
     parse_objects(store)
   end
 
   def parse_cells(store : Store)
-    (0...width).each do |i|
-      cells[i] = {} of Int32 => Cell
-    end
     return unless (store_cells = store["Cells"]).is_a?(Store)
     store_cells.each do |coords, sub|
       x, y = coords.split ' '
       x = x.to_i32; y = y.to_i32
       next unless sub.is_a? Store
-      cells[x][y] = Cell.new(self, sub)
+      cells[{x, y}] = Cell.new(self, sub)
     end
   end
 
