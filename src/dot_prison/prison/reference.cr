@@ -11,13 +11,17 @@ class DotPrison::Prison
   end
 
   macro reference(opt)
-    class {{opt.type.id.split("::").last.id}}Reference < Reference
+    class {{opt.var.camelcase}}Reference < Reference
       getter {{opt.var}} : {{opt.type}}? = nil
 
       def initialize(@prison : Prison)
       end
 
       def initialize(@prison : Prison, @id, @unique_id)
+      end
+
+      def initialize(@prison : Prison, id : Int32, uid : Int32)
+        @id, @unique_id = id, uid unless id == 0 && uid == 0
       end
 
       def {{opt.var}} : {{opt.type}}?
@@ -47,19 +51,22 @@ class DotPrison::Prison
     end
 
     # Prison#
-    def find_{{opt.var}}
+    def find_{{opt.var}}(id)
     end
 
-    def find_{{opt.var}}?
+    def find_{{opt.var}}?(id)
     end
 
-    def find_unique_{{opt.var}}
+    def find_unique_{{opt.var}}(uid)
     end
 
-    def find_unique_{{opt.var}}?
+    def find_unique_{{opt.var}}?(uid)
     end
   end
 
   reference(room : Room)
   reference(prisoner : Object::Prisoner)
+  reference(carrier : Object::Prisoner | Object::Guard)
+  reference(cell : Room)
+  reference(station : Room)
 end

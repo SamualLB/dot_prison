@@ -4,7 +4,10 @@ struct DotPrison::Store
   alias Type = Hash(String, String | Store)
 
   property content = Type.new
-  property name = ""
+  property name : String
+
+  def initialize(@name = "")
+  end
 
   def parse_string(key : String, default_value : String? = nil) : String?
     val = @content[key]?
@@ -13,6 +16,16 @@ struct DotPrison::Store
       return default_value
     end
     val
+  end
+
+  def parse_store(key : String) : Store
+    parse_store?(key) || Store.new
+  end
+
+  def parse_store?(key : String) : Store?
+    val = @content[key]?
+    return val if val.is_a?(Store)
+    nil
   end
 
   def parse_int(key : String, default_value : Int32 = 0) : Int32

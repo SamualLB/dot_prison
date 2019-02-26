@@ -1,7 +1,7 @@
 class DotPrison::Prison::Object::Bench < DotPrison::Prison::Object
   NO_SLOTS = 4
 
-  include Slot
+  include ReferenceSlot
 
   def initialize(prison : Prison, store : Store)
     super
