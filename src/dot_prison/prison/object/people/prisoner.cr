@@ -13,13 +13,13 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
   property last_ate : Float64
   property boiling_point : Float64
   property category : Category
-  property cell : CellReference
+  property cell : Reference(Cell)
   property energy : Float64
-  property carrier : CarrierReference
+  property carrier : Reference(Object)
   property walk_speed : Float64
   property loaded : Bool
   property money : Float64
-  property station : StationReference
+  property station : Reference(Room)
   property destination : Tuple(Float64, Float64)
   property velocity : Tuple(Float64, Float64)
   property last_visitors : Float64
@@ -36,16 +36,20 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
     @last_ate = store.parse_float("LastAte")
     @boiling_point = store.parse_float("BoilingPoint")
     @category = Category.from_store(store.parse_string("Category"))
-    @cell = CellReference.new(prison, store.parse_int("Cell.i"), store.parse_int("Cell.u"))
+    #@cell = CellReference.new(prison, store.parse_int("Cell.i"), store.parse_int("Cell.u"))
+    @cell = Reference(Cell).new(prison, store.parse_int("Cell.i"), store.parse_int("Cell.u"))
     @energy = store.parse_float("Energy")
-    @carrier = CarrierReference.new(prison, store.parse_int("CarrierId.i"), store.parse_int("CarrierId.u"))
+    #@carrier = CarrierReference.new(prison, store.parse_int("CarrierId.i"), store.parse_int("CarrierId.u"))
+    @carrier = Reference(Object).new(prison, store.parse_int("CarrierId.i"), store.parse_int("CarrierId.u"))
     @walk_speed = store.parse_float("AiWalkSpeed")
     @loaded = store.parse_bool("Loaded")
     @money = store.parse_float("AvailableMoney")
-    @station = StationReference.new(prison, store.parse_int("Station.i"), store.parse_int("Station.u"))
+    #@station = StationReference.new(prison, store.parse_int("Station.i"), store.parse_int("Station.u"))
+    @station = Reference(Room).new(prison, store.parse_int("Station.i"), store.parse_int("Station.u"))
     @destination = {store.parse_float("Dest.x"), store.parse_float("Dest.y")}
     @velocity = {store.parse_float("Vel.x"), store.parse_float("Vel.y")}
     @last_visitors = store.parse_float("LastVisitors")
+    @station.target
   end
 
   enum Category

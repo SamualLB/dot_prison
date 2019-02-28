@@ -18,13 +18,10 @@ class DotPrison::Prison
   property visibility_enabled = false
   property weather_enabled = false
 
-  #property cells = Hash(Int32, Hash(Int32, Cell)).new
   property cells = Hash({Int32, Int32}, Cell).new
   property objects = Hash(Int32, Object).new
 
   def initialize(store : Store)
-    #@width = store["NumCellsX"].as(String).to_i
-    #@height = store["NumCellsY"].as(String).to_i
     @width = store.parse_int("NumCellsX")
     @height = store.parse_int("NumCellsY")
     parse_cells(store)
@@ -51,8 +48,7 @@ class DotPrison::Prison
       next unless obj.is_a? Store
       _, id = id.split ' '
       id = id[0...-1].to_i
-      Object.new(self, obj)
-      #objects[id] = Object.new(self, obj)
+      objects[id] = Object.new(self, obj)
     end
   end
 
@@ -69,6 +65,25 @@ class DotPrison::Prison
   end
 
   def find_unique_room?(id)
+    nil
+  end
+
+  protected def find(uid : Int32?, id : Int32?, type : Class) : Room | Cell | Object | Nil
+    case type
+      when Room
+        return nil
+      when Cell
+        return nil
+      #when specific object
+      when Prison::Object # use uid???
+        return objects[id]? if id
+        objects.each do |k, obj|
+          return obj if obj.unique_id == uid
+        end
+      else
+        #uid
+        return nil
+    end
     nil
   end
 end

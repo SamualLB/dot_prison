@@ -8,7 +8,7 @@ class DotPrison::Prison::Cell
   property condition : Float64
   property indoors : Bool
 
-  property! room_reference : RoomReference
+  property! room_reference : Reference(Room)
 
   def initialize(@prison, store : Store)
     x, y = store.name.split ' '
@@ -22,12 +22,10 @@ class DotPrison::Prison::Cell
   delegate room, to: room_reference
 
   private def parse_room(store : Store)
-    id = store.parse_int("Room.i")
-    uid = store.parse_int("Room.u")
-    @room_reference = RoomReference.new(@prison)
-    return unless id && uid
-    return if id == 0 && uid == 0
-    room_reference.room = {id, uid}
+    @room_reference = Reference(Room).new(
+        @prison,
+        store.parse_int("Room.i"),
+        store.parse_int("Room.u"))
   end
 
   enum Material

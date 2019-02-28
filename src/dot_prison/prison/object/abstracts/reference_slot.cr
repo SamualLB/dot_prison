@@ -9,7 +9,7 @@ module DotPrison::Prison::Object::ReferenceSlot
     {% end %}
   end
 
-  @slots = {} of Int32 => PrisonerReference
+  @slots = {} of Int32 => Reference(Prisoner)
 
   def initialize(prison : Prison, store : Store)
     super
@@ -17,9 +17,9 @@ module DotPrison::Prison::Object::ReferenceSlot
       id = store.parse_int("Slot#{n}.i")
       uid = store.parse_int("Slot#{n}.u")
       if id != 0 && uid != 0
-        @slots[n] = PrisonerReference.new(prison, id, uid)
+        @slots[n] = Reference(Prisoner).new(prison, id, uid)
       else
-        @slots[n] = PrisonerReference.new(prison)
+        @slots[n] = Reference(Prisoner).new(prison)
       end
     end
   end
