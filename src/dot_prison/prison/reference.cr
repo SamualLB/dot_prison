@@ -38,7 +38,8 @@ class DotPrison::Prison
     end
 
     def target : Target?
-      return nil unless @target || @id || @unique_id
+      return @target if @target
+      return nil unless @id || @unique_id
       find = @prison.find(@unique_id, @id, Target)
       @target = find if find.is_a?(Target)
     end

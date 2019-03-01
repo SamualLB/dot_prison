@@ -20,6 +20,7 @@ class DotPrison::Prison
 
   property cells = Hash({Int32, Int32}, Cell).new
   property objects = Hash(Int32, Object).new
+  property rooms = Hash(Int32, Room).new
 
   def initialize(store : Store)
     @width = store.parse_int("NumCellsX")
@@ -52,40 +53,37 @@ class DotPrison::Prison
     end
   end
 
-  def find_room(id)
-    raise "Unimplemented \#find_room"
-  end
-
-  def find_room?(id)
-    nil
-  end
-
-  def find_unique_room(id)
-    raise "Unimplemented \#find_unique_room"
-  end
-
-  def find_unique_room?(id)
-    nil
-  end
-
-  protected def find(uid : Int32?, id : Int32?, type : Class) : Room | Cell | Object | Nil
+  protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil
     case type
       when Room
-        return nil
-      when Cell
-        return nil
+        find_room(uid, id)
       #when specific object
-      when Prison::Object # use uid???
-        return objects[id]? if id
-        objects.each do |k, obj|
-          return obj if obj.unique_id == uid
-        end
+      when Object
+        find_object(uid, id, type)
       else
-        #uid
+        find_room(uid) || find_object(uid)
         return nil
     end
-    nil
+  end
+
+
+protected def find_object(uid : Int32? = nil, id : Int32? = nil)
+  obj = objects[id]? if id
+  return obj if obj
+  objects.each do |k, obj|
+    return obj if obj.unique_id == uid
   end
 end
+
+protected def find_room(uid : Int32? = nil, id : Int32? = nil)
+  rm = rooms[id]? if id
+  return rm if rm
+  rooms.each do |k, rm|
+    return rm if rm.unique_id == uid
+  end
+end
+
+end
+
 
 require "./prison/*"
