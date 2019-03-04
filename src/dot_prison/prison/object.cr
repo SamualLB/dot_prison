@@ -12,7 +12,7 @@ abstract class DotPrison::Prison::Object
         end
         unless found
           @unhandled[k] = v
-          DotPrison.logger.debug "Unhandled property #{k} for {{@type}} (#{v})"
+          #DotPrison.logger.debug "Unhandled property #{k} for {{@type}} (#{v})"
         end
       end
     end

@@ -9,7 +9,8 @@ struct DotPrison::Store
   def initialize(@name = "")
   end
 
-  def parse_string(key : String, default_value : String? = nil) : String?
+  def parse_string(key : String | Symbol, default_value : String? = nil) : String?
+    key = key.to_s if key.is_a?(Symbol)
     val = @content[key]?
     unless val.is_a?(String)
       #DotPrison.logger.debug "Unset value #{key} in #{self}"
@@ -18,7 +19,7 @@ struct DotPrison::Store
     val
   end
 
-  def parse_store(key : String) : Store
+  def parse_store(key : String | Symbol) : Store
     parse_store?(key) || Store.new
   end
 
@@ -28,7 +29,7 @@ struct DotPrison::Store
     nil
   end
 
-  def parse_int(key : String, default_value : Int32 = 0) : Int32
+  def parse_int(key : String | Symbol, default_value : Int32 = 0) : Int32
     str_val = parse_string(key, "")
     int_val = str_val.to_i?
     unless int_val
@@ -38,7 +39,7 @@ struct DotPrison::Store
     int_val
   end
 
-  def parse_float(key : String, default_value : Float64 = 0.0) : Float64
+  def parse_float(key : String | Symbol, default_value : Float64 = 0.0) : Float64
     str_val = parse_string(key, "")
     flt_val = str_val.to_f?
     unless flt_val
@@ -48,7 +49,7 @@ struct DotPrison::Store
     flt_val
   end
 
-  def parse_bool(key : String) : Bool
+  def parse_bool(key : String | Symbol) : Bool
     str_val = parse_string(key, "")
     str_val == "true"
   end
