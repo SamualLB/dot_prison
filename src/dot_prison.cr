@@ -21,10 +21,4 @@ end
 
 parsed = parsed.as(DotPrison::Store)
 
-DotPrison::Prison.new(parsed)
-
-str = DotPrison::Store.new("Test")
-
-str["Test"] = "result of test"
-
-test = DotPrison::Prison::TestConsumer.new(str)
+pr = DotPrison::Prison.new(parsed)

@@ -1,31 +1,18 @@
-class DotPrison::Prison::Cell
-  DEFAULT_MATERIAL = Material::Dirt
+require "./store_consumer"
 
-  property prison : Prison
-  property x : Int32
-  property y : Int32
-  property material : Material
-  property condition : Float64
-  property indoors : Bool
+class DotPrison::Prison::Cell < DotPrison::Prison::StoreConsumer
+  property! prison : Prison
 
-  property! room_reference : Reference(Room)
+  handle(:indoors, :Bool, :Ind)
+  handle(:condition, :Float64, :Con)
+  custom_handle(:material, :Material, :Mat)
+  custom_handle(:room, :"Reference(Room)", :"Room.i", :"Room.u")
 
   def initialize(@prison, store : Store)
-    x, y = store.name.split ' '
-    @x = x.to_i; @y = y.to_i
-    @material = Material.parse?(store.parse_string("Mat") || "") || DEFAULT_MATERIAL
-    @condition = store.parse_float("Con")
-    @indoors = store.parse_bool("Ind")
-    parse_room(store)
-  end
-
-  delegate room, to: room_reference
-
-  private def parse_room(store : Store)
-    @room_reference = Reference(Room).new(
-        @prison,
-        store.parse_int("Room.i"),
-        store.parse_int("Room.u"))
+    init_store(store)
+    @material = Material.parse?(store.parse_string("Mat") || "") || Material::DEFAULT
+    @room = Reference(Room).new(prison, store.parse_int(:"Room.i"), store.parse_int(:"Room.u"))
+    puts @unhandled unless @unhandled.empty?
   end
 
   enum Material
@@ -52,5 +39,7 @@ class DotPrison::Prison::Cell
     RoadMarkingsLeft
     RoadMarkings
     RoadMarkingsRight
+
+    DEFAULT = Dirt
   end
 end
