@@ -2,17 +2,10 @@ abstract class DotPrison::Prison::Object < DotPrison::StoreConsumer
   getter! prison : Prison
 
   macro inherited
-#    handle(:id, :Int32, :"Id.i")
-#    handle(:uid, :Int32, :"Id.u")
-#    handle(:x, :Float64, :"Pos.x")
-#    handle(:y, :Float64, :"Pos.y")
-#    handle(:type, :String, :Type)
-#    handle(:sub_type, :Int32, :SubType)
- 
-  def initialize(store : Store, @prison : Prison)
-    init_store(store, prison)
+    def initialize(store : Store, @prison : Prison)
+      init_store(store, prison)
+    end
   end
- end
 
   # Delegate to sub classes
   def self.new(store : Store, prison : Prison) : Object

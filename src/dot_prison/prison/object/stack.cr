@@ -5,6 +5,8 @@ class DotPrison::Prison::Object::Stack < DotPrison::Prison::Object
   handle(:loaded, :Bool, :Loaded)
   handle(:carried, :Int32, :Carried)
   handle(:carrier, :"Reference(Object)", :"CarrierId.i", :"CarrierId.u")
+  handle(:garbage, :Bool, :Garbage)
 
+  include ObjectProperties
   include Orientation
 end

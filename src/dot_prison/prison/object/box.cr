@@ -1,5 +1,6 @@
 class DotPrison::Prison::Object::Box < DotPrison::Prison::Object
   include ObjectProperties
+
   @contents : Object? = nil
 
   def initialize(store : Store, prison : Prison)

@@ -23,7 +23,7 @@ struct DotPrison::Store
     parse_store?(key) || Store.new
   end
 
-  def parse_store?(key : String) : Store?
+  def parse_store?(key : String | Symbol) : Store?
     val = @content[key]?
     return val if val.is_a?(Store)
     nil

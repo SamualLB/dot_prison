@@ -4,9 +4,6 @@ module DotPrison::Prison::Object::WallContact
     custom_handle(:wall_contact_y, :UDContact, :"Walls.y")
   end
 
-  @wall_contact_x : LRContact
-  @wall_contact_y : UDContact
-
   def initialize(store : Store, prison : Prison)
     super
     x_flt = store.parse_float("Walls.x")
