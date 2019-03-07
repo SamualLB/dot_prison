@@ -4,7 +4,7 @@ require "./dot_prison/*"
 module DotPrison
   VERSION = "0.1.0"
 
-  @@logger = Logger.new(STDERR, level: Logger::DEBUG)
+  @@logger = Logger.new(STDERR, level: Logger::INFO)
 
   class_getter logger
 

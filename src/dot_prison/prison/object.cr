@@ -1,49 +1,23 @@
-abstract class DotPrison::Prison::Object
+abstract class DotPrison::Prison::Object < DotPrison::StoreConsumer
+  getter! prison : Prison
+
   macro inherited
-    HANDLED_PROPERTIES = ["Id.i", "Id.u", "Pos.x", "Pos.y", "Type", "SubType"]
-
-    private def find_unhandled(store : Store)
-      store.each do |k, v|
-        found = HANDLED_PROPERTIES.each do |prop|
-          if prop == k
-            break true
-          end
-          false
-        end
-        unless found
-          @unhandled[k] = v
-          #DotPrison.logger.debug "Unhandled property #{k} for {{@type}} (#{v})"
-        end
-      end
-    end
+#    handle(:id, :Int32, :"Id.i")
+#    handle(:uid, :Int32, :"Id.u")
+#    handle(:x, :Float64, :"Pos.x")
+#    handle(:y, :Float64, :"Pos.y")
+#    handle(:type, :String, :Type)
+#    handle(:sub_type, :Int32, :SubType)
+ 
+  def initialize(store : Store, @prison : Prison)
+    init_store(store, prison)
   end
-
-  getter prison : Prison
-
-  property id : Int32
-  property unique_id : Int32
-  property x : Float64
-  property y : Float64
-  property type : String? = nil
-  property sub_type : Int32
-
-  @unhandled = Store.new
-
-
-  def initialize(@prison, store : Store)
-    @id = store.parse_int("Id.i")
-    @unique_id = store.parse_int("Id.u")
-    @x = store.parse_float( "Pos.x")
-    @y = store.parse_float("Pos.y")
-    @type = store.parse_string("Type")
-    @sub_type = store.parse_int("SubType")
-    find_unhandled(store)
-  end
+ end
 
   # Delegate to sub classes
-  def self.new(prison : Prison, store : Store) : Object
+  def self.new(store : Store, prison : Prison) : Object
     type = store.parse_string("Type") || ""
-    parse_object(type).new(prison, store)
+    parse_object(type).new(store, prison)
   end
 
   # Use macro to generate 'when', contains the class name

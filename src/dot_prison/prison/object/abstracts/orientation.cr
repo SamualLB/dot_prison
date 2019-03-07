@@ -1,20 +1,13 @@
 module DotPrison::Prison::Object::Orientation
   macro included
-    HANDLED_PROPERTIES.push "Or.x", "Or.y"
+    handle(:or_x, :Float64, :"Or.x")
+    handle(:or_y, :Float64, :"Or.y")
   end
 
-  @or_x = 0.0
-  @or_y = 0.0
   @orientation : Float64? = nil
 
-  def initialize(prison : Prison, store : Store)
-    super
-    @or_x = store.parse_float("Or.x")
-    @or_y = store.parse_float("Or.y")
-  end
-
   def orientation : Float64
-    @orientation ||= Orientation.find_angle(@or_x, @or_y)
+    @orientation ||= Orientation.find_angle(or_x, or_y)
   end
 
   def orientation=(new_o : Float64)

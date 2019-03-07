@@ -1,18 +1,15 @@
-require "./store_consumer"
-
-class DotPrison::Prison::Cell < DotPrison::Prison::StoreConsumer
+class DotPrison::Prison::Cell < DotPrison::StoreConsumer
   property! prison : Prison
 
   handle(:indoors, :Bool, :Ind)
   handle(:condition, :Float64, :Con)
-  custom_handle(:material, :Material, :Mat)
-  custom_handle(:room, :"Reference(Room)", :"Room.i", :"Room.u")
+  handle(:room, :"Reference(Room)", :"Room.i", :"Room.u")
 
-  def initialize(@prison, store : Store)
-    init_store(store)
+  custom_handle(:material, :Material, :Mat)
+
+  def initialize(store : Store, @prison)
+    init_store(store, prison)
     @material = Material.parse?(store.parse_string("Mat") || "") || Material::DEFAULT
-    @room = Reference(Room).new(prison, store.parse_int(:"Room.i"), store.parse_int(:"Room.u"))
-    puts @unhandled unless @unhandled.empty?
   end
 
   enum Material

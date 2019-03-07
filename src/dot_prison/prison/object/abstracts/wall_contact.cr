@@ -1,12 +1,13 @@
 module DotPrison::Prison::Object::WallContact
   macro included
-    HANDLED_PROPERTIES.push "Walls.x", "Walls.y"
+    custom_handle(:wall_contact_x, :LRContact, :"Walls.x")
+    custom_handle(:wall_contact_y, :UDContact, :"Walls.y")
   end
 
   @wall_contact_x : LRContact
   @wall_contact_y : UDContact
 
-  def initialize(prison : Prison, store : Store)
+  def initialize(store : Store, prison : Prison)
     super
     x_flt = store.parse_float("Walls.x")
     @wall_contact_x = LRContact.from_value?(x_flt.to_i) || LRContact::None

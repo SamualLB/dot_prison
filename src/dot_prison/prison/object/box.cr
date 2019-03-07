@@ -1,8 +1,9 @@
 class DotPrison::Prison::Object::Box < DotPrison::Prison::Object
+  include ObjectProperties
   @contents : Object? = nil
 
-  def initialize(prison : Prison, store : Store)
-    super
+  def initialize(store : Store, prison : Prison)
+    init_store(store, prison)
     parse_contents(store)
   end
 

@@ -1,14 +1,13 @@
 module DotPrison::Prison::Object::Rotation
   macro included
-    HANDLED_PROPERTIES.push "Or.x", "Or.y"
+    handle(:or_x, :Float64, :"Or.x")
+    handle(:or_y, :Float64, :"Or.y")
   end
 
   @rotation : Direction = Direction::Down
 
-  def initialize(prison : Prison, store : Store)
+  def initialize(store : Store, prison : Prison)
     super
-    or_x = store.parse_float("Or.x")
-    or_y = store.parse_float("Or.y")
     @rotation = parse_rotation(or_x, or_y)
   end
 

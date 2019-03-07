@@ -1,3 +1,5 @@
+require "./store_consumer"
+
 class DotPrison::Prison
   property version = ""
   property width = 0
@@ -35,7 +37,7 @@ class DotPrison::Prison
       x, y = coords.split ' '
       x = x.to_i32; y = y.to_i32
       next unless sub.is_a? Store
-      cells[{x, y}] = Cell.new(self, sub)
+      cells[{x, y}] = Cell.new(sub, self)
     end
   end
 
@@ -49,7 +51,7 @@ class DotPrison::Prison
       next unless obj.is_a? Store
       _, id = id.split ' '
       id = id[0...-1].to_i
-      objects[id] = Object.new(self, obj)
+      objects[id] = Object.new(obj, self)
     end
   end
 
