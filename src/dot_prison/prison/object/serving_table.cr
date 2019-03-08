@@ -4,4 +4,7 @@ class DotPrison::Prison::Object::ServingTable < DotPrison::Prison::Object
   include ObjectProperties
   include Rotation
   include ReferenceSlot
+
+  handle(:staff_table, :Bool, :StaffTable)
+  handle(:serving, :Bool, :Serving)
 end

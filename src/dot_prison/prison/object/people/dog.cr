@@ -1,6 +1,7 @@
 class DotPrison::Prison::Object::Dog < DotPrison::Prison::Object
   include ObjectProperties
   include Orientation
+  include Velocity
 
   handle(:sniff_timer, :Float64, :SniffTimer)
   handle(:tunnel_timer, :Float64, :TunnelTimer)

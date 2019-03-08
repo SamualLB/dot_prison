@@ -10,7 +10,7 @@ abstract class DotPrison::StoreConsumer
   end
 
   macro inherited
-    HANDLED_PROPERTIES = [] of NamedTuple(property: Symbol, type: Symbol, keys: Tuple(Symbol) | Tuple(Symbol, Symbol))
+    HANDLED_PROPERTIES = [] of NamedTuple(property: Symbol?, type: Symbol?, keys: Tuple(Symbol) | Tuple(Symbol, Symbol))
 
     macro handle(prop, typ, k, k2 = :"")
       \{% HANDLED_PROPERTIES << {property: prop, type: typ, keys: {k, k2}} %}
@@ -20,6 +20,10 @@ abstract class DotPrison::StoreConsumer
     macro custom_handle(property, type, *keys)
       \{% HANDLED_PROPERTIES << {property: property, type: type, keys: keys} %}
       property! \{{property.id}} : \{{type.id}}
+    end
+
+    macro no_handle(k, k2 = :"")
+      \{% HANDLED_PROPERTIES << {property: nil, type: nil, keys: {k, k2}} %}
     end
 
     private def find_unhandled(store : Store)
@@ -52,7 +56,7 @@ abstract class DotPrison::StoreConsumer
             @\{{props[:property].id}} = store.parse_float(\{{props[:keys][0]}})
           \{% elsif props[:type] == :Bool %}
             @\{{props[:property].id}} = store.parse_bool(\{{props[:keys][0]}})
-          \{% elsif props[:type].starts_with? "Reference(" %}
+          \{% elsif (props[:type] || :"").starts_with? "Reference(" %}
                                                                                                                                                                                                                                                                                          @\{{props[:property].id}} = \{{props[:type].id}}.new(prison.as(Prison), store.parse_int(\{{props[:keys][0]}}), store.parse_int(\{{props[:keys][1]}}))
           \{% else %}
           \{% end %}
