@@ -40,13 +40,17 @@ abstract class DotPrison::StoreConsumer
         end
         unless found
           @unhandled[k] = v
-          DotPrison.logger.debug "Unhandled property #{k} for {{@type}} (#{v})"
+          if v.is_a?(Store)
+            DotPrison.logger.debug "Unhandled property #{k} for {{@type}} (store)"
+          else
+            DotPrison.logger.debug "Unhandled property #{k} for {{@type}} (#{v})"
+          end
         end
       end
     end
 
     macro finished
-      private def init_store(store : Store, prison : Prison?)
+      private def init_store(store : Store, prison : Prison? = nil)
         \{% for props in HANDLED_PROPERTIES %}
           \{% if    props[:type] == :String %}
             @\{{props[:property].id}} = store.parse_string(\{{props[:keys][0]}})

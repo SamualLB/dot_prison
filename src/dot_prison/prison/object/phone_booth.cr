@@ -3,4 +3,5 @@ class DotPrison::Prison::Object::PhoneBooth < DotPrison::Prison::Object
   include Rotation
   include WallContact
   include Powered
+  include Trigger
 end

@@ -4,4 +4,6 @@ class DotPrison::Prison::Object::Guard < DotPrison::Prison::Object
   include Velocity
   include StaffNeeds
   include PatrolProperties
+
+  handle(:tazer_trained, :Bool, :TazerTrained)
 end

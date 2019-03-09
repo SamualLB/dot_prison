@@ -3,6 +3,7 @@ class DotPrison::Prison::Object::DogHandler < DotPrison::Prison::Object
   include Orientation
   include Velocity
   include StaffNeeds
+  include PatrolProperties
 
   handle(:dog, :"Reference(Dog)", :"DogId.i", :"DogId.u")
   handle(:dog_leashed, :Bool, :DogLeashed)

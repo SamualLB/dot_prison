@@ -1,58 +1,51 @@
 require "./store_consumer"
 
-class DotPrison::Prison
-  property version = ""
-  property width = 0
-  property height = 0
-  property origin_x = 0
-  property origin_y = 0
-  property origin_width = 0
-  property origin_height = 0
-  property time_index = 0.0
-  property random_seed = 0
-  property seconds_played = 0
-  property next_object_id = 0
-  property electricity_enabled = false
-  property water_enabled = false
-  property food_enabled = false
-  property misconduct_enabled = false
-  property decay_enabled = false
-  property visibility_enabled = false
-  property weather_enabled = false
+class DotPrison::Prison < DotPrison::StoreConsumer
 
-  property cells = Hash({Int32, Int32}, Cell).new
-  property objects = Hash(Int32, Object).new
+  handle(:version, :String, :Version)
+  handle(:time_index, :Float64, :TimeIndex)
+  handle(:time_warp, :Float64, :TimeWarpFactor)
+  handle(:random_seed, :Int32, :RandomSeed)
+  handle(:seconds_played, :Int32, :SecondsPlayed)
+  handle(:reoffend, :Int32, :Reoffend)
+  handle(:next_object_id, :Int32, :"ObjectId.next")
+
+  handle(:electricity_enabled, :Bool, :EnabledElectricity)
+  handle(:water_enabled, :Bool, :EnabledWater)
+  handle(:food_enabled, :Bool, :EnabledFood)
+  handle(:misconduct_enabled, :Bool, :EnabledMisconduct)
+  handle(:gangs_enabled, :Bool, :EnabledGangs)
+  handle(:decay_enabled, :Bool, :EnabledDecay)
+  handle(:weather_enabled, :Bool, :EnabledWeather)
+  handle(:failure_conditions_enabled, :Bool, :FailureConditions)
+  handle(:cell_quality_enabled, :Bool, :UseCellQuality)
+  handle(:staff_needs_enabled, :Bool, :StaffNeeds)
+
+  handle(:max_staff_break, :Int32, :MaxStaffBreakPercent)
+  handle(:balance, :Float64, :Balance)
+
+  handle(:first_death_row_notice, :Bool, :FirstDeathRowNotice)
+  handle(:objects_centre_aligned, :Bool, :ObjectsCentreAligned)
+  handle(:bio_versions, :Int32, :BioVersions)
+  handle(:needs_version, :Int32, :NeedsVersion)
+  handle(:entity_version, :Int32, :EntityVersion)
+
+  custom_handle(:size, :"Tuple(Int32, Int32)", :NumCellsX, :NumCellsY)
+  custom_handle(:origin, :"Tuple(Int32, Int32)", :OriginX, :OriginY)
+  custom_handle(:origin_size, :"Tuple(Int32, Int32)", :OriginW, :OriginH)
+
+  custom_handle(:cells, :"Hash({Int32, Int32}, Cell)", :Cells)
+  custom_handle(:objects, :"Hash(Int32, Object)", :Objects)
+
   property rooms = Hash(Int32, Room).new
 
   def initialize(store : Store)
-    @width = store.parse_int("NumCellsX")
-    @height = store.parse_int("NumCellsY")
-    parse_cells(store)
-    parse_objects(store)
-  end
-
-  def parse_cells(store : Store)
-    return unless (store_cells = store["Cells"]).is_a?(Store)
-    store_cells.each do |coords, sub|
-      x, y = coords.split ' '
-      x = x.to_i32; y = y.to_i32
-      next unless sub.is_a? Store
-      cells[{x, y}] = Cell.new(sub, self)
-    end
-  end
-
-  def parse_objects(store : Store)
-    obj_store = store["Objects"]?
-    unless obj_store.is_a?(Store)
-      DotPrison.logger.debug "'Objects' is not a store! Malformed file?"
-      return
-    end
-    obj_store.each do |id, obj|
-      next unless obj.is_a? Store
-      _, id = id.split ' '
-      id = id[0...-1].to_i
-      objects[id] = Object.new(obj, self)
-    end
+    init_store(store)
+    @size = {store.parse_int(:NumCellsX), store.parse_int(:NumCellsY)}
+    @origin = {store.parse_int(:OriginX), store.parse_int(:OriginY)}
+    @origin_size = {store.parse_int(:OriginW), store.parse_int(:OriginH)}
+    @cells = Cell.parse(store.parse_store(:Cells), self)
+    @objects = Object.parse(store.parse_store(:Objects), self)
   end
 
   protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil

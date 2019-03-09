@@ -32,6 +32,27 @@ abstract class DotPrison::Prison::Object < DotPrison::StoreConsumer
       end
     {% end %}
   end
+
+  def self.parse(store : Store, prison : Prison)
+    ret = Hash(Int32, Object).new
+    store.each do |id, obj|
+      next unless obj.is_a?(Store)
+      id = parse_id(id)
+      next unless id
+      ret[id] = Object.new(obj, prison)
+    end
+    ret
+  end
+
+  private def self.parse_id(str : String) : Int32?
+    arr = str.split ' '
+    if arr.size >= 2
+      id = arr[1]
+    else
+      return nil
+    end
+    id[0...-1].to_i32?
+  end
 end
 
 require "./object/abstracts/*"

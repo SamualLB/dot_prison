@@ -3,5 +3,6 @@ class DotPrison::Prison::Object::Fridge < DotPrison::Prison::Object
 
   include ObjectProperties
   include ReferenceSlot
+  include Rotation
   include Powered
 end

@@ -1,5 +1,7 @@
 class DotPrison::Prison::Cell < DotPrison::StoreConsumer
   property! prison : Prison
+  property! x : Int32
+  property! y : Int32
 
   handle(:indoors, :Bool, :Ind)
   handle(:condition, :Float64, :Con)
@@ -7,9 +9,36 @@ class DotPrison::Prison::Cell < DotPrison::StoreConsumer
 
   custom_handle(:material, :Material, :Mat)
 
-  def initialize(store : Store, @prison)
+  def initialize(store : Store, @prison, coords : Tuple(Int32, Int32))
     init_store(store, prison)
+    @x, @y = coords[0], coords[1]
     @material = Material.parse?(store.parse_string("Mat") || "") || Material::DEFAULT
+  end
+
+  # Parse all cells in a store
+  def self.parse(store : Store, prison : Prison) : Hash({Int32, Int32}, Cell)
+    ret = Hash({Int32, Int32}, Cell).new
+    store.each do |coords, cell|
+      next unless cell.is_a?(Store)
+      coords = parse_coords(coords)
+      next unless coords
+      x, y = coords
+      ret[{x, y}] = Cell.new(cell, prison, {x, y})
+    end
+    ret
+  end
+
+  private def self.parse_coords(str : String) : {Int32, Int32}?
+    arr = str.split ' '
+    if arr.size >= 2
+      x, y = arr[0], arr[1]
+    else
+      return nil
+    end
+    x = x.to_i32?
+    y = y.to_i32?
+    return nil unless x && y
+    {x, y}
   end
 
   enum Material

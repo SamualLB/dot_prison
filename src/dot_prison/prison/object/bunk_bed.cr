@@ -3,4 +3,5 @@ class DotPrison::Prison::Object::BunkBed < DotPrison::Prison::Object
 
   include ObjectProperties
   include ReferenceSlot
+  include Rotation
 end
