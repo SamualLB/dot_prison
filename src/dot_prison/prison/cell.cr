@@ -12,7 +12,7 @@ class DotPrison::Prison::Cell < DotPrison::StoreConsumer
   def initialize(store : Store, @prison, coords : Tuple(Int32, Int32))
     init_store(store, prison)
     @x, @y = coords[0], coords[1]
-    @material = Material.parse?(store.parse_string("Mat") || "") || Material::DEFAULT
+    @material = Material.from_store(store.parse_string(:Mat))
   end
 
   # Parse all cells in a store
@@ -67,5 +67,13 @@ class DotPrison::Prison::Cell < DotPrison::StoreConsumer
     RoadMarkingsRight
 
     DEFAULT = Dirt
+
+    def self.from_store(str) : Material
+      return DEFAULT unless str.is_a?(String)
+      parsed = parse?(str)
+      return parsed if parsed
+      DotPrison.logger.debug "Unknown material #{str}"
+      DEFAULT
+    end
   end
 end
