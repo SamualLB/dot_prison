@@ -33,7 +33,7 @@ abstract class DotPrison::Prison::Object < DotPrison::StoreConsumer
     {% end %}
   end
 
-  def self.parse(store : Store, prison : Prison)
+  def self.parse(store : Store, prison : Prison) : Tuple(Hash(Int32, Object), Int32)
     ret = Hash(Int32, Object).new
     store.each do |id, obj|
       next unless obj.is_a?(Store)
@@ -41,7 +41,7 @@ abstract class DotPrison::Prison::Object < DotPrison::StoreConsumer
       next unless id
       ret[id] = Object.new(obj, prison)
     end
-    ret
+    {ret, store.parse_int(:Size)}
   end
 
   private def self.parse_id(str : String) : Int32?

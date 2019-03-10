@@ -36,8 +36,10 @@ class DotPrison::Prison < DotPrison::StoreConsumer
 
   custom_handle(:cells, :"Hash({Int32, Int32}, Cell)", :Cells)
   custom_handle(:objects, :"Hash(Int32, Object)", :Objects)
+  custom_handle(:rooms, :"Hash(Int32, Room)", :Rooms)
 
-  property rooms = Hash(Int32, Room).new
+  property! objects_size : Int32
+  property! rooms_size : Int32
 
   def initialize(store : Store)
     init_store(store)
@@ -45,7 +47,8 @@ class DotPrison::Prison < DotPrison::StoreConsumer
     @origin = {store.parse_int(:OriginX), store.parse_int(:OriginY)}
     @origin_size = {store.parse_int(:OriginW), store.parse_int(:OriginH)}
     @cells = Cell.parse(store.parse_store(:Cells), self)
-    @objects = Object.parse(store.parse_store(:Objects), self)
+    @objects, @objects_size = Object.parse(store.parse_store(:Objects), self)
+    @rooms, @rooms_size = Room.parse(store.parse_store(:Rooms), self)
   end
 
   protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil

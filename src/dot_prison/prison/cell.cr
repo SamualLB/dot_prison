@@ -65,6 +65,8 @@ class DotPrison::Prison::Cell < DotPrison::StoreConsumer
     RoadMarkingsLeft
     RoadMarkings
     RoadMarkingsRight
+    Gravel
+    LongGrass
 
     DEFAULT = Dirt
 
