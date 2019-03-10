@@ -3,4 +3,5 @@ class DotPrison::Prison::Object::Polaroid < DotPrison::Prison::Object
 
   handle(:birth_time, :Float64, :BirthTime)
   handle(:index, :Int32, :PolaroidIndex)
+  handle(:garbage, :Bool, :Garbage)
 end

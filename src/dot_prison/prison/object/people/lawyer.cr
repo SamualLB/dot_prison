@@ -1,6 +1,7 @@
 class DotPrison::Prison::Object::Lawyer < DotPrison::Prison::Object
   include ObjectProperties
-  include Office
-  include Velocity
+  include PeopleProperties
   include Orientation
+  include Office
+  include EquipmentProperties
 end

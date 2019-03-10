@@ -1,8 +1,8 @@
 class DotPrison::Prison::Object::ShopFront < DotPrison::Prison::Object
   include ObjectProperties
   include Rotation
+  include Job
 
-  handle(:job_id, :Int32, :JobId)
   handle(:operator_present, :Bool, :OperatorPresent)
   handle(:open, :Bool, :Open)
   handle(:shop, :"Reference(Room)", :"ShopId.i", :"ShopId.u")

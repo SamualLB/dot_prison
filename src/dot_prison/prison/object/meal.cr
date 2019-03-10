@@ -1,5 +1,5 @@
 class DotPrison::Prison::Object::Meal < DotPrison::Prison::Object
-  NO_SLOTS = 2
+  NO_SLOTS = 3
 
   include ObjectProperties
   include Slot

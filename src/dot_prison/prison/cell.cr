@@ -74,7 +74,7 @@ class DotPrison::Prison::Cell < DotPrison::StoreConsumer
       return DEFAULT unless str.is_a?(String)
       parsed = parse?(str)
       return parsed if parsed
-      DotPrison.logger.debug "Unknown material #{str}"
+      DotPrison.logger.debug "Unknown material: #{str}"
       DEFAULT
     end
   end

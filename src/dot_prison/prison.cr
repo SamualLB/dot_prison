@@ -20,6 +20,13 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   handle(:failure_conditions_enabled, :Bool, :FailureConditions)
   handle(:cell_quality_enabled, :Bool, :UseCellQuality)
   handle(:staff_needs_enabled, :Bool, :StaffNeeds)
+  handle(:generate_forests, :Bool, :GenerateForests)
+  handle(:cheats_enabled, :Bool, :CheatsEnabled)
+  handle(:unlimited_funds_enabled, :Bool, :UnlimitedFunds)
+
+  handle(:immediate_foundations, :Bool, :ImmediateFoundations)
+  handle(:immediate_terrain, :Bool, :ImmediateTerrain)
+  handle(:immediate_objects, :Bool, :ImmediateObjects)
 
   handle(:max_staff_break, :Int32, :MaxStaffBreakPercent)
   handle(:balance, :Float64, :Balance)
@@ -37,9 +44,11 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   custom_handle(:cells, :"Hash({Int32, Int32}, Cell)", :Cells)
   custom_handle(:objects, :"Hash(Int32, Object)", :Objects)
   custom_handle(:rooms, :"Hash(Int32, Room)", :Rooms)
+  custom_handle(:jobs, :"Array(Job)", :WorkQ)
 
   property! objects_size : Int32
   property! rooms_size : Int32
+  property! next_job_id : Int32
 
   def initialize(store : Store)
     init_store(store)
@@ -49,6 +58,7 @@ class DotPrison::Prison < DotPrison::StoreConsumer
     @cells = Cell.parse(store.parse_store(:Cells), self)
     @objects, @objects_size = Object.parse(store.parse_store(:Objects), self)
     @rooms, @rooms_size = Room.parse(store.parse_store(:Rooms), self)
+    @jobs, @next_job_id = Job.parse(store.parse_store(:WorkQ), self)
   end
 
   protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil

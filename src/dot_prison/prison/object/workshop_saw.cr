@@ -4,7 +4,7 @@ class DotPrison::Prison::Object::WorkshopSaw < DotPrison::Prison::Object
   include ObjectProperties
   include Powered
   include ReferenceSlot
+  include Job
 
-  handle(:job_id, :Int32, :JobId)
   handle(:timer, :Float64, :Timer)
 end

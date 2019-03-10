@@ -1,28 +1,22 @@
 class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
   include ObjectProperties
+  include PeopleProperties
   include Orientation
-  include Velocity
+  include Job
+  include Carrying
 
   handle(:last_misconduct, :Float64, :TimeOfLastMisconduct)
   handle(:last_ate, :Float64, :LastAte)
   handle(:boiling_point, :Float64, :BoilingPoint)
-  handle(:timer, :Float64, :Timer)
   handle(:cell, :"Reference(Cell)", :"Cell.i", :"Cell.u")
-  handle(:energy, :Float64, :Energy)
   handle(:walk_speed, :Float64, :AiWalkSpeed)
-  handle(:carrier, :"Reference(Object)", :"CarrierId.i", :"CarrierId.u")
   handle(:loaded, :Bool, :Loaded)
   handle(:money, :Float64, :AvailableMoney)
   handle(:station, :"Reference(Room)", :"Station.i", :"Station.u")
   handle(:last_visitors, :Float64, :LastVisitors)
   handle(:ai_set_target, :Bool, :AiSetTarget)
-  handle(:job_id, :Int32, :JobId)
   handle(:last_treated, :Float64, :LastTreated)
-  handle(:attack_timer, :Float64, :AttackTimer)
-  handle(:damage, :Float64, :Damage)
   handle(:shackled, :Bool, :Shackled)
-  handle(:carried, :Int32, :Carried)
-  handle(:carrying, :"Reference(Object)", :"Carrying.i", :"Carrying.u")
   handle(:snitch_timer, :Float64, :SnitchTimer)
   handle(:naked, :Bool, :Naked)
   handle(:book_in_cell, :Bool, :BookInCell)
@@ -37,6 +31,7 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
   custom_handle(:category, :Category, :Category)
   custom_handle(:destination, :"Tuple(Float64, Float64)", :"Dest.x", :"Dest.y")
   custom_handle(:required_cell_type, :String, :RequiredCellType)
+  custom_handle(:climb_position, :"Tuple(Float64, Float64)", :"ClimbPosition.x", :"ClimbPosition.y")
 
   def initialize(store : Store, prison : Prison)
     super
@@ -47,6 +42,7 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
     @category = Category.from_store(store.parse_string(:Category))
     @destination = {store.parse_float(:"Dest.x"), store.parse_float(:"Dest.y")}
     @required_cell_type = store.parse_string(:RequiredCellType) || "Unset"
+    @climb_position = {store.parse_float(:"ClimbPosition.x"), store.parse_float(:"ClimbPosition.u")}
   end
 
   enum Category
@@ -58,7 +54,7 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
 
     def self.from_store(str) : Category
       case str
-      when "Minimum"   then Minimum
+      when "MinSec"    then Minimum
       when "Normal"    then Normal
       when "MaxSec"    then Maximum
       when "Protected" then Protected

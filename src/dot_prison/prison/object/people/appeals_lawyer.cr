@@ -1,5 +1,7 @@
 class DotPrison::Prison::Object::AppealsLawyer < DotPrison::Prison::Object
   include ObjectProperties
+  include PeopleProperties
   include Orientation
-  include Velocity
+  include ExternalTeacher
+  include EmptyNeeds
 end

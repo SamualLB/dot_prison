@@ -1,7 +1,7 @@
 class DotPrison::Prison::Object::Visitor < DotPrison::Prison::Object
   include ObjectProperties
+  include PeopleProperties
   include Orientation
-  include Velocity
 
   handle(:leaving, :Bool, :Leaving)
 

@@ -3,6 +3,7 @@ class DotPrison::Prison::Object::Sink < DotPrison::Prison::Object
 
   include ObjectProperties
   include Rotation
+  include Job
   include ReferenceSlot
 
   handle(:clean_timer, :Float64, :CleanTimer)

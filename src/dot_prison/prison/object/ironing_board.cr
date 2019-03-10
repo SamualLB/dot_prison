@@ -5,7 +5,7 @@ class DotPrison::Prison::Object::IroningBoard < DotPrison::Prison::Object
   include Rotation
   include ReferenceSlot
   include Powered
+  include Job
 
   handle(:timer, :Float64, :Timer)
-  handle(:job_id, :Int32, :JobId)
 end

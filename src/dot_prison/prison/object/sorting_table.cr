@@ -5,7 +5,7 @@ class DotPrison::Prison::Object::SortingTable < DotPrison::Prison::Object
   include Rotation
   include Powered
   include ReferenceSlot
+  include Job
 
-  handle(:job_id, :Int32, :JobId)
   handle(:timer, :Float64, :Timer)
 end
