@@ -45,6 +45,8 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   custom_handle(:objects, :"Hash(Int32, Object)", :Objects)
   custom_handle(:rooms, :"Hash(Int32, Room)", :Rooms)
   custom_handle(:jobs, :"Array(Job)", :WorkQ)
+  custom_handle(:regimes, :"Regime::Container", :Regime)
+  custom_handle(:finance, :Finance, :Finance)
 
   property! objects_size : Int32
   property! rooms_size : Int32
@@ -59,6 +61,8 @@ class DotPrison::Prison < DotPrison::StoreConsumer
     @objects, @objects_size = Object.parse(store.parse_store(:Objects), self)
     @rooms, @rooms_size = Room.parse(store.parse_store(:Rooms), self)
     @jobs, @next_job_id = Job.parse(store.parse_store(:WorkQ), self)
+    @regimes = Regime::Container.new(store.parse_store(:Regime), self)
+    @finance = Finance.new(store.parse_store(:Finance), self)
   end
 
   protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil

@@ -57,17 +57,27 @@ class DotPrison::Parser
         # "Violent&RisksLife"
         # ```
         if store[tmp[0]]?
+          # Duplicate key
           old_val = store[tmp[0]]
           if old_val.is_a? String
-            new_val = "#{old_val}&#{tmp[1]}"
-            store[tmp[0]] = new_val
+            store[tmp[0]] = [store[tmp[0]].as(String)] of String
           end
+          store[tmp[0]].as(Array(String)) << tmp[1]
         else
           store[tmp[0]] = tmp[1]
         end
       when :BEGIN
         tmp = parse_store
-        store[tmp.name] = tmp
+        if store[tmp.name]?
+          # Duplicate key
+          old_val = store[tmp.name]
+          if old_val.is_a? Store
+            store.content[tmp.name] = [old_val] of Store
+          end
+          store[tmp.name].as(Array(Store)) << tmp
+        else
+          store[tmp.name] = tmp
+        end
       when :EOF
         raise "Reached EOF without END"
       end

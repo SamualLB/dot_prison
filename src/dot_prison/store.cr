@@ -1,7 +1,7 @@
 require "json"
 
 struct DotPrison::Store
-  alias Type = Hash(String, String | Store)
+  alias Type = Hash(String, String | Array(String) | Store | Array(Store))
 
   property content = Type.new
   property name : String
@@ -53,6 +53,26 @@ struct DotPrison::Store
   def parse_bool(key : String | Symbol) : Bool
     str_val = parse_string(key, "")
     str_val == "true"
+  end
+
+  def parse_string_array(key : String | Symbol) : Array(String)
+    key = key.to_s if key.is_a? Symbol
+    val = @content[key]?
+    case val
+    when String        then [val]
+    when Array(String) then val
+    else                    [] of String
+    end
+  end
+
+  def parse_store_array(key : String | Symbol) : Array(Store)
+    key = key.to_s if key.is_a? Symbol
+    val = @content[key]?
+    case val
+    when Store        then [val]
+    when Array(Store) then val
+    else                   [] of Store
+    end
   end
 
   forward_missing_to @content
