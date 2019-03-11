@@ -47,6 +47,9 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   custom_handle(:jobs, :"Array(Job)", :WorkQ)
   custom_handle(:regimes, :"Regime::Container", :Regime)
   custom_handle(:finance, :Finance, :Finance)
+  custom_handle(:patrols, :Patrols, :Patrols)
+  custom_handle(:electricity, :Electricity, :Electricity)
+  custom_handle(:water, :Water, :Water)
 
   property! objects_size : Int32
   property! rooms_size : Int32
@@ -63,6 +66,9 @@ class DotPrison::Prison < DotPrison::StoreConsumer
     @jobs, @next_job_id = Job.parse(store.parse_store(:WorkQ), self)
     @regimes = Regime::Container.new(store.parse_store(:Regime), self)
     @finance = Finance.new(store.parse_store(:Finance), self)
+    @patrols = Patrols.new(store.parse_store(:Patrols), self)
+    @electricity = Electricity.new(store.parse_store(:Electricity), self)
+    @water = Water.new(store.parse_store(:Water), self)
   end
 
   protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil

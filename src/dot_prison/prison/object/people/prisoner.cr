@@ -51,6 +51,7 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
     Maximum
     Protected
     Super
+    DeathRow
 
     def self.from_store(str) : Category
       case str
@@ -59,6 +60,7 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
       when "MaxSec"    then Maximum
       when "Protected" then Protected
       when "SuperMax"  then Super
+      when "DeathRow"  then DeathRow
       when nil, ""     then Normal
       else
         DotPrison.logger.debug "Unknown prisoner category #{str}"

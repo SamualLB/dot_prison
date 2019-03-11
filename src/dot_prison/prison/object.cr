@@ -9,12 +9,11 @@ abstract class DotPrison::Prison::Object < DotPrison::StoreConsumer
 
   # Delegate to sub classes
   def self.new(store : Store, prison : Prison) : Object
-    type = store.parse_string("Type") || ""
-    parse_object(type).new(store, prison)
+    parse_object(store.parse_string(:Type)).new(store, prison)
   end
 
   # Use macro to generate 'when', contains the class name
-  protected def self.parse_object(name : String) : Class
+  protected def self.parse_object(name) : Class
     {% begin %}
       case name
       {% for sub in @type.subclasses %}
