@@ -23,15 +23,15 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
   handle(:carrying_book, :Bool, :CarryingBook)
   handle(:library, :"Reference(Room)", :"Library.i", :"Library.u")
   handle(:healing_job_id, :Int32, :HealingJobId)
+  handle(:destination, :"Tuple(Float64, Float64)", :"Dest.x", :"Dest.y")
+  handle(:climb_position, :"Tuple(Float64, Float64)", :"ClimbPosition.x", :"ClimbPosition.y")
 
   custom_handle(:needs, :Store, :Needs)
   custom_handle(:experience, :Store, :Experience)
   custom_handle(:status_effects, :Store, :StatusEffects)
   custom_handle(:bio, :Store, :Bio)
   custom_handle(:category, :Category, :Category)
-  custom_handle(:destination, :"Tuple(Float64, Float64)", :"Dest.x", :"Dest.y")
   custom_handle(:required_cell_type, :String, :RequiredCellType)
-  custom_handle(:climb_position, :"Tuple(Float64, Float64)", :"ClimbPosition.x", :"ClimbPosition.y")
 
   def initialize(store : Store, prison : Prison)
     super
@@ -40,9 +40,7 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
     @status_effects = store.parse_store(:StatusEffects)
     @bio = store.parse_store(:Bio)
     @category = Category.from_store(store.parse_string(:Category))
-    @destination = {store.parse_float(:"Dest.x"), store.parse_float(:"Dest.y")}
     @required_cell_type = store.parse_string(:RequiredCellType) || "Unset"
-    @climb_position = {store.parse_float(:"ClimbPosition.x"), store.parse_float(:"ClimbPosition.u")}
   end
 
   enum Category

@@ -56,8 +56,12 @@ abstract class DotPrison::StoreConsumer
             @\{{props[:property].id}} = store.parse_string(\{{props[:keys][0]}})
           \{% elsif props[:type] == :Int32 %}
             @\{{props[:property].id}} = store.parse_int(\{{props[:keys][0]}})
+          \{% elsif props[:type] == :"Tuple(Int32, Int32)" %}
+            @\{{props[:property].id}} = {store.parse_int(\{{props[:keys][0]}}), store.parse_int(\{{props[:keys][1]}})}
           \{% elsif props[:type] == :Float64 %}
             @\{{props[:property].id}} = store.parse_float(\{{props[:keys][0]}})
+          \{% elsif props[:type] == :"Tuple(Float64, Float64)" %}
+             @\{{props[:property].id}} = {store.parse_float(\{{props[:keys][0]}}), store.parse_float(\{{props[:keys][1]}})}
           \{% elsif props[:type] == :Bool %}
             @\{{props[:property].id}} = store.parse_bool(\{{props[:keys][0]}})
           \{% elsif (props[:type] || :"").starts_with? "Reference(" %}
