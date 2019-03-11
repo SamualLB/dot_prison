@@ -40,22 +40,7 @@ class DotPrison::Parser
       case token.type
       when :TEXT
         tmp = parse_text
-        # Have to check if key exists to prevent overwrite
-        #
-        # Prisoner traits are store non-uniquely
-        #
-        # Store them temporarily with & between
-        #
-        # ```.prison
-        # Traits Violent
-        # Traits RisksLife
-        # ```
-        #
-        # Will become
-        #
-        # ```crystal
-        # "Violent&RisksLife"
-        # ```
+        # Check for duplicate key, store in array if duplicated
         if store[tmp[0]]?
           # Duplicate key
           old_val = store[tmp[0]]
