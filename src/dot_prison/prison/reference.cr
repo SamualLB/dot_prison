@@ -12,7 +12,7 @@ class DotPrison::Prison
     end
 
     def initialize(@prison : Prison, id : Int32, uid : Int32)
-      @id, @unique_id = id, uid unless id == 0 && uid == 0
+      @id, @unique_id = id, uid unless id > 0 && uid > 0
     end
 
     def ids=(ids : Tuple(Int32, Int32))

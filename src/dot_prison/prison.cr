@@ -5,6 +5,10 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   handle(:version, :String, :Version)
   handle(:time_index, :Float64, :TimeIndex)
   handle(:time_warp, :Float64, :TimeWarpFactor)
+  handle(:size, :"Tuple(Int32, Int32)", :NumCellsX, :NumCellsY)
+  handle(:origin, :"Tuple(Int32, Int32)", :OriginX, :OriginY)
+  handle(:origin_size, :"Tuple(Int32, Int32)", :OriginW, :OriginH)
+
   handle(:random_seed, :Int32, :RandomSeed)
   handle(:seconds_played, :Int32, :SecondsPlayed)
   handle(:reoffend, :Int32, :Reoffend)
@@ -37,10 +41,6 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   handle(:needs_version, :Int32, :NeedsVersion)
   handle(:entity_version, :Int32, :EntityVersion)
 
-  custom_handle(:size, :"Tuple(Int32, Int32)", :NumCellsX, :NumCellsY)
-  custom_handle(:origin, :"Tuple(Int32, Int32)", :OriginX, :OriginY)
-  custom_handle(:origin_size, :"Tuple(Int32, Int32)", :OriginW, :OriginH)
-
   custom_handle(:cells, :"Hash({Int32, Int32}, Cell)", :Cells)
   custom_handle(:objects, :"Hash(Int32, Object)", :Objects)
   custom_handle(:rooms, :"Hash(Int32, Room)", :Rooms)
@@ -50,6 +50,9 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   custom_handle(:patrols, :Patrols, :Patrols)
   custom_handle(:electricity, :Electricity, :Electricity)
   custom_handle(:water, :Water, :Water)
+  custom_handle(:research, :"Research::Container", :Research)
+  custom_handle(:penalties, :"Penalty::Container", :Penalties)
+  custom_handle(:sectors, :"Sector::Container", :Sectors)
 
   property! objects_size : Int32
   property! rooms_size : Int32
@@ -57,9 +60,6 @@ class DotPrison::Prison < DotPrison::StoreConsumer
 
   def initialize(store : Store)
     init_store(store)
-    @size = {store.parse_int(:NumCellsX), store.parse_int(:NumCellsY)}
-    @origin = {store.parse_int(:OriginX), store.parse_int(:OriginY)}
-    @origin_size = {store.parse_int(:OriginW), store.parse_int(:OriginH)}
     @cells = Cell.parse(store.parse_store(:Cells), self)
     @objects, @objects_size = Object.parse(store.parse_store(:Objects), self)
     @rooms, @rooms_size = Room.parse(store.parse_store(:Rooms), self)
@@ -69,6 +69,9 @@ class DotPrison::Prison < DotPrison::StoreConsumer
     @patrols = Patrols.new(store.parse_store(:Patrols), self)
     @electricity = Electricity.new(store.parse_store(:Electricity), self)
     @water = Water.new(store.parse_store(:Water), self)
+    @research = Research::Container.new(store.parse_store(:Research), self)
+    @penalties = Penalty::Container.new(store.parse_store(:Penalties), self)
+    @sectors = Sector::Container.new(store.parse_store(:Sectors), self)
   end
 
   protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil

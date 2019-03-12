@@ -1,9 +1,11 @@
 class DotPrison::Prison::Water
   @pipes = {} of {Int32, Int32} => Pipes
 
+  # TODO OffValves?
   def initialize(store : Store, @prison : Prison)
     store.each do |k, v|
       next unless v.is_a? Store
+      next if k == "OffValves"
       coords = parse_coords(k)
       unless coords
         DotPrison.logger.debug "Unrecognised coordinates for water: #{k}"
