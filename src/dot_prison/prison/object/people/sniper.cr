@@ -7,4 +7,8 @@ class DotPrison::Prison::Object::Sniper < DotPrison::Prison::Object
 
   handle(:tower, :"Reference(GuardTower)", :"TowerId.i", :"TowerId.u")
   handle(:search_timer, :Float64, :SearchTimer)
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

@@ -4,7 +4,7 @@ module DotPrison::Prison::Object::Rotation
     handle(:or_y, :Float64, :"Or.y")
   end
 
-  @rotation : Direction = Direction::Down
+  getter rotation : Direction = Direction::Down
 
   def initialize(store : Store, prison : Prison)
     super

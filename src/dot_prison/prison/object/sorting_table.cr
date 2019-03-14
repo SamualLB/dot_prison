@@ -8,4 +8,8 @@ class DotPrison::Prison::Object::SortingTable < DotPrison::Prison::Object
   include Job
 
   handle(:timer, :Float64, :Timer)
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

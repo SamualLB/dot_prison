@@ -19,7 +19,8 @@ enum DotPrison::Prison::Object::Equipment
 
   def self.from_store(str) : Equipment | String
     str = str || ""
-    return parsed if parsed = parse?(str)
+    parsed = parse? str
+    return parsed if parsed
     DotPrison.logger.debug "Unknown equipment #{str}" unless str.empty?
     str
   end

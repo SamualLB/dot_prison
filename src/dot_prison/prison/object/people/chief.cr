@@ -4,4 +4,8 @@ class DotPrison::Prison::Object::Chief < DotPrison::Prison::Object
   include Office
   include Orientation
   include EquipmentProperties
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

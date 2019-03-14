@@ -3,4 +3,8 @@ class DotPrison::Prison::Object::TV < DotPrison::Prison::Object
   include Rotation
   include WallContact
   include Powered
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

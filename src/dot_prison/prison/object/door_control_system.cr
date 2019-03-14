@@ -6,4 +6,8 @@ class DotPrison::Prison::Object::DoorControlSystem < DotPrison::Prison::Object
 
   handle(:guard_operating, :Bool, :GuardOperating)
   handle(:last_press, :Float64, :LastPress)
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

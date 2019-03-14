@@ -7,4 +7,8 @@ class DotPrison::Prison::Object::Sink < DotPrison::Prison::Object
   include ReferenceSlot
 
   handle(:clean_timer, :Float64, :CleanTimer)
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

@@ -12,4 +12,8 @@ class DotPrison::Prison::Object::Guard < DotPrison::Prison::Object
 
   handle(:tazer_trained, :Bool, :TazerTrained)
   handle(:training, :Float64, :Training)
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

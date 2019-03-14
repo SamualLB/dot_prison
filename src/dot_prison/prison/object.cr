@@ -7,6 +7,10 @@ abstract class DotPrison::Prison::Object < DotPrison::StoreConsumer
     end
   end
 
+  def initialize(store : Store, @prison : Prison)
+    init_store(store, prison)
+  end
+
   # Delegate to sub classes
   def self.new(store : Store, prison : Prison) : Object
     parse_object(store.parse_string(:Type)).new(store, prison)

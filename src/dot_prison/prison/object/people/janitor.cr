@@ -5,4 +5,8 @@ class DotPrison::Prison::Object::Janitor < DotPrison::Prison::Object
   include Orientation
   include Job
   include Carrying
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

@@ -4,4 +4,8 @@ class DotPrison::Prison::Object::SpiritualLeader < DotPrison::Prison::Object
   include Orientation
   include ExternalTeacher
   include EmptyNeeds
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

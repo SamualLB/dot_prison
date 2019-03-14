@@ -3,7 +3,7 @@ abstract class DotPrison::Prison::Job < DotPrison::StoreConsumer
 
   macro inherited
     def initialize(store : Store, prison : Prison)
-      init_store(store)
+      init_store(store, prison)
     end
   end
 

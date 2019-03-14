@@ -3,4 +3,6 @@ class DotPrison::Prison::Object::ElectricChair < DotPrison::Prison::Object
   include Powered
 
   handle(:switch, :Bool, :Switch)
+
+
 end

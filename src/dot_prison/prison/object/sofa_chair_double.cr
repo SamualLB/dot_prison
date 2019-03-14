@@ -5,4 +5,8 @@ class DotPrison::Prison::Object::SofaChairDouble < DotPrison::Prison::Object
   include Rotation
   include WallContact
   include ReferenceSlot
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

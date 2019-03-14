@@ -5,4 +5,8 @@ class DotPrison::Prison::Object::LaundryBasket < DotPrison::Prison::Object
   include ReferenceSlot
 
   handle(:home_sector, :"Reference(Sector)", :"HomeSector.i", :"HomeSector.u")
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

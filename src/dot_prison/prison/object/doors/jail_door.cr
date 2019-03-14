@@ -4,4 +4,8 @@ class DotPrison::Prison::Object::JailDoor < DotPrison::Prison::Object
   include DoorProperties
 
   handle(:cell, :"Reference(Room)", :"CellId.i", :"CellId.u")
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

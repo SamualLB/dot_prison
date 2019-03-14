@@ -7,4 +7,8 @@ class DotPrison::Prison::Object::DogCrate < DotPrison::Prison::Object
 
   handle(:occupied, :Int32, :Occupied)
   handle(:occupier, :"Reference(Dog)", :"Occupier.i", :"Occupier.u")
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

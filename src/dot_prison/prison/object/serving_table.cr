@@ -7,4 +7,8 @@ class DotPrison::Prison::Object::ServingTable < DotPrison::Prison::Object
 
   handle(:staff_table, :Bool, :StaffTable)
   handle(:serving, :Bool, :Serving)
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

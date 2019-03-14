@@ -7,4 +7,8 @@ class DotPrison::Prison::Object::Dog < DotPrison::Prison::Object
   handle(:tunnel_timer, :Float64, :TunnelTimer)
   handle(:guard, :"Reference(DogHandler)", :"GuardId.i", :"GuardId.u")
   handle(:target, :"Reference(Object)", :"TargetObjectId.i", :"TargetObjectId.u")
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

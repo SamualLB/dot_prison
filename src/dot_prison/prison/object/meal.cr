@@ -8,4 +8,8 @@ class DotPrison::Prison::Object::Meal < DotPrison::Prison::Object
   handle(:quantity, :Float64, :Quantity)
   handle(:staff_meal, :Bool, :StaffMeal)
   handle(:current_food_item, :Int32, :CurrentFoodItem)
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

@@ -3,4 +3,8 @@ class DotPrison::Prison::Object::Light < DotPrison::Prison::Object
   include Powered
 
   handle(:external_power, :Bool, :ExternalPower)
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

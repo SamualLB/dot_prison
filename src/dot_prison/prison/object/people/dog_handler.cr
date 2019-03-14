@@ -11,4 +11,8 @@ class DotPrison::Prison::Object::DogHandler < DotPrison::Prison::Object
   handle(:dog, :"Reference(Dog)", :"DogId.i", :"DogId.u")
   handle(:dog_leashed, :Bool, :DogLeashed)
   handle(:dog_resting, :Bool, :DogResting)
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

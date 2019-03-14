@@ -7,4 +7,8 @@ class DotPrison::Prison::Object::Cook < DotPrison::Prison::Object
   include Carrying
 
   handle(:assigned_room, :"Reference(Room)", :"AssignedRoom.i", :"AssignedRoom.u")
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

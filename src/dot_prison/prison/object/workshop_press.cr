@@ -5,4 +5,8 @@ class DotPrison::Prison::Object::WorkshopPress < DotPrison::Prison::Object
   include Powered
   include ReferenceSlot
   include Job
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

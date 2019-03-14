@@ -7,4 +7,8 @@ class DotPrison::Prison::Object::VisitorTable < DotPrison::Prison::Object
   include Rotation
 
   handle(:timer, :Float64, :Timer)
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

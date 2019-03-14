@@ -5,16 +5,17 @@ module DotPrison::Prison::Object::ArmourProperties
 
   def initialize(store : Store, prison : Prison)
     super
-    @armour = Armour.from_store(store.parse_string(:BodyArmour))
+    armour = Armour.from_store(store.parse_string(:BodyArmour))
   end
 end
 
 enum DotPrison::Prison::Object::Armour
   StabVest
 
-  def self.from_store(str) : Equipment | String
+  def self.from_store(str) : Armour | String
     str = str || ""
-    return parsed if parsed = parse?(str)
+    parsed = parse?(str)
+    return parsed if parsed
     DotPrison.logger.debug "Unknown armour: #{str}" unless str.empty?
     str
   end

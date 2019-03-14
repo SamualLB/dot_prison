@@ -19,7 +19,6 @@ class DotPrison::Prison::Object::Patrol
   property! this_position : Tuple(Int32, Int32)
 
   def initialize(store : Store, prison : Prison)
-    super
     @active = store.parse_bool(:"Patrol.Active")
     @last_position = {store.parse_int(:"Patrol.LastPos.x"), store.parse_int(:"Patrol.LastPos.y")}
     @this_position = {store.parse_int(:"Patrol.ThisPos.x"), store.parse_int(:"Patrol.ThisPos.y")}

@@ -5,4 +5,8 @@ class DotPrison::Prison::Object::Fridge < DotPrison::Prison::Object
   include ReferenceSlot
   include Rotation
   include Powered
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

@@ -10,4 +10,8 @@ class DotPrison::Prison::Object::FoodTrayDirty < DotPrison::Prison::Object
   handle(:current_food_item, :Int32, :CurrentFoodItem)
   handle(:loaded, :Bool, :Loaded)
   handle(:carrier, :"Reference(Object)", :"CarrierId.i", :"CarrierId.u")
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end

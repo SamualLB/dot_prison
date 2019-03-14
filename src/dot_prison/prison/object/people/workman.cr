@@ -5,4 +5,8 @@ class DotPrison::Prison::Object::Workman < DotPrison::Prison::Object
   include EmptyNeeds
   include Job
   include Carrying
+
+  def initialize(store : Store, prison : Prison)
+    super
+  end
 end
