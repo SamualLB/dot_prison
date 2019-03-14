@@ -6,4 +6,5 @@ class DotPrison::Prison::Object::Sniper < DotPrison::Prison::Object
   include EquipmentProperties
 
   handle(:tower, :"Reference(GuardTower)", :"TowerId.i", :"TowerId.u")
+  handle(:search_timer, :Float64, :SearchTimer)
 end

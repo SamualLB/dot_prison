@@ -3,4 +3,6 @@ class DotPrison::Prison::Object::LaundryBasket < DotPrison::Prison::Object
 
   include ObjectProperties
   include ReferenceSlot
+
+  handle(:home_sector, :"Reference(Sector)", :"HomeSector.i", :"HomeSector.u")
 end
