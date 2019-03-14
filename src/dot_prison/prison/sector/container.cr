@@ -1,12 +1,13 @@
 class DotPrison::Prison::Sector::Container < DotPrison::StoreConsumer
   handle(:next_id, :Int32, :NextSectorId)
 
-  no_handle(:Sectors)
-
-  property! sectors : InnerContainer
+  custom_handle(:sectors, :"Array(Sector)", :Sectors)
 
   def initialize(store : Store, prison : Prison)
     init_store(store, prison)
-    @sectors = InnerContainer.new(store.parse_store(:Sectors), prison)
+    @sectors = Array(Sector).new
+    store.parse_indexed_store(:Sectors) do |sec|
+      sectors << Sector.new(sec, prison)
+    end
   end
 end

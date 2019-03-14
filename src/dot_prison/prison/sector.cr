@@ -10,12 +10,22 @@ class DotPrison::Prison::Sector < DotPrison::StoreConsumer
   handle(:manual_targets, :Bool, :ManualTargets)
 
   custom_handle(:zone, :"Zone | String", :Zone)
-  custom_handle(:jobs, :"Job::Container", :Jobs)
+  custom_handle(:jobs, :"Array(Job)", :Jobs)
+  custom_handle(:stations, :"Array(Station)", :Stations)
+  custom_handle(:targets, :"Array(Int32)", :Targets)
 
   def initialize(store : Store, @prison : Prison)
     init_store(store, prison)
     @zone = Zone.from_store(store.parse_string(:Zone))
-    @jobs = Job::Container.new(store.parse_store(:Jobs), prison)
+    @jobs = Array(Job).new
+    store.parse_indexed_store(:Jobs) do |job|
+      jobs << Job.new(job, prison)
+    end
+    @stations = Array(Station).new
+    store.parse_indexed_store(:Stations) do |stat|
+      stations << Station.new(stat, prison)
+    end
+    @targets = store.parse_indexed_int(:Targets)
   end
 end
 
