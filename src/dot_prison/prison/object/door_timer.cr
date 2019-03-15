@@ -19,6 +19,5 @@ class DotPrison::Prison::Object::DoorTimer < DotPrison::Prison::Object
     TIMES.each_with_index do |key, i|
       active_times[i] = store.parse_bool(key)
     end
-    puts active_times
   end
 end
