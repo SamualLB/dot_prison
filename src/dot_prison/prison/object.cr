@@ -36,25 +36,12 @@ abstract class DotPrison::Prison::Object < DotPrison::StoreConsumer
     {% end %}
   end
 
-  def self.parse(store : Store, prison : Prison) : Tuple(Hash(Int32, Object), Int32)
-    ret = Hash(Int32, Object).new
-    store.each do |id, obj|
-      next unless obj.is_a?(Store)
-      id = parse_id(id)
-      next unless id
-      ret[id] = Object.new(obj, prison)
+  def self.parse(store : Store, prison : Prison) : Array(Object)
+    arr = Array(Object).new
+    store.parse_indexed_store do |obj|
+      arr << Object.new(obj, prison)
     end
-    {ret, store.parse_int(:Size)}
-  end
-
-  private def self.parse_id(str : String) : Int32?
-    arr = str.split ' '
-    if arr.size >= 2
-      id = arr[1]
-    else
-      return nil
-    end
-    id[0...-1].to_i32?
+    arr
   end
 end
 

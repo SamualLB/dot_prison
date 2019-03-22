@@ -75,12 +75,17 @@ struct DotPrison::Store
     end
   end
 
-  def parse_indexed_store(key : String | Symbol, &block)
-    sto = parse_store(key)
+  def parse_indexed_store(key : String | Symbol | Nil = nil, &block)
+    if key
+      sto = parse_store(key)
+    else
+      sto = self
+    end
     size = sto.parse_int(:Size)
     actual_size = 0
     (0...size).each do |i|
-      yield sto.parse_store "[i #{i}]"
+      internal = sto.parse_store? "[i #{i}]"
+      yield internal if internal
       actual_size += 1
     end
     unless actual_size == size

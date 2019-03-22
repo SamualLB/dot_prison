@@ -9,8 +9,7 @@ abstract class DotPrison::Prison::Job < DotPrison::StoreConsumer
 
   def self.parse(store : Store, prison : Prison) : Tuple(Array(Job), Int32)
     ret = [] of Job
-    inner = store.parse_store(:Items)
-    inner.each do |k, job|
+    store.parse_indexed_store(:Items) do |job|
       next unless job.is_a?(Store)
       ret << parse_job(job.parse_string(:Type)).new(job, prison)
     end

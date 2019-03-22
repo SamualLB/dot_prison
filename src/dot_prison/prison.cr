@@ -42,8 +42,8 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   handle(:entity_version, :Int32, :EntityVersion)
 
   custom_handle(:cells, :"Hash({Int32, Int32}, Cell)", :Cells)
-  custom_handle(:objects, :"Hash(Int32, Object)", :Objects)
-  custom_handle(:rooms, :"Hash(Int32, Room)", :Rooms)
+  custom_handle(:objects, :"Array(Object)", :Objects)
+  custom_handle(:rooms, :"Array(Room)", :Rooms)
   custom_handle(:jobs, :"Array(Job)", :WorkQ)
   custom_handle(:regimes, :"Regime::Container", :Regime)
   custom_handle(:finance, :Finance, :Finance)
@@ -54,16 +54,15 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   custom_handle(:penalties, :"Penalty::Container", :Penalties)
   custom_handle(:sectors, :"Sector::Container", :Sectors)
   custom_handle(:grants, :"Grant::Container", :Grants)
+  custom_handle(:misconduct, :"Misconduct", :Misconduct)
 
-  property! objects_size : Int32
-  property! rooms_size : Int32
   property! next_job_id : Int32
 
   def initialize(store : Store)
     init_store(store)
     @cells = Cell.parse(store.parse_store(:Cells), self)
-    @objects, @objects_size = Object.parse(store.parse_store(:Objects), self)
-    @rooms, @rooms_size = Room.parse(store.parse_store(:Rooms), self)
+    @objects = Object.parse(store.parse_store(:Objects), self)
+    @rooms = Room.parse(store.parse_store(:Rooms), self)
     @jobs, @next_job_id = Job.parse(store.parse_store(:WorkQ), self)
     @regimes = Regime::Container.new(store.parse_store(:Regime), self)
     @finance = Finance.new(store.parse_store(:Finance), self)
@@ -74,6 +73,7 @@ class DotPrison::Prison < DotPrison::StoreConsumer
     @penalties = Penalty::Container.new(store.parse_store(:Penalties), self)
     @sectors = Sector::Container.new(store.parse_store(:Sectors), self)
     @grants = Grant::Container.new(store.parse_store(:Grants), self)
+    @misconduct = Misconduct.new(store.parse_store(:Misconduct), self)
   end
 
   protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil
