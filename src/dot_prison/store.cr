@@ -76,11 +76,7 @@ struct DotPrison::Store
   end
 
   def parse_indexed_store(key : String | Symbol | Nil = nil, &block)
-    if key
-      sto = parse_store(key)
-    else
-      sto = self
-    end
+    sto = key ? parse_store(key) : self
     size = sto.parse_int(:Size)
     actual_size = 0
     (0...size).each do |i|
@@ -89,46 +85,34 @@ struct DotPrison::Store
       yield internal
       actual_size += 1
     end
-    if actual_size > size || size < sto.size-1
-      DotPrison.logger.debug "Extra elements in indexed array for #{key}: #{actual_size}/#{sto.size}"
-    end
   end
 
   def parse_indexed_int(key : String | Symbol) : Array(Store)
-    sto = parse_store(key)
+    sto = key ? parse_store(key) : self
     size = sto.parse_int(:Size)
     ret = [] of Store
     (0...size).each do |i|
       ret << sto.parse_store "[i #{i}]"
     end
-    unless ret.size == size
-      DotPrison.logger.debug "Incorrect array size for #{key}: #{ret.size}/#{size}"
-    end
     ret
   end
 
   def parse_indexed_int(key : String | Symbol, &block)
-    sto = parse_store(key)
+    sto = key ? parse_store(key) : self
     size = sto.parse_int(:Size)
     actual_size = 0
     (0...size).each do |i|
       yield sto.parse_int "[i #{i}]"
       actual_size += 1
     end
-    unless actual_size == size
-      DotPrison.logger.debug "Incorrect array size for #{key}: #{actual_size}/#{size}"
-    end
   end
 
   def parse_indexed_int(key : String | Symbol) : Array(Int32)
-    sto = parse_store(key)
+    sto = key ? parse_store(key) : self
     size = sto.parse_int(:Size)
     ret = [] of Int32
     (0...size).each do |i|
       ret << sto.parse_int "[i #{i}]"
-    end
-    unless ret.size == size
-      DotPrison.logger.debug "Incorrect array size for #{key}: #{ret.size}/#{size}"
     end
     ret
   end
