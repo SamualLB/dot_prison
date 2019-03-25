@@ -55,6 +55,9 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   custom_handle(:sectors, :"Sector::Container", :Sectors)
   custom_handle(:grants, :"Grant::Container", :Grants)
   custom_handle(:misconduct, :"Misconduct", :Misconduct)
+  custom_handle(:visitation, :Visitation, :Visitation)
+  custom_handle(:thermometer, :Thermometer, :Thermometer)
+  custom_handle(:contraband, :Contraband, :Contraband)
 
   property! next_job_id : Int32
 
@@ -74,6 +77,9 @@ class DotPrison::Prison < DotPrison::StoreConsumer
     @sectors = Sector::Container.new(store.parse_store(:Sectors), self)
     @grants = Grant::Container.new(store.parse_store(:Grants), self)
     @misconduct = Misconduct.new(store.parse_store(:Misconduct), self)
+    @visitation = Visitation.new(store.parse_store(:Visitation), self)
+    @thermometer = Thermometer.new(store.parse_store(:Thermometer), self)
+    @contraband = Contraband.new(store.parse_store(:Contraband), self)
   end
 
   protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil

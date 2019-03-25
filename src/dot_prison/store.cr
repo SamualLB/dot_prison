@@ -85,11 +85,12 @@ struct DotPrison::Store
     actual_size = 0
     (0...size).each do |i|
       internal = sto.parse_store? "[i #{i}]"
-      yield internal if internal
+      next unless internal
+      yield internal
       actual_size += 1
     end
-    unless actual_size == size
-      DotPrison.logger.debug "Incorrect array size for #{key}: #{actual_size}/#{size}"
+    if actual_size > size || size < sto.size-1
+      DotPrison.logger.debug "Extra elements in indexed array for #{key}: #{actual_size}/#{sto.size}"
     end
   end
 
