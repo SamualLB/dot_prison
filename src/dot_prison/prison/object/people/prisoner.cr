@@ -26,8 +26,8 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
   handle(:destination, :"Tuple(Float64, Float64)", :"Dest.x", :"Dest.y")
   handle(:climb_position, :"Tuple(Float64, Float64)", :"ClimbPosition.x", :"ClimbPosition.y")
 
-  custom_handle(:needs, :Store, :Needs)
-  custom_handle(:experience, :Store, :Experience)
+  custom_handle(:needs, :Needs, :Needs)
+  custom_handle(:experience, :Experience, :Experience)
   custom_handle(:status_effects, :Store, :StatusEffects)
   custom_handle(:bio, :Store, :Bio)
   custom_handle(:category, :Category, :Category)
@@ -35,8 +35,8 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
 
   def initialize(store : Store, prison : Prison)
     super
-    @needs = store.parse_store(:Needs)
-    @experience = store.parse_store(:Experience)
+    @needs = Needs.new(store.parse_store(:Needs), prison)
+    @experience = Experience.new(store.parse_store(:Experience), prison)
     @status_effects = store.parse_store(:StatusEffects)
     @bio = store.parse_store(:Bio)
     @category = Category.from_store(store.parse_string(:Category))
