@@ -8,6 +8,8 @@ class DotPrison::Prison::Sector < DotPrison::StoreConsumer
   handle(:indoor, :Bool, :Indoor)
   handle(:room, :"Reference(Room)", :"Room.i", :"Room.u")
   handle(:manual_targets, :Bool, :ManualTargets)
+  handle(:access_only, :Bool, :AccessOnly)
+  handle(:controller, :Float64, :Controller)
 
   custom_handle(:zone, :"Zone | String", :Zone)
   custom_handle(:jobs, :"Array(Job)", :Jobs)

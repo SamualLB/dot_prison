@@ -10,7 +10,8 @@ enum DotPrison::Prison::Category
   
   def self.from_store(str) : Category | String
     return DEFAULT unless str.is_a?(String)
-    return parsed if parsed = parse?(str)
+    parsed = parse?(str)
+    return parsed if parsed
     DotPrison.logger.debug "Unknown category: #{str}"
     str
   end

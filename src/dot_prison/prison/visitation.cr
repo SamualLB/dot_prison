@@ -6,6 +6,7 @@ class DotPrison::Prison::Visitation < DotPrison::StoreConsumer
   handle(:timer, :Float64, :Timer)
   handle(:visit_count, :Int32, :VisitCount)
   handle(:active_groups, :Int32, :ActiveVisitorGroups)
+  handle(:waiting, :Int32, :Waiting)
 
   custom_handle(:visitor_groups, :"Array(Group)", :Visitation)
 

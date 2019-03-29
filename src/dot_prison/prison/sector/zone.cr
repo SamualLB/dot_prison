@@ -6,6 +6,7 @@ enum DotPrison::Prison::Sector::Zone
   SuperMaxOnly
   DeathRowOnly
   StaffOnly
+  Unlocked
 
   DEFAULT = Shared
 

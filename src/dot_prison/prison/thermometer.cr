@@ -13,4 +13,5 @@ class DotPrison::Prison::Thermometer < DotPrison::StoreConsumer
   handle(:recent_deaths, :Float64, :RecentDeaths)
   handle(:recent_punishments, :Float64, :RecentPunishments)
   handle(:recent_searches, :Float64, :RecentSearches)
+  handle(:active_armed_guards, :Float64, :ActiveArmedGuards)
 end

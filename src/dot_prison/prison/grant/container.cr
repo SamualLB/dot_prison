@@ -1,5 +1,5 @@
 class DotPrison::Prison::Grant::Container
-  TYPES = ["Grant_bootstraps", "Grant_Administration", "Grant_FirstCellBlock", "Grant_Health", "Grant_Maintenance", "Grant_Visitation", "Grant_BasicSecurity", "Grant_EnhancedSecurity", "Grant_AdvancedSecurity", "Grant_PrisonerWorkforce", "Grant_ReduceStaffStress", "Grant_ShortTermInvestment", "Grant_LongTermInvestment", "Grant_CellBlock50", "Grant_CellBlock100", "Grant_CellBlock200"]
+  TYPES = ["Grant_bootstraps", "Grant_Administration", "Grant_FirstCellBlock", "Grant_Health", "Grant_Maintenance", "Grant_Visitation", "Grant_BasicSecurity", "Grant_EnhancedSecurity", "Grant_AdvancedSecurity", "Grant_PrisonerWorkforce", "Grant_ReduceStaffStress", "Grant_ShortTermInvestment", "Grant_LongTermInvestment", "Grant_CellBlock50", "Grant_CellBlock100", "Grant_CellBlock200", "Grant_PrisonLabour", "Grant_DrugSearch", "Grant_ContrabandSupply"]
 
   property! grants : Hash(String, Grant)
 

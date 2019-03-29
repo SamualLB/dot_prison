@@ -58,6 +58,19 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   custom_handle(:visitation, :Visitation, :Visitation)
   custom_handle(:thermometer, :Thermometer, :Thermometer)
   custom_handle(:contraband, :Contraband, :Contraband)
+  custom_handle(:tunnels, :"Tunnel::Container", :Tunnels)
+  custom_handle(:reform, :Reform, :Reform)
+  custom_handle(:victory, :Victory, :Victory)
+  custom_handle :production, :Production, :Production
+  custom_handle :informants, :"Array(Informant)", :Informants
+  custom_handle :need_providers, :"Array(NeedProvider)", :NeedsLibrary
+  custom_handle :deployment_schedule, :DeploymentSchedule, :DeploymentSchedule
+  custom_handle :intake, :Intake, :Intake
+  custom_handle :execution, :Execution, :Execution
+  custom_handle :events, :Events, :Events
+  custom_handle :warden, :"Warden | Int32", :Wardens
+  custom_handle :weather, :Weather, :WeatherMap
+  custom_handle :stats, :Stats, :StatsTracker
 
   property! next_job_id : Int32
 
@@ -80,6 +93,24 @@ class DotPrison::Prison < DotPrison::StoreConsumer
     @visitation = Visitation.new(store.parse_store(:Visitation), self)
     @thermometer = Thermometer.new(store.parse_store(:Thermometer), self)
     @contraband = Contraband.new(store.parse_store(:Contraband), self)
+    @tunnels = Tunnel::Container.new(store.parse_store(:Tunnels), self)
+    @reform = Reform.new(store.parse_store(:Reform), self)
+    @victory = Victory.new(store.parse_store(:Victory), self)
+    @production = Production.new(store.parse_store(:Production), self)
+    @informants = [] of Informant
+    store.parse_store(:Informants).parse_indexed_store(:Informants) do |inf|
+      informants << Informant.new(inf, self)
+    end
+    @need_providers = [] of NeedProvider
+    store.parse_store(:NeedsLibrary).parse_indexed_store(:ActiveNeedProviders) do |pro|
+      need_providers << NeedProvider.new(pro, self)
+    end
+    @deployment_schedule = DeploymentSchedule.new(store.parse_store(:DeploymentSchedule), self)
+    @intake = Intake.new(store.parse_store(:Intake), self)
+    @execution = Execution.new(store.parse_store(:Execution), self)
+    @warden = Warden.from_store(store.parse_store(:Wardens).parse_int(:Warden))
+    @weather = Weather.new(store.parse_store(:WeatherMap), self)
+    @stats = Stats.new(store.parse_store(:StatsTracker), self)
   end
 
   protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil
