@@ -1,5 +1,5 @@
 class DotPrison::Prison::DeploymentSchedule < DotPrison::StoreConsumer
-  NO_SCHEDULES = 10
+  NO_SCHEDULES = 24
 
   custom_handle :chosen_schedule, :"Hash(Int32, Int32)", :ChosenSchedule
   custom_handle :schedules, :"Hash(Int32, Schedule)", :Schedules
