@@ -25,6 +25,10 @@ class DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
   handle(:healing_job_id, :Int32, :HealingJobId)
   handle(:destination, :"Tuple(Float64, Float64)", :"Dest.x", :"Dest.y")
   handle(:climb_position, :"Tuple(Float64, Float64)", :"ClimbPosition.x", :"ClimbPosition.y")
+  handle :hijack_timer, :Float64, :HijackTimer
+  handle :gang_id, :Int32, :"Gang.Id"
+  handle :gang_rank, :String, :"Gang.Rank" # TODO enum
+  handle :gang_recruitment, :Float64, :"Gang.Recruitment"
 
   custom_handle(:needs, :Needs, :Needs)
   custom_handle(:experience, :Experience, :Experience)

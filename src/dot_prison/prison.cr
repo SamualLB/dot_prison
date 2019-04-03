@@ -20,9 +20,11 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   handle(:misconduct_enabled, :Bool, :EnabledMisconduct)
   handle(:gangs_enabled, :Bool, :EnabledGangs)
   handle(:decay_enabled, :Bool, :EnabledDecay)
+  handle :visibility_enabled, :Bool, :EnabledVisibility
   handle(:weather_enabled, :Bool, :EnabledWeather)
   handle(:failure_conditions_enabled, :Bool, :FailureConditions)
   handle(:cell_quality_enabled, :Bool, :UseCellQuality)
+  handle :gang_leader_punishment, :Bool, :GangLeaderPunishment
   handle(:staff_needs_enabled, :Bool, :StaffNeeds)
   handle(:generate_forests, :Bool, :GenerateForests)
   handle(:cheats_enabled, :Bool, :CheatsEnabled)
@@ -33,17 +35,23 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   handle(:immediate_objects, :Bool, :ImmediateObjects)
 
   handle(:max_staff_break, :Int32, :MaxStaffBreakPercent)
+  handle :escape_plans, :Bool, :EscapePlans
   handle(:balance, :Float64, :Balance)
 
   handle(:first_death_row_notice, :Bool, :FirstDeathRowNotice)
   handle(:objects_centre_aligned, :Bool, :ObjectsCentreAligned)
+  handle :lethal_force, :Bool, :LethalForce
+  handle :food_variation, :Int32, :FoodVariation
   handle(:bio_versions, :Int32, :BioVersions)
   handle(:needs_version, :Int32, :NeedsVersion)
   handle(:entity_version, :Int32, :EntityVersion)
+  handle :events_enabled, :Bool, :EnabledEvents
+  handle :ceo_letter_read, :Bool, :CeoLetterRead
 
   custom_handle(:cells, :"Hash({Int32, Int32}, Cell)", :Cells)
   custom_handle(:objects, :"Array(Object)", :Objects)
   custom_handle(:rooms, :"Array(Room)", :Rooms)
+  custom_handle :mods, :"Array(Mod)", :Mods
   custom_handle(:jobs, :"Array(Job)", :WorkQ)
   custom_handle(:regimes, :"Regime::Container", :Regime)
   custom_handle(:finance, :Finance, :Finance)
@@ -71,6 +79,7 @@ class DotPrison::Prison < DotPrison::StoreConsumer
   custom_handle :warden, :"Warden | Int32", :Wardens
   custom_handle :weather, :Weather, :WeatherMap
   custom_handle :stats, :Stats, :StatsTracker
+  custom_handle :visibility, :"Hash(Tuple(Int32, Int32), Float64)", :Visibility
 
   property! next_job_id : Int32
 
@@ -79,6 +88,10 @@ class DotPrison::Prison < DotPrison::StoreConsumer
     @cells = Cell.parse(store.parse_store(:Cells), self)
     @objects = Object.parse(store.parse_store(:Objects), self)
     @rooms = Room.parse(store.parse_store(:Rooms), self)
+    @mods = [] of Mod
+    store.parse_store(:Mods).parse_store_array(:Mod).each do |mod|
+      mods << Mod.new(mod, self)
+    end
     @jobs, @next_job_id = Job.parse(store.parse_store(:WorkQ), self)
     @regimes = Regime::Container.new(store.parse_store(:Regime), self)
     @finance = Finance.new(store.parse_store(:Finance), self)
@@ -111,6 +124,26 @@ class DotPrison::Prison < DotPrison::StoreConsumer
     @warden = Warden.from_store(store.parse_store(:Wardens).parse_int(:Warden))
     @weather = Weather.new(store.parse_store(:WeatherMap), self)
     @stats = Stats.new(store.parse_store(:StatsTracker), self)
+    @visibility = {} of {Int32, Int32} => Float64
+    store.parse_store(:Visibility).each do |k, v|
+      next unless v.is_a? Store
+      coords = parse_visibility_coords(k)
+      unless coords
+        DotPrison.logger.debug "Invalid visibility coordinates: #{k}: #{v}"
+        next
+      end
+      visibility[coords] = v.parse_float(:Vis)
+    end
+  end
+
+  protected def parse_visibility_coords(str) : {Int32, Int32}?
+    return nil unless str.is_a? String
+    arr = str.split ' '
+    return nil unless arr.size == 2
+    x = arr[0].to_i32?
+    y = arr[1].to_i32?
+    return nil unless x && y
+    {x, y}
   end
 
   protected def find(uid : Int32? = nil, id : Int32? = nil, type : Class? = nil) : Room | Cell | Object | Nil

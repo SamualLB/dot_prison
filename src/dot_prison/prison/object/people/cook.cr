@@ -1,6 +1,7 @@
 class DotPrison::Prison::Object::Cook < DotPrison::Prison::Object
   include ObjectProperties
   include PeopleProperties
+  include RestStateProperties
   include Orientation
   include StaffNeeds
   include Job

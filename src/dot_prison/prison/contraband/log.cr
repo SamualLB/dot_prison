@@ -18,6 +18,7 @@ class DotPrison::Prison::Contraband::Log < DotPrison::StoreConsumer
     Position
     Smuggled
     Stolen
+    Thrown
     Traded
 
     DEFAULT = Position

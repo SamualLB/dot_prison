@@ -6,6 +6,8 @@ class DotPrison::Prison::Object::WorkshopPress < DotPrison::Prison::Object
   include ReferenceSlot
   include Job
 
+  handle :timer, :Float64, :Timer
+
   def initialize(store : Store, prison : Prison)
     super
   end

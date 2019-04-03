@@ -1,6 +1,8 @@
 class DotPrison::Prison::Object::Dog < DotPrison::Prison::Object
   include ObjectProperties
   include PeopleProperties
+  include RestStateProperties
+  include StateProperties
   include Orientation
 
   handle(:sniff_timer, :Float64, :SniffTimer)

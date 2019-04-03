@@ -1,5 +1,6 @@
 class DotPrison::Prison::Object::CCTVMonitor < DotPrison::Prison::Object
   include ObjectProperties
+  include ConnectionProperties
   include Powered
   include Rotation
   include Job

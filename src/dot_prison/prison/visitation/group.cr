@@ -2,6 +2,8 @@ class DotPrison::Prison::Visitation::Group < DotPrison::StoreConsumer
   handle(:prisoner, :"Reference(Object::Prisoner)", :"Prisoner.i", :"Prisoner.u")
   handle(:table, :"Reference(Object)", :"Table.i", :"Table.u")
   handle(:leader, :"Reference(Object::Visitor)", :"PartyLeader.i", :"PartyLeader.u")
+  handle(:visitor2, :"Reference(Object::Visitor)", :"Visitor2.i", :"Visitor2.u")
+  handle(:visitor3, :"Reference(Object::Visitor)", :"Visitor3.i", :"Visitor3.u")
   handle(:timer, :Float64, :Timer)
 
   custom_handle(:state, :"State | String", :State)

@@ -1,6 +1,5 @@
-class DotPrison::Prison::Object::ShopGoods < DotPrison::Prison::Object
+class DotPrison::Prison::Object::LibraryBookSorted < DotPrison::Prison::Object
   include ObjectProperties
-  include Orientation
 
   def initialize(store : Store, prison : Prison)
     super

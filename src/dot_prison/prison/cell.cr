@@ -7,7 +7,7 @@ class DotPrison::Prison::Cell < DotPrison::StoreConsumer
   handle(:condition, :Float64, :Con)
   handle(:room, :"Reference(Room)", :"Room.i", :"Room.u")
 
-  custom_handle(:material, :Material, :Mat)
+  custom_handle(:material, :"Material | String", :Mat)
 
   def initialize(store : Store, @prison, coords : Tuple(Int32, Int32))
     init_store(store, prison)
@@ -42,6 +42,7 @@ class DotPrison::Prison::Cell < DotPrison::StoreConsumer
   end
 
   enum Material
+    BurntFloor
     Dirt
     Water
     ConcreteWall
@@ -68,14 +69,12 @@ class DotPrison::Prison::Cell < DotPrison::StoreConsumer
     Gravel
     LongGrass
 
-    DEFAULT = Dirt
-
-    def self.from_store(str) : Material
-      return DEFAULT unless str.is_a?(String)
+    def self.from_store(str) : Material | String
+      return Dirt unless str.is_a?(String)
       parsed = parse?(str)
       return parsed if parsed
       DotPrison.logger.debug "Unknown material: #{str}"
-      DEFAULT
+      str
     end
   end
 end

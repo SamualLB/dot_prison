@@ -3,6 +3,7 @@ enum DotPrison::Prison::Reform::Program::Type
   Carpentry
   DeathRowAppeal
   FoundationEducation
+  GeneralEducation
   KitchenInduction
   Methadone
   ParoleHearing

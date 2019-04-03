@@ -1,5 +1,6 @@
 class DotPrison::Prison::Object::Servo < DotPrison::Prison::Object
   include ObjectProperties
+  include ConnectionProperties
   include Rotation
   include Powered
   include Trigger

@@ -1,6 +1,8 @@
 enum DotPrison::Prison::Stats::Stat
   EntityDeath
+  EscapedPrisoners
   Funds
+  GuardDeaths
   HealthGrading
   NumIncidents
   NumPrisoners
@@ -16,6 +18,7 @@ enum DotPrison::Prison::Stats::Stat
   ReoffendingRate
   SecurityGrading
   TotalDeaths
+  TotalEscapedPrisoners
   TotalIncidents
   TotalReleasedPrisoners
 

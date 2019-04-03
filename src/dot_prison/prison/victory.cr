@@ -1,6 +1,7 @@
 class DotPrison::Prison::Victory < DotPrison::StoreConsumer
   handle :recent_death, :"Tuple(Float64, Float64)", :"RecentDeath.x", :"RecentDeath.y"
   handle :strike_cooldown, :Float64, :StrikeCooldown
+  handle :recent_escape, :"Tuple(Float64, Float64)", :"RecentEscape.x", :"RecentEscape.y"
 
   custom_handle :log, :"Array(Log)", :Log
   custom_handle :conditions, :"Hash(Condition::Type | String, Condition)", :Conditions

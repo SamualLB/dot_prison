@@ -1,6 +1,7 @@
 class DotPrison::Prison::Object::LibraryBookshelf < DotPrison::Prison::Object
   include ObjectProperties
   include Rotation
+  include StoredObject
 
   handle(:num_books, :Int32, :NumBooks)
 

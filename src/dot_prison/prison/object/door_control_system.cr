@@ -1,5 +1,6 @@
 class DotPrison::Prison::Object::DoorControlSystem < DotPrison::Prison::Object
   include ObjectProperties
+  include ConnectionProperties
   include Rotation
   include Powered
   include Job

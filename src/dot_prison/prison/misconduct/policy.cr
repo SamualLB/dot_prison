@@ -14,6 +14,7 @@ class DotPrison::Prison::Misconduct::Policy < DotPrison::StoreConsumer
 
   enum CategoryChange
     None
+    SetMax
     SetSuper
     Up
 

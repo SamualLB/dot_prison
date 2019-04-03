@@ -1,6 +1,8 @@
 class DotPrison::Prison::Object::DoorTimer < DotPrison::Prison::Object
   include ObjectProperties
+  include ConnectionProperties
   include Powered
+  include RegimeProperties
 
   handle(:doors_open, :Bool, :DoorsOpen)
   handle(:regime_category, :Int32, :RegimeCategory)

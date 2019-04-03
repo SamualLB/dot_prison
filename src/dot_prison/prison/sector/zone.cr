@@ -1,5 +1,6 @@
 enum DotPrison::Prison::Sector::Zone
   Shared
+  MinSecOnly
   MedSecOnly
   MaxSecOnly
   ProtectedOnly

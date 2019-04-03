@@ -1,6 +1,8 @@
 enum DotPrison::Prison::Regime::Activity
+  None
   Eat
   FreeTime
+  Lockdown
   Nothing
   Shower
   Sleep
@@ -9,9 +11,8 @@ enum DotPrison::Prison::Regime::Activity
   WorkLockdown
   Yard
 
-  DEFAULT = Unspecified
   def self.from_store(str) : Activity | String
-    return DEFAULT unless str.is_a?(String)
+    return None unless str.is_a?(String)
     parsed = parse?(str)
     return parsed if parsed
     DotPrison.logger.debug "Unknown regime activity: #{str}"

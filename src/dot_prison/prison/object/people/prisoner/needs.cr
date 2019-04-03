@@ -6,8 +6,9 @@ class DotPrison::Prison::Object::Prisoner::Needs < DotPrison::StoreConsumer
   handle :complain_need, :"Reference(Need)", :"ComplainNeedId.i", :"ComplainNeedId.u"
   handle :complaining, :Int32, :Complaining
   handle :starve_timer, :Float64, :StarveTimer
+  handle :sleeping, :Float64, :Sleeping
   
-  custom_handle :action, :String, :Action # enum
+  custom_handle :action, :String, :Action # TODO enum
   custom_handle :needs, :"Hash(NeedType | String, Need)", :Needs
 
   def initialize(store : Store, @prison : Prison)

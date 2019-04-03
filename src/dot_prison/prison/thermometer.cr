@@ -14,4 +14,7 @@ class DotPrison::Prison::Thermometer < DotPrison::StoreConsumer
   handle(:recent_punishments, :Float64, :RecentPunishments)
   handle(:recent_searches, :Float64, :RecentSearches)
   handle(:active_armed_guards, :Float64, :ActiveArmedGuards)
+  handle :recently_calmed, :Float64, :RecentCalmed
+  handle :hours_on_rollcall, :Float64, :HoursOnRollcall
+  handle :staff_morale, :Float64, :StaffMorale
 end

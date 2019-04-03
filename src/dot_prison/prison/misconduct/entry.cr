@@ -19,6 +19,7 @@ class DotPrison::Prison::Misconduct::Entry < DotPrison::StoreConsumer
     EscapeAttempt
     InjuredPrisoner
     InjuredStaff
+    Intoxicated
     Murder
     SeriousInjury
 
