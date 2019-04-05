@@ -1,5 +1,3 @@
-require "json"
-
 struct DotPrison::Store
   alias Type = Hash(String, String | Array(String) | Store | Array(Store))
 
@@ -87,17 +85,19 @@ struct DotPrison::Store
     end
   end
 
-  def parse_indexed_int(key : String | Symbol) : Array(Store)
+  def parse_indexed_store(key : String | Symbol | Nil = nil) : Array(Store)
     sto = key ? parse_store(key) : self
     size = sto.parse_int(:Size)
     ret = [] of Store
     (0...size).each do |i|
-      ret << sto.parse_store "[i #{i}]"
+      internal = sto.parse_store? "[i #{i}]"
+      next unless internal
+      ret << internal
     end
     ret
   end
 
-  def parse_indexed_int(key : String | Symbol, &block)
+  def parse_indexed_int(key : String | Symbol | Nil = nil, &block)
     sto = key ? parse_store(key) : self
     size = sto.parse_int(:Size)
     actual_size = 0
@@ -107,7 +107,7 @@ struct DotPrison::Store
     end
   end
 
-  def parse_indexed_int(key : String | Symbol) : Array(Int32)
+  def parse_indexed_int(key : String | Symbol | Nil = nil) : Array(Int32)
     sto = key ? parse_store(key) : self
     size = sto.parse_int(:Size)
     ret = [] of Int32

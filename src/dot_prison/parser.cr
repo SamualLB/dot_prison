@@ -16,8 +16,10 @@ class DotPrison::Parser
         tmp = parse_text
         if store[tmp[0]]?
           old_val = store[tmp[0]]
-          if old_val.is_a? String
-            store[tmp[0]] = [store[tmp[0]].as(String)] of String
+          case old_val
+          when String then store[tmp[0]] = [store[tmp[0]].as(String)] of String
+          when Array(String) then
+          else raise "Mixing string and store array"
           end
           store[tmp[0]].as(Array(String)) << tmp[1]
         else
@@ -29,8 +31,10 @@ class DotPrison::Parser
         if store[tmp.name]?
           # Duplicate key
             old_val = store[tmp.name]
-          if old_val.is_a? Store
-            store.content[tmp.name] = [old_val] of Store
+          case old_val
+          when Store then store.content[tmp.name] = [old_val] of Store
+          when Array(Store) then
+          else raise "Mixing store and string array"
           end
           store[tmp.name].as(Array(Store)) << tmp
         else
@@ -61,8 +65,10 @@ class DotPrison::Parser
         if store[tmp[0]]?
           # Duplicate key
           old_val = store[tmp[0]]
-          if old_val.is_a? String
-            store[tmp[0]] = [store[tmp[0]].as(String)] of String
+          case old_val
+          when String then store[tmp[0]] = [store[tmp[0]].as(String)] of String
+          when Array(String) then
+          else raise "Mixing string and store array"
           end
           store[tmp[0]].as(Array(String)) << tmp[1]
         else
@@ -73,8 +79,10 @@ class DotPrison::Parser
         if store[tmp.name]?
           # Duplicate key
           old_val = store[tmp.name]
-          if old_val.is_a? Store
-            store.content[tmp.name] = [old_val] of Store
+          case old_val
+          when Store then store.content[tmp.name] = [old_val] of Store
+          when Array(Store) then
+          else raise "Mixing store and string array"
           end
           store[tmp.name].as(Array(Store)) << tmp
         else
