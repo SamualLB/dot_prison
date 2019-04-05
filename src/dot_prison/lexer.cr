@@ -45,7 +45,7 @@ abstract class DotPrison::Lexer
   private def consume_text
     buffer = String.build do |str|
       char = current_char
-      until whitespace?(char)
+      until whitespace?(char) || char == '\0'
         str << char
         char = next_char
       end

@@ -11,6 +11,7 @@ end
 
 enum DotPrison::Prison::Object::State
   Resting
+  Processing
 
   def self.from_store(str) : State | String | Nil
     return nil unless str.is_a? String

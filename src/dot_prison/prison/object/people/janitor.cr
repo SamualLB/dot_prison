@@ -7,6 +7,8 @@ class DotPrison::Prison::Object::Janitor < DotPrison::Prison::Object
   include Job
   include Carrying
 
+  handle :walk_speed, :Float64, :AiWalkSpeed
+
   def initialize(store : Store, prison : Prison)
     super
   end
