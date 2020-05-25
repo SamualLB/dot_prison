@@ -8,7 +8,7 @@ class DotPrison::Parser
   private delegate next_token, to: @lexer
 
   def parse
-    store = Store.new
+    store = Prison.new
     until token.type == :EOF
       case token.type
       when :TEXT

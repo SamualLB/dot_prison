@@ -1,10 +1,11 @@
-struct DotPrison::Store
-  alias Type = Hash(String, String | Array(String) | Store | Array(Store))
+class DotPrison::Store
+  alias InnerType = Hash(String, String | Array(String) | Store | Array(Store))
 
-  property content = Type.new
+  property content : InnerType
   property name : String
 
   def initialize(@name = "")
+    @content = InnerType.new
   end
 
   def parse_string(key : String | Symbol, default_value : String? = nil) : String?

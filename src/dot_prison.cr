@@ -9,17 +9,14 @@ module DotPrison
   class_getter logger
 
   extend self
+
+  def self.parse(path : String)
+    Parser.new(File.new(path)).parse
+  end
 end
 
-parsed : DotPrison::Store? = nil
+store = DotPrison.parse(ARGV[0])
 
-#File.open("/home/sam/.Prison Architect/saves/Island.prison") do |file|
-#File.open("/home/sam/.Prison Architect/saves/Ship.prison") do |file|
-#File.open("/home/sam/.Prison Architect/saves/Test.prison") do |file|
-File.open("/home/sam/.Prison Architect/saves/Hard.prison") do |file|
-  parsed = DotPrison::Parser.new(file).parse
-end
+p store.class
 
-parsed = parsed.as(DotPrison::Store)
-
-pr = DotPrison::Prison.new(parsed)
+p store.version
