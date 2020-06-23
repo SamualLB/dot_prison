@@ -119,4 +119,8 @@ class DotPrison::Store
   end
 
   forward_missing_to @content
+
+  def to_s(io : IO)
+    io << "#{@name}: #{@content}"
+  end
 end
