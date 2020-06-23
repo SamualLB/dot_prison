@@ -1,12 +1,12 @@
-require "logger"
+require "log"
 require "./dot_prison/*"
+
+Log.setup(:notice)
 
 module DotPrison
   VERSION = "0.1.0"
 
-  @@logger = Logger.new(STDERR, level: Logger::INFO)
-
-  class_getter logger
+  Log = ::Log.for("dot_prison")
 
   extend self
 
