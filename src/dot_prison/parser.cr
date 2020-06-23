@@ -8,44 +8,8 @@ class DotPrison::Parser
   private delegate next_token, to: @lexer
 
   def parse
-    store = Prison.new
-    until token.type == :EOF
-      case token.type
-      when :TEXT
-        # Parse K:V
-        tmp = parse_text
-        if store[tmp[0]]?
-          old_val = store[tmp[0]]
-          case old_val
-          when String then store[tmp[0]] = [store[tmp[0]].as(String)] of String
-          when Array(String) then
-          else raise "Mixing string and store array"
-          end
-          store[tmp[0]].as(Array(String)) << tmp[1]
-        else
-          store[tmp[0]] = tmp[1]
-        end
-      when :BEGIN
-        # Parse BEGIN
-        tmp = parse_store
-        if store[tmp.name]?
-          # Duplicate key
-            old_val = store[tmp.name]
-          case old_val
-          when Store then store.content[tmp.name] = [old_val] of Store
-          when Array(Store) then
-          else raise "Mixing store and string array"
-          end
-          store[tmp.name].as(Array(Store)) << tmp
-        else
-          store[tmp.name] = tmp
-        end
-      when :END
-        raise "Unexpected END, not inside BEGIN"
-      end
-      next_token
-    end
-    store
+    Log.info { "Starting .prison parse" }
+    parse_store ""
   end
 
   # Read a Key: Value pair
@@ -54,20 +18,27 @@ class DotPrison::Parser
   end
 
   private def parse_store : Store
-    store = Store.new
-    store.name = next_token.value
+    name = next_token.value
     next_token
-    until token.type == :END
+    parse_store(name)
+  end
+
+  private def parse_store(store_name : String) : Store
+    Log.info { "New store: #{store_name}" }
+    store = Store.new
+    store.name = store_name
+    until token.type == :END || token.type == :EOF
       case token.type
       when :TEXT
         tmp = parse_text
+        Log.info { "Parsed text: \"#{tmp[0]}\": \"#{tmp[1]}\"" }
         # Check for duplicate key, store in array if duplicated
         if store[tmp[0]]?
           # Duplicate key
           old_val = store[tmp[0]]
           case old_val
           when String then store[tmp[0]] = [store[tmp[0]].as(String)] of String
-          when Array(String) then
+          when Array(String) then nil
           else raise "Mixing string and store array"
           end
           store[tmp[0]].as(Array(String)) << tmp[1]
@@ -81,7 +52,7 @@ class DotPrison::Parser
           old_val = store[tmp.name]
           case old_val
           when Store then store.content[tmp.name] = [old_val] of Store
-          when Array(Store) then
+          when Array(Store) then nil
           else raise "Mixing store and string array"
           end
           store[tmp.name].as(Array(Store)) << tmp

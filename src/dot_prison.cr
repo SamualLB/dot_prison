@@ -15,8 +15,4 @@ module DotPrison
   end
 end
 
-store = DotPrison.parse(ARGV[0])
-
-p store.class
-
-p store.version
+prison = DotPrison::Prison.new(DotPrison.parse(ARGV[0]))

@@ -9,9 +9,9 @@ class DotPrison::Lexer::StringBased < DotPrison::Lexer
   end
 
   private def next_char_no_column_increment
-    return '\0' unless @reader.has_next?
+    return nil unless @reader.has_next?
     char = @reader.next_char
-    if char == '\0' && @reader.pos != @reader.string.bytesize
+    if char == nil && @reader.pos != @reader.string.bytesize
       raise "unexpected char"
     end
     char

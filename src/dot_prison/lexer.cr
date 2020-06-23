@@ -31,7 +31,7 @@ abstract class DotPrison::Lexer
     @token.column_number = @column_number
 
     case current_char
-    when '\0'
+    when nil
       @token.type = :EOF
     when '"'
       consume_quoted_text
@@ -49,6 +49,7 @@ abstract class DotPrison::Lexer
         str << char
         char = next_char
       end
+      next_char if char == '\0' # remove the null char
     end
     case buffer
     when "BEGIN"
