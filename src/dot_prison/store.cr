@@ -123,4 +123,8 @@ class DotPrison::Store
   def to_s(io : IO)
     io << "#{@name}: #{@content}"
   end
+
+  def ==(other : Store)
+    @content == other.@content && @name == other.@name
+  end
 end

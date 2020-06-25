@@ -1,5 +1,6 @@
 class DotPrison::Lexer::StringBased < DotPrison::Lexer
-  def initialize(string)
+  @string : String
+  def initialize(@string)
     super()
     @reader = Char::Reader.new(string)
   end
@@ -9,7 +10,8 @@ class DotPrison::Lexer::StringBased < DotPrison::Lexer
   end
 
   private def next_char_no_column_increment
-    return nil unless @reader.has_next?
+    return nil if @string.empty?
+    return nil if @string.bytesize == current_pos+1
     char = @reader.next_char
     if char == nil && @reader.pos != @reader.string.bytesize
       raise "unexpected char"
@@ -18,6 +20,8 @@ class DotPrison::Lexer::StringBased < DotPrison::Lexer
   end
 
   private def current_char
+    return nil if @string.empty?
+    return nil if @string.bytesize == current_pos+1
     @reader.current_char
   end
 end

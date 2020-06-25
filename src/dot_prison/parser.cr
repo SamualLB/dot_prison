@@ -8,7 +8,7 @@ class DotPrison::Parser
   private delegate next_token, to: @lexer
 
   def parse
-    Log.info { "Starting .prison parse" }
+    Log.debug { "Starting .prison parse" }
     parse_store ""
   end
 
@@ -24,14 +24,14 @@ class DotPrison::Parser
   end
 
   private def parse_store(store_name : String) : Store
-    Log.info { "New store: #{store_name}" }
+    Log.debug { "New store: #{store_name}" }
     store = Store.new
     store.name = store_name
     until token.type == :END || token.type == :EOF
       case token.type
       when :TEXT
         tmp = parse_text
-        Log.info { "Parsed text: \"#{tmp[0]}\": \"#{tmp[1]}\"" }
+        Log.debug { "Parsed text: \"#{tmp[0]}\": \"#{tmp[1]}\"" }
         # Check for duplicate key, store in array if duplicated
         if store[tmp[0]]?
           # Duplicate key

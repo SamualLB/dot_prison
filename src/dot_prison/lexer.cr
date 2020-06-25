@@ -30,12 +30,16 @@ abstract class DotPrison::Lexer
     @token.line_number = @line_number
     @token.column_number = @column_number
 
+    Log.debug { "Parsing token" }
     case current_char
     when nil
+      Log.debug { "Parsing EOF" }
       @token.type = :EOF
     when '"'
+      Log.debug { "Parsing quoted" }
       consume_quoted_text
     else
+      Log.debug  { "Parsing normal text" }
       consume_text
     end
 
@@ -45,7 +49,7 @@ abstract class DotPrison::Lexer
   private def consume_text
     buffer = String.build do |str|
       char = current_char
-      until whitespace?(char) || char == '\0'
+      until whitespace?(char) || char == '\0' || char == nil
         str << char
         char = next_char
       end
