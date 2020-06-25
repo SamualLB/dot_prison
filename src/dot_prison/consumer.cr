@@ -10,6 +10,7 @@ abstract struct DotPrison::Consumer
     # :nodoc:
     HANDLED_PROPERTIES = [] of Symbol
 
+    # :nodoc:
     macro consume(prop, typ, *keys)
       \{% for k in keys %}
          \{% HANDLED_PROPERTIES << k %}
@@ -39,21 +40,29 @@ abstract struct DotPrison::Consumer
       end
     end
 
+    # :nodoc:
     macro consume_array(prop, typ, key)
       consume(key)
     end
 
+    # :nodoc:
     macro consume(key)
       \{% HANDLED_PROPERTIES << key %}
     end
 
+    # :nodoc:
     macro consume(key1, key2)
       \{%
         HANDLED_PROPERTIES << key1
         HANDLED_PROPERTIES << key2
         %}
     end
-    
+
+    # Keys for the associated store that have not been consumed
+    #
+    # This may be because they have not been implemented yet,
+    # they may have an unknown purpose, or could be part of an
+    # unsupported mod
     def unhandled : Array(String)
       out = [] of String
       sorted = HANDLED_PROPERTIES.sort
