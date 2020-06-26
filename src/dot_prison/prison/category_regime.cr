@@ -8,6 +8,6 @@ struct DotPrison::CategoryRegime < DotPrison::Consumer
 
   def [](i : Int32) : String
     raise IndexError.new("Regime slot #{i} out of bounds (0...24)") unless (0...24).includes?(i)
-    store.parse_string("[i #{i}]", "")
+    table.parse_string("[i #{i}]", "")
   end
 end

@@ -1,10 +1,10 @@
 abstract struct DotPrison::Consumer
-  abstract def store : DotPrison::Store
+  abstract def table : DotPrison::Table
 
   macro inherited
-    getter store : DotPrison::Store
+    getter table : DotPrison::Table
 
-    def initialize(@store : DotPrison::Store)
+    def initialize(@table : DotPrison::Table)
     end
 
     # :nodoc:
@@ -18,21 +18,21 @@ abstract struct DotPrison::Consumer
 
       def \{{prop.id}} : \{{typ}}
         \{% if typ.id == String.id %}
-           store.parse_string \{{keys[0]}}, ""
+           table.parse_string \{{keys[0]}}, ""
         \{% elsif typ.id == Int32.id %}
-           store.parse_int \{{keys[0]}}
+           table.parse_int \{{keys[0]}}
         \{% elsif typ.id == Float64.id %}
-           store.parse_float \{{keys[0]}}
+           table.parse_float \{{keys[0]}}
         \{% elsif typ.id == Bool.id %}
-           store.parse_bool \{{keys[0]}}
+           table.parse_bool \{{keys[0]}}
         \{% elsif typ.id == {Int32, Int32}.id %}
-           {store.parse_int(\{{keys[0]}}), store.parse_int(\{{keys[1]}})}
+           {table.parse_int(\{{keys[0]}}), table.parse_int(\{{keys[1]}})}
         \{% elsif typ.id == {Float64, Float64}.id %}
-           {store.parse_float(\{{keys[0]}}), store.parse_float(\{{keys[1]}})}
-        \{% elsif typ.resolve == DotPrison::Store %}
-           store.parse_store(\{{keys[0]}})
+           {table.parse_float(\{{keys[0]}}), table.parse_float(\{{keys[1]}})}
+        \{% elsif typ.resolve == DotPrison::Table %}
+           table.parse_table(\{{keys[0]}})
         \{% elsif typ.resolve < DotPrison::Consumer %}
-           \{{typ}}.new(store.parse_store(\{{keys[0]}}))
+           \{{typ}}.new(table.parse_table(\{{keys[0]}}))
         \{% else %}
            \{% puts typ %}
            \{% raise "Unhandled type for DotPrison::Consumer" %}
@@ -58,7 +58,7 @@ abstract struct DotPrison::Consumer
         %}
     end
 
-    # Keys for the associated store that have not been consumed
+    # Keys for the associated table that have not been consumed
     #
     # This may be because they have not been implemented yet,
     # they may have an unknown purpose, or could be part of an
@@ -66,7 +66,7 @@ abstract struct DotPrison::Consumer
     def unhandled : Array(String)
       out = [] of String
       sorted = HANDLED_PROPERTIES.sort
-      store.each do |k, v|
+      table.each do |k, v|
         found = sorted.each do |s|
           break true if s.to_s == k.to_s
           false

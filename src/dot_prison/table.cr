@@ -1,5 +1,5 @@
-class DotPrison::Store
-  private alias InnerType = Hash(String, DotPrison::Store | Array(DotPrison::Store) | String | Array(String))
+class DotPrison::Table
+  private alias InnerType = Hash(String, DotPrison::Table | Array(DotPrison::Table) | String | Array(String))
 
   @content = InnerType.new
 
@@ -13,14 +13,14 @@ class DotPrison::Store
     val
   end
 
-  def parse_store(key : String | Symbol) : Store
-    parse_store?(key) || Store.new
+  def parse_table(key : String | Symbol) : Table
+    parse_table?(key) || Table.new
   end
 
-  def parse_store?(key : String | Symbol) : Store?
+  def parse_table?(key : String | Symbol) : Table?
     key = key.to_s if key.is_a?(Symbol)
     val = @content[key]?
-    return val if val.is_a?(Store)
+    return val if val.is_a?(Table)
     nil
   end
 
@@ -59,34 +59,34 @@ class DotPrison::Store
     end
   end
 
-  def parse_store_array(key : String | Symbol) : Array(Store)
+  def parse_table_array(key : String | Symbol) : Array(Table)
     key = key.to_s if key.is_a? Symbol
     val = @content[key]?
     case val
-    when Store        then [val]
-    when Array(Store) then val
-    else                   [] of Store
+    when Table        then [val]
+    when Array(Table) then val
+    else                   [] of Table
     end
   end
 
-  def parse_indexed_store(key : String | Symbol | Nil = nil, &block)
-    sto = key ? parse_store(key) : self
-    size = sto.parse_int(:Size)
+  def parse_indexed_table(key : String | Symbol | Nil = nil, &block)
+    table = key ? parse_table(key) : self
+    size = table.parse_int(:Size)
     actual_size = 0
     (0...size).each do |i|
-      internal = sto.parse_store? "[i #{i}]"
+      internal = table.parse_table? "[i #{i}]"
       next unless internal
       yield internal
       actual_size += 1
     end
   end
 
-  def parse_indexed_store(key : String | Symbol | Nil = nil) : Array(Store)
-    sto = key ? parse_store(key) : self
-    size = sto.parse_int(:Size)
-    ret = [] of Store
+  def parse_indexed_table(key : String | Symbol | Nil = nil) : Array(Table)
+    table = key ? parse_table(key) : self
+    size = table.parse_int(:Size)
+    ret = [] of Table
     (0...size).each do |i|
-      internal = sto.parse_store? "[i #{i}]"
+      internal = table.parse_table? "[i #{i}]"
       next unless internal
       ret << internal
     end
@@ -94,7 +94,7 @@ class DotPrison::Store
   end
 
   def parse_indexed_int(key : String | Symbol | Nil = nil, &block)
-    sto = key ? parse_store(key) : self
+    sto = key ? parse_table(key) : self
     size = sto.parse_int(:Size)
     actual_size = 0
     (0...size).each do |i|
@@ -104,7 +104,7 @@ class DotPrison::Store
   end
 
   def parse_indexed_int(key : String | Symbol | Nil = nil) : Array(Int32)
-    sto = key ? parse_store(key) : self
+    sto = key ? parse_table(key) : self
     size = sto.parse_int(:Size)
     ret = [] of Int32
     (0...size).each do |i|
@@ -113,9 +113,9 @@ class DotPrison::Store
     ret
   end
 
-  def ==(other : DotPrison::Store)
+  def ==(other : self)
     self.@content == other.@content
   end
 
-  forward_missing_to @content
+  delegate :[]?, :[], :[]=, size, empty?, to: @content
 end

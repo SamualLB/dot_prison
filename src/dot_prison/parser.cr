@@ -9,7 +9,7 @@ class DotPrison::Parser
 
   def parse
     Log.debug { "Starting .prison parse" }
-    parse_store
+    parse_table
   end
 
   private def parse_key : String
@@ -21,52 +21,52 @@ class DotPrison::Parser
     next_token.value
   end
 
-  # Read a Store, BEGIN to END
-  private def parse_store : Store
-    store = Store.new
+  # Read a map, BEGIN to END
+  private def parse_table : Table
+    table = Table.new
     until token.type == :END || token.type == :EOF
       case token.type
       when :TEXT
         key = parse_key
         val = parse_text
         Log.debug { "Parsed text: \"#{key}\": \"#{val}\"" }
-        # Check for duplicate key, store in array if duplicated
-        if store[key]?
+        # Check for duplicate key, table in array if duplicated
+        if table[key]?
           # Duplicate key
-          old_val = store[key]
+          old_val = table[key]
           case old_val
-          when String then store[key] = [store[key].as(String)] of String
+          when String then table[key] = [table[key].as(String)] of String
           when Array(String) then nil
-          else raise "Mixing string and store array"
+          else raise "Mixing string and table array"
           end
-          store[key].as(Array(String)) << val
+          table[key].as(Array(String)) << val
         else
-          store[key] = val
+          table[key] = val
         end
         next_token
       when :BEGIN
         next_token
         key = parse_key
         next_token
-        val = parse_store
-        Log.debug { "Parsed store: \"#{key}\": #{val.size} items" }
-        if store[key]?
+        val = parse_table
+        Log.debug { "Parsed table: \"#{key}\": #{val.size} items" }
+        if table[key]?
           # Duplicate key
-          old_val = store[key]
+          old_val = table[key]
           case old_val
-          when Store then store[key] = [old_val] of Store
-          when Array(Store) then nil
-          else raise "Mixing store and string array"
+          when Table then table[key] = [old_val] of Table
+          when Array(Table) then nil
+          else raise "Mixing table and string array"
           end
-          store[key].as(Array(Store)) << val
+          table[key].as(Array(Table)) << val
         else
-          store[key] = val
+          table[key] = val
         end
         next_token
       when :EOF
         raise "Reached EOF without END"
       end
     end
-    store
+    table
   end
 end

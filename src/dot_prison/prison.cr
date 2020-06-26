@@ -1,4 +1,4 @@
-require "./store"
+require "./table"
 require "./prison/*"
 
 struct DotPrison::Prison < DotPrison::Consumer
@@ -36,11 +36,11 @@ struct DotPrison::Prison < DotPrison::Consumer
   consume :balance, Float64, :Balance
   consume :selected_guard_companion, Int32, :SelectedGuardCompanion
 
-  consume :tiles, DotPrison::GridStore(DotPrison::Tile), :Cells
+  consume :tiles, DotPrison::GridTable(DotPrison::Tile), :Cells
   # TODO: Does not separate depending on object type
-  consume :objects, DotPrison::IndexedStore(DotPrison::Object), :Objects
+  consume :objects, DotPrison::IndexedTable(DotPrison::Object), :Objects
   # TODO: Does not separate depending on room type
-  consume :rooms, DotPrison::IndexedStore(DotPrison::Room), :Rooms
+  consume :rooms, DotPrison::IndexedTable(DotPrison::Room), :Rooms
   consume :work_queue, DotPrison::WorkQueue, :WorkQ
   consume :regime, DotPrison::Regime, :Regime
   consume :supply_chain, DotPrison::SupplyChain, :SupplyChain
@@ -48,103 +48,103 @@ struct DotPrison::Prison < DotPrison::Consumer
 
   # TODO: Unknown format, Store name is xy coordinates followed by 0.
   # Does 0 mean something?
-  consume :patrols, DotPrison::Store, :Patrols
+  consume :patrols, DotPrison::Table, :Patrols
 
   # TODO: Awkward
-  consume :electricity, DotPrison::GridStore(DotPrison::ElectricityTile), :Electricity
+  consume :electricity, DotPrison::GridTable(DotPrison::ElectricityTile), :Electricity
 
   # TODO: Needs to be custom to consume OffValves, don't know what that is though...
-  consume :water, DotPrison::GridStore(DotPrison::WaterTile), :Water
+  consume :water, DotPrison::GridTable(DotPrison::WaterTile), :Water
 
   # TODO: Nicer object
-  consume :research, DotPrison::Store, :Research
+  consume :research, DotPrison::Table, :Research
 
   # TODO: Nicer object
-  consume :construction, DotPrison::Store, :Construction
+  consume :construction, DotPrison::Table, :Construction
 
   # TODO: Nicer object
-  consume :penalties, DotPrison::Store, :Penalties
+  consume :penalties, DotPrison::Table, :Penalties
 
   # TODO: Nicer object
-  consume :sectors, DotPrison::Store, :Sectors
+  consume :sectors, DotPrison::Table, :Sectors
 
   # TODO: Nicer object
-  consume :grants, DotPrison::Store, :Grants
+  consume :grants, DotPrison::Table, :Grants
 
   # TODO: Nicer object
-  consume :misconduct, DotPrison::Store, :Misconduct
+  consume :misconduct, DotPrison::Table, :Misconduct
 
   # TODO: Nicer object
-  consume :visitation, DotPrison::Store, :Visitation
+  consume :visitation, DotPrison::Table, :Visitation
 
   # TODO: Nicer object
-  consume :thermometer, DotPrison::Store, :Thermometer
+  consume :thermometer, DotPrison::Table, :Thermometer
 
   # TODO: Nicer object
-  consume :squads, DotPrison::Store, :Squads
+  consume :squads, DotPrison::Table, :Squads
 
   # TODO: Nicer object
-  consume :contraband, DotPrison::Store, :Contraband
+  consume :contraband, DotPrison::Table, :Contraband
 
   # TODO: Nicer object
-  consume :tunnels, DotPrison::Store, :Tunnels
+  consume :tunnels, DotPrison::Table, :Tunnels
 
   # TODO: Nicer object
-  consume :reform, DotPrison::Store, :Reform
+  consume :reform, DotPrison::Table, :Reform
 
   # TODO: Nicer object
-  consume :victory, DotPrison::Store, :Victory
+  consume :victory, DotPrison::Table, :Victory
 
   # TODO: Nicer object
-  consume :production, DotPrison::Store, :Production
+  consume :production, DotPrison::Table, :Production
 
   # TODO: Nicer object
-  consume :informants, DotPrison::Store, :Informants
+  consume :informants, DotPrison::Table, :Informants
 
   # TODO: Nicer object
-  consume :needs_library, DotPrison::Store, :NeedsLibrary
+  consume :needs_library, DotPrison::Table, :NeedsLibrary
 
   # TODO: Nicer object
-  consume :deployment_schedule, DotPrison::Store, :DeploymentSchedule
+  consume :deployment_schedule, DotPrison::Table, :DeploymentSchedule
 
   # TODO: Nicer object
-  consume :intake, DotPrison::Store, :Intake
+  consume :intake, DotPrison::Table, :Intake
 
   # TODO: Nicer object
-  consume :execution, DotPrison::Store, :Execution
+  consume :execution, DotPrison::Table, :Execution
 
   # TODO: Nicer object
-  consume :events, DotPrison::Store, :Events
+  consume :events, DotPrison::Table, :Events
 
   # TODO: Nicer object
-  consume :wardens, DotPrison::Store, :Wardens
+  consume :wardens, DotPrison::Table, :Wardens
 
   # TODO: Nicer object
-  consume :weather_map, DotPrison::Store, :WeatherMap
+  consume :weather_map, DotPrison::Table, :WeatherMap
 
   # TODO: Nicer object
-  consume :mutator, DotPrison::Store, :MutatorSystem
+  consume :mutator, DotPrison::Table, :MutatorSystem
 
   # TODO: Nicer object
-  consume :stats_tracker, DotPrison::Store, :StatsTracker
+  consume :stats_tracker, DotPrison::Table, :StatsTracker
 
   # TODO: Nicer object
-  consume :bridge_data, DotPrison::Store, :BridgeData
+  consume :bridge_data, DotPrison::Table, :BridgeData
 
   # TODO: Nicer object
-  consume :policy_data, DotPrison::Store, :PolicyData
+  consume :policy_data, DotPrison::Table, :PolicyData
 
   # TODO: Nicer object
-  consume :transfer_data, DotPrison::Store, :TransferData
+  consume :transfer_data, DotPrison::Table, :TransferData
 
   # TODO: Nicer object
-  consume :script_zones, DotPrison::Store, :ScriptZones
+  consume :script_zones, DotPrison::Table, :ScriptZones
 
   # TODO: Nicer object
-  consume :crisis_sector_data, DotPrison::Store, :CrisisSectorData
+  consume :crisis_sector_data, DotPrison::Table, :CrisisSectorData
 
   # TODO: Nicer object
-  consume :desc_dir, DotPrison::Store, :DescDir
+  consume :desc_dir, DotPrison::Table, :DescDir
 end
 
 require "./prison/*"

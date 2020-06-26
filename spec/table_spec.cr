@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe DotPrison::Store do
+describe DotPrison::Table do
   describe "#parse_string" do
     parsed = DotPrison::Parser.new("TestKey TestString").parse
 
@@ -22,46 +22,46 @@ describe DotPrison::Store do
     end
   end
 
-  describe "#parse_store" do
-    parsed = DotPrison::Parser.new("BEGIN Store InnerKey InnerVal END OuterKey OVal").parse
+  describe "#parse_table" do
+    parsed = DotPrison::Parser.new("BEGIN Table InnerKey InnerVal END OuterKey OVal").parse
 
     it "parses String key" do
-      (sto = parsed.parse_store("Store")).class.should eq DotPrison::Store
+      (sto = parsed.parse_table("Table")).class.should eq DotPrison::Table
       sto.empty?.should be_false
     end
 
     it "parses Symbol key" do
-      (sto = parsed.parse_store(:Store)).class.should eq DotPrison::Store
+      (sto = parsed.parse_table(:Table)).class.should eq DotPrison::Table
       sto.size.should eq 1
     end
 
-    it "returns empty Store if key not found" do
-      (sto = parsed.parse_store("FakeStore")).class.should eq DotPrison::Store
+    it "returns empty Table if key not found" do
+      (sto = parsed.parse_table("FakeTable")).class.should eq DotPrison::Table
       sto.empty?.should be_true
 
-      (sto = parsed.parse_store(:FakeStore)).class.should eq DotPrison::Store
+      (sto = parsed.parse_table(:FakeTable)).class.should eq DotPrison::Table
       sto.empty?.should be_true
     end
   end
 
-  describe "#parse_store?" do
-    parsed = DotPrison::Parser.new("BEGIN Store Key Val END").parse
+  describe "#parse_table?" do
+    parsed = DotPrison::Parser.new("BEGIN Table Key Val END").parse
 
     it "parses String key" do
-      (sto = parsed.parse_store?("Store")).class.should eq DotPrison::Store
-      sto = sto.as(DotPrison::Store)
+      (sto = parsed.parse_table?("Table")).class.should eq DotPrison::Table
+      sto = sto.as(DotPrison::Table)
       sto.empty?.should be_false
     end
 
     it "parses Symbol key" do
-      (sto = parsed.parse_store?(:Store)).class.should eq DotPrison::Store
-      sto = sto.as(DotPrison::Store)
+      (sto = parsed.parse_table?(:Table)).class.should eq DotPrison::Table
+      sto = sto.as(DotPrison::Table)
       sto.size.should eq 1
     end
 
     it "returns nil if key not found" do
-      parsed.parse_store?("FakeStore").should be_nil
-      parsed.parse_store?(:FakeStore).should be_nil
+      parsed.parse_table?("FakeTable").should be_nil
+      parsed.parse_table?(:FakeTable).should be_nil
     end
   end
 
@@ -192,95 +192,95 @@ describe DotPrison::Store do
       parsed.parse_string_array(:K5).should eq [] of String
     end
 
-    it "cannot parse mixed Strings and Stores" do
-      expect_raises(Exception, "Mixing store and string array") do
+    it "cannot parse mixed Strings and Tables" do
+      expect_raises(Exception, "Mixing table and string array") do
         DotPrison::Parser.new("K6 K6Val BEGIN K6 END").parse
       end
-      expect_raises(Exception, "Mixing string and store array") do
+      expect_raises(Exception, "Mixing string and table array") do
         DotPrison::Parser.new("BEGIN K7 END K7 K7Val").parse
       end
     end
   end
 
-  describe "#parse_store_array" do
+  describe "#parse_table_array" do
     parsed = DotPrison::Parser.new("BEGIN K1 K1Key1 K1Val1 END BEGIN K1 K1Key2 K1Val2 END BEGIN K2 K2Key1 K2Key1 END K3 K3Val1 K3 K3Val2").parse
 
     it "parses String key" do
-      parsed.parse_store_array("K1").size.should eq 2
+      parsed.parse_table_array("K1").size.should eq 2
     end
 
     it "parses Symbol key" do
-      parsed.parse_store_array(:K1).size.should eq 2
+      parsed.parse_table_array(:K1).size.should eq 2
     end
 
-    it "makes single Store into an array" do
-      (arr = parsed.parse_store_array("K2")).class.should eq Array(DotPrison::Store)
+    it "makes single Table into an array" do
+      (arr = parsed.parse_table_array("K2")).class.should eq Array(DotPrison::Table)
       arr.size.should eq 1
-      (arr = parsed.parse_store_array(:K2)).class.should eq Array(DotPrison::Store)
+      (arr = parsed.parse_table_array(:K2)).class.should eq Array(DotPrison::Table)
       arr.size.should eq 1
     end
 
     it "returns empty array when key not found" do
-      (arr = parsed.parse_store_array("K4")).class.should eq Array(DotPrison::Store)
+      (arr = parsed.parse_table_array("K4")).class.should eq Array(DotPrison::Table)
       arr.empty?.should be_true
-      (arr = parsed.parse_store_array(:K4)).class.should eq Array(DotPrison::Store)
+      (arr = parsed.parse_table_array(:K4)).class.should eq Array(DotPrison::Table)
       arr.empty?.should be_true
     end
 
     it "returns empty array when key holds invalid type" do
-      (arr = parsed.parse_store_array("K3")).class.should eq Array(DotPrison::Store)
+      (arr = parsed.parse_table_array("K3")).class.should eq Array(DotPrison::Table)
       arr.empty?.should be_true
-      (arr = parsed.parse_store_array(:K3)).class.should eq Array(DotPrison::Store)
+      (arr = parsed.parse_table_array(:K3)).class.should eq Array(DotPrison::Table)
       arr.empty?.should be_true
     end
   end
 
-  describe "#parse_indexed_store" do
+  describe "#parse_indexed_table" do
     parsed = DotPrison::Parser.new("Size 4 BEGIN \"[i 0]\" END BEGIN \"[i 1]\" END BEGIN \"[i 3]\" END").parse
     parsed_through = DotPrison::Parser.new("BEGIN Indexed Size 3 BEGIN \"[i 0]\" END BEGIN \"[i 1]\" END BEGIN \"[i 2]\" END END").parse
 
-    it "parses the current store when no key is provided" do
-      parsed.parse_indexed_store.empty?.should be_false
+    it "parses the current table when no key is provided" do
+      parsed.parse_indexed_table.empty?.should be_false
     end
 
     it "parses String key" do
-      parsed_through.parse_indexed_store("Indexed").size.should eq 3
+      parsed_through.parse_indexed_table("Indexed").size.should eq 3
     end
 
     it "parses Symbol key" do
-      parsed_through.parse_indexed_store(:Indexed).size.should eq 3
+      parsed_through.parse_indexed_table(:Indexed).size.should eq 3
     end
 
     it "can be yielded to a block" do
       c = 0
-      parsed.parse_indexed_store do
+      parsed.parse_indexed_table do
         c += 1
       end
       c.should eq 3
 
       c = 0
-      parsed_through.parse_indexed_store("Indexed") do
+      parsed_through.parse_indexed_table("Indexed") do
         c += 1
       end
       c.should eq 3
 
       c = 0
-      parsed_through.parse_indexed_store(:Indexed) do
+      parsed_through.parse_indexed_table(:Indexed) do
         c += 1
       end
       c.should eq 3
     end
 
     it "can be returned as array" do
-      parsed.parse_indexed_store.class.should eq Array(DotPrison::Store)
-      parsed_through.parse_indexed_store("Indexed").class.should eq Array(DotPrison::Store)
-      parsed_through.parse_indexed_store(:Indexed).class.should eq Array(DotPrison::Store)
+      parsed.parse_indexed_table.class.should eq Array(DotPrison::Table)
+      parsed_through.parse_indexed_table("Indexed").class.should eq Array(DotPrison::Table)
+      parsed_through.parse_indexed_table(:Indexed).class.should eq Array(DotPrison::Table)
     end
 
     it "ignores missing indexes" do
-      parsed.parse_indexed_store.size.should eq 3
+      parsed.parse_indexed_table.size.should eq 3
       c = 0
-      parsed.parse_indexed_store do
+      parsed.parse_indexed_table do
         c += 1
       end
       c.should eq 3
@@ -291,7 +291,7 @@ describe DotPrison::Store do
     parsed = DotPrison::Parser.new("Size 4 \"[i 0]\" 1 \"[i 1]\" 2 \"[i 3]\" 3").parse
     parsed_through = DotPrison::Parser.new("BEGIN Indexed Size 3 \"[i 0]\" 1 \"[i 1]\" 2 \"[i 2]\" 3 END").parse
 
-    it "parses current store when no key is provided" do
+    it "parses current table when no key is provided" do
       parsed.parse_indexed_int.empty?.should be_false
     end
 
