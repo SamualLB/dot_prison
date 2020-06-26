@@ -117,5 +117,5 @@ class DotPrison::Table
     self.@content == other.@content
   end
 
-  delegate :[]?, :[], :[]=, size, empty?, to: @content
+  delegate :[]?, :[], :[]=, size, empty?, each, to: @content
 end

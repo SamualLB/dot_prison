@@ -2,6 +2,11 @@ require "./table"
 require "./prison/*"
 
 struct DotPrison::Prison < DotPrison::Consumer
+
+  def to_prison(io)
+    table.to_prison(io)
+  end
+
   consume :version, String, :Version
   consume :version_number, Int32, :VersionNum
   consume :size, {Int32, Int32}, :NumCellsX, :NumCellsY
