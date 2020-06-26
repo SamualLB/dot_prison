@@ -62,45 +62,21 @@ struct DotPrison::Prison < DotPrison::Consumer
 
   # TODO: Needs to be custom to consume OffValves, don't know what that is though...
   consume :water, DotPrison::GridTable(DotPrison::Prison::WaterTile), :Water
-
-  # TODO: Nicer object
-  consume :research, DotPrison::Table, :Research
-
-  # TODO: Nicer object
-  consume :construction, DotPrison::Table, :Construction
-
-  # TODO: Nicer object
-  consume :penalties, DotPrison::Table, :Penalties
-
-  # TODO: Nicer object
-  consume :sectors, DotPrison::Table, :Sectors
-
-  # TODO: Nicer object
+  consume :research, DotPrison::Prison::Research, :Research
+  consume :construction, DotPrison::Prison::Construction, :Construction
+  consume :penalties, DotPrison::Prison::Penalties, :Penalties
+  consume :sectors, DotPrison::Prison::Sectors, :Sectors
+  # TODO: Unknown format
   consume :grants, DotPrison::Table, :Grants
-
-  # TODO: Nicer object
-  consume :misconduct, DotPrison::Table, :Misconduct
-
-  # TODO: Nicer object
-  consume :visitation, DotPrison::Table, :Visitation
-
-  # TODO: Nicer object
-  consume :thermometer, DotPrison::Table, :Thermometer
-
-  # TODO: Nicer object
+  consume :misconduct, DotPrison::Prison::Misconduct, :Misconduct
+  consume :visitation, DotPrison::Prison::Visitation, :Visitation
+  consume :thermometer, DotPrison::Prison::Thermometer, :Thermometer
+  # TODO: Unknown format
   consume :squads, DotPrison::Table, :Squads
-
-  # TODO: Nicer object
-  consume :contraband, DotPrison::Table, :Contraband
-
-  # TODO: Nicer object
-  consume :tunnels, DotPrison::Table, :Tunnels
-
-  # TODO: Nicer object
-  consume :reform, DotPrison::Table, :Reform
-
-  # TODO: Nicer object
-  consume :victory, DotPrison::Table, :Victory
+  consume :contraband, DotPrison::Prison::Contraband, :Contraband
+  consume :tunnels, DotPrison::Prison::Tunnels, :Tunnels
+  consume :reform, DotPrison::Prison::Reform, :Reform
+  consume :victory, DotPrison::Prison::Victory, :Victory
 
   # TODO: Nicer object
   consume :production, DotPrison::Table, :Production

@@ -1,3 +1,4 @@
+# Not working
 class DotPrison::Builder
   def initialize(@io : IO)
   end

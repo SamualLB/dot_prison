@@ -8,7 +8,7 @@ struct DotPrison::IndexedTable(T) < DotPrison::Consumer
     T.new(table.parse_table("[i #{i}]"))
   end
 
-  def unhandled
+  def unconsumed
     old = previous_def
     new = Array(String).new
     old.each { |s| new << s if (/^\[i [0-9]+\]$/ =~ s) == nil }

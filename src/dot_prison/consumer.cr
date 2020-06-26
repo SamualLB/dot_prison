@@ -1,3 +1,10 @@
+# A struct that provides access to a table
+#
+# The #consume macro is used to specify the method name,
+# type, as well as the key(s) from the table
+#
+# A consumer is simply an access layer to the table, so data
+# is not fully copied
 abstract struct DotPrison::Consumer
   abstract def table : DotPrison::Table
 
@@ -16,7 +23,7 @@ abstract struct DotPrison::Consumer
          \{% HANDLED_PROPERTIES << k %}
       \{% end %}
 
-      def \{{prop.id}} : \{{typ}}
+      def \{{prop.id}}
         \{% if typ.id == String.id %}
            table.parse_string \{{keys[0]}}, ""
         \{% elsif typ.id == Int32.id %}
@@ -29,6 +36,8 @@ abstract struct DotPrison::Consumer
            {table.parse_int(\{{keys[0]}}), table.parse_int(\{{keys[1]}})}
         \{% elsif typ.id == {Float64, Float64}.id %}
            {table.parse_float(\{{keys[0]}}), table.parse_float(\{{keys[1]}})}
+        \{% elsif typ.resolve < Array %}
+           DotPrison::ArrayTable(\{{typ.resolve.type_vars[0]}}).new(table.parse_table_array(\{{keys[0]}}))
         \{% elsif typ.resolve == DotPrison::Table %}
            table.parse_table(\{{keys[0]}})
         \{% elsif typ.resolve < DotPrison::Consumer %}

@@ -10,7 +10,7 @@ struct DotPrison::GridTable(T) < DotPrison::Consumer
     T.new(table.parse_table("#{x} #{y}"))
   end
 
-  def unhandled
+  def unconsumed
     old = previous_def
     new = Array(String).new
     old.each { |s| new << s if (/^[0-9]+ [0-9]+$/ =~ s) == nil }
