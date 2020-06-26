@@ -10,7 +10,6 @@ describe DotPrison::Parser do
   describe "#parse" do
     it "reads empty" do
       DotPrison::Parser.new("").parse.should eq DotPrison::Store.new
-      DotPrison::Parser.new("").parse.should_not eq DotPrison::Store.new("TestName")
     end
 
     it "reads string key: value" do
@@ -20,16 +19,16 @@ describe DotPrison::Parser do
 
     it "reads empty Store" do
       str = "BEGIN TestStore END"
-      DotPrison::Parser.new(str).parse["TestStore"].should eq DotPrison::Store.new("TestStore")
-      DotPrison::Parser.new(str).parse["FakeStore"]?.should_not eq DotPrison::Store.new("TestStore")
+      store = DotPrison::Store.new
+      store["TestStore"] = DotPrison::Store.new
+      DotPrison::Parser.new(str).parse.should eq store
     end
 
     it "reads quoted key" do
       str = "BEGIN \"12 34\" END"
-      DotPrison::Parser.new(str).parse["12 34"].should eq DotPrison::Store.new("12 34")
-      DotPrison::Parser.new(str).parse["12 34"].should_not eq DotPrison::Store.new
-      str = "\"56 78\" Val"
-      DotPrison::Parser.new(str).parse["56 78"].should eq "Val"
+      store = DotPrison::Store.new
+      store["12 34"] = DotPrison::Store.new
+      DotPrison::Parser.new(str).parse.should eq store
     end
 
     it "parses Store" do
@@ -80,7 +79,6 @@ describe DotPrison::Parser do
       sto["TestKey"].should eq "TestValue"
       (sub = sto["TestStore"]).class.should eq DotPrison::Store
       sub = sub.as(DotPrison::Store)
-      sub.name.should eq "TestStore"
       sub["InnerKey"].should eq "InnerValue"
     end
   end

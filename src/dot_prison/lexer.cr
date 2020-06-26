@@ -30,19 +30,19 @@ abstract class DotPrison::Lexer
     @token.line_number = @line_number
     @token.column_number = @column_number
 
-    Log.debug { "Parsing token" }
     case current_char
     when nil
-      Log.debug { "Parsing EOF" }
+      Log.debug { "Parsing EOF token" }
       @token.type = :EOF
     when '"'
-      Log.debug { "Parsing quoted" }
+      Log.debug { "Parsing quoted token" }
       consume_quoted_text
     else
-      Log.debug  { "Parsing normal text" }
+      Log.debug  { "Parsing unquoted token" }
       consume_text
     end
 
+    Log.debug { @token }
     @token
   end
 

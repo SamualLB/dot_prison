@@ -1,12 +1,7 @@
 class DotPrison::Store
-  alias InnerType = Hash(String, String | Array(String) | Store | Array(Store))
+  private alias InnerType = Hash(String, DotPrison::Store | Array(DotPrison::Store) | String | Array(String))
 
-  property content : InnerType
-  property name : String
-
-  def initialize(@name = "")
-    @content = InnerType.new
-  end
+  @content = InnerType.new
 
   def parse_string(key : String | Symbol, default_value : String? = nil) : String?
     key = key.to_s if key.is_a?(Symbol)
@@ -118,13 +113,9 @@ class DotPrison::Store
     ret
   end
 
+  def ==(other : DotPrison::Store)
+    self.@content == other.@content
+  end
+
   forward_missing_to @content
-
-  def to_s(io : IO)
-    io << "#{@name}: #{@content}"
-  end
-
-  def ==(other : Store)
-    @content == other.@content && @name == other.@name
-  end
 end

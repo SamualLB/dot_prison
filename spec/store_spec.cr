@@ -23,7 +23,7 @@ describe DotPrison::Store do
   end
 
   describe "#parse_store" do
-    parsed = DotPrison::Parser.new("BEGIN Store InnerKey IVal END OuterKey OVal").parse
+    parsed = DotPrison::Parser.new("BEGIN Store InnerKey InnerVal END OuterKey OVal").parse
 
     it "parses String key" do
       (sto = parsed.parse_store("Store")).class.should eq DotPrison::Store

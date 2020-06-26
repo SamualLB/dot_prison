@@ -9,60 +9,63 @@ class DotPrison::Parser
 
   def parse
     Log.debug { "Starting .prison parse" }
-    parse_store ""
+    parse_store
   end
 
-  # Read a Key: Value pair
-  private def parse_text : {String, String}
-    {token.value, next_token.value}
+  private def parse_key : String
+    token.value
   end
 
+  # Read a String value
+  private def parse_text : String
+    next_token.value
+  end
+
+  # Read a Store, BEGIN to END
   private def parse_store : Store
-    name = next_token.value
-    next_token
-    parse_store(name)
-  end
-
-  private def parse_store(store_name : String) : Store
-    Log.debug { "New store: #{store_name}" }
     store = Store.new
-    store.name = store_name
     until token.type == :END || token.type == :EOF
       case token.type
       when :TEXT
-        tmp = parse_text
-        Log.debug { "Parsed text: \"#{tmp[0]}\": \"#{tmp[1]}\"" }
+        key = parse_key
+        val = parse_text
+        Log.debug { "Parsed text: \"#{key}\": \"#{val}\"" }
         # Check for duplicate key, store in array if duplicated
-        if store[tmp[0]]?
+        if store[key]?
           # Duplicate key
-          old_val = store[tmp[0]]
+          old_val = store[key]
           case old_val
-          when String then store[tmp[0]] = [store[tmp[0]].as(String)] of String
+          when String then store[key] = [store[key].as(String)] of String
           when Array(String) then nil
           else raise "Mixing string and store array"
           end
-          store[tmp[0]].as(Array(String)) << tmp[1]
+          store[key].as(Array(String)) << val
         else
-          store[tmp[0]] = tmp[1]
+          store[key] = val
         end
+        next_token
       when :BEGIN
-        tmp = parse_store
-        if store[tmp.name]?
+        next_token
+        key = parse_key
+        next_token
+        val = parse_store
+        Log.debug { "Parsed store: \"#{key}\": #{val.size} items" }
+        if store[key]?
           # Duplicate key
-          old_val = store[tmp.name]
+          old_val = store[key]
           case old_val
-          when Store then store.content[tmp.name] = [old_val] of Store
+          when Store then store[key] = [old_val] of Store
           when Array(Store) then nil
           else raise "Mixing store and string array"
           end
-          store[tmp.name].as(Array(Store)) << tmp
+          store[key].as(Array(Store)) << val
         else
-          store[tmp.name] = tmp
+          store[key] = val
         end
+        next_token
       when :EOF
         raise "Reached EOF without END"
       end
-      next_token
     end
     store
   end

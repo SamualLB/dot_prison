@@ -11,7 +11,7 @@ class DotPrison::Lexer::StringBased < DotPrison::Lexer
 
   private def next_char_no_column_increment
     return nil if @string.empty?
-    return nil if @string.bytesize == current_pos+1
+    return nil if @string.bytesize <= current_pos
     char = @reader.next_char
     if char == nil && @reader.pos != @reader.string.bytesize
       raise "unexpected char"
@@ -21,7 +21,7 @@ class DotPrison::Lexer::StringBased < DotPrison::Lexer
 
   private def current_char
     return nil if @string.empty?
-    return nil if @string.bytesize == current_pos+1
+    return nil if @string.bytesize <= current_pos
     @reader.current_char
   end
 end
