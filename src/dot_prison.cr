@@ -1,8 +1,6 @@
 require "log"
 require "./dot_prison/*"
 
-Log.setup(:notice)
-
 module DotPrison
   VERSION = "0.1.0"
 
@@ -14,5 +12,3 @@ module DotPrison
     Parser.new(File.new(path)).parse
   end
 end
-
-prison = DotPrison::Prison.new(DotPrison.parse(ARGV[0]))
