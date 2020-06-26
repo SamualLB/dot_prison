@@ -1,4 +1,4 @@
-struct DotPrison::Regime < DotPrison::Consumer
+struct DotPrison::Prison::Regime < DotPrison::Consumer
   consume :previous_hour, Int32, :PreviousHour
   consume :bangup, Bool, :Bangup
   consume :none_regime, DotPrison::CategoryRegime, :None

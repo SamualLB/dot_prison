@@ -1,4 +1,4 @@
-struct DotPrison::Finance < DotPrison::Consumer
+struct DotPrison::Prison::Finance < DotPrison::Consumer
   consume :balance, Float64, :Balance
   consume :last_day, Int32, :LastDay
   consume :last_hour, Int32, :LastHour

@@ -1,4 +1,4 @@
-struct DotPrison::Room < DotPrison::Consumer
+struct DotPrison::Prison::Room < DotPrison::Consumer
   consume :id, Int32, :"Id.i"
   consume :uid, Int32, :"Id.u"
   consume :entity_id, Int32, :"Entity.i"

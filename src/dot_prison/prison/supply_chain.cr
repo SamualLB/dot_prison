@@ -1,4 +1,4 @@
-struct DotPrison::SupplyChain < DotPrison::Consumer
+struct DotPrison::Prison::SupplyChain < DotPrison::Consumer
   consume :timer, Float64, :Timer
   consume :previous_hour, Int32, :PreviousHour
   consume :prevous_actual_hour, Int32, :PreviousActualHour

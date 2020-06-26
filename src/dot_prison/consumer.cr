@@ -63,7 +63,7 @@ abstract struct DotPrison::Consumer
     # This may be because they have not been implemented yet,
     # they may have an unknown purpose, or could be part of an
     # unsupported mod
-    def unhandled : Array(String)
+    def unconsumed : Array(String)
       out = [] of String
       sorted = HANDLED_PROPERTIES.sort
       table.each do |k, v|

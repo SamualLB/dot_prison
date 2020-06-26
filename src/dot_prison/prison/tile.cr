@@ -1,4 +1,4 @@
-struct DotPrison::Tile < DotPrison::Consumer
+struct DotPrison::Prison::Tile < DotPrison::Consumer
   consume :material, String, :Mat
   consume :condition, Float64, :Con
   consume :indoors, Bool, :Ind

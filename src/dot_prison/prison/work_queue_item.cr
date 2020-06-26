@@ -1,5 +1,5 @@
 # TODO: Do Something with type, maybe
-struct DotPrison::WorkQueueItem < DotPrison::Consumer
+struct DotPrison::Prison::WorkQueueItem < DotPrison::Consumer
   consume :id, Int32, :Id
   consume :type, String, :Type
   consume :tile, {Int32, Int32}, :CellX, :CellY

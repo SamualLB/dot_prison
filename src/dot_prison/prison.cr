@@ -1,3 +1,6 @@
+struct DotPrison::Prison < DotPrison::Consumer
+end
+
 require "./table"
 require "./prison/*"
 
@@ -41,15 +44,14 @@ struct DotPrison::Prison < DotPrison::Consumer
   consume :balance, Float64, :Balance
   consume :selected_guard_companion, Int32, :SelectedGuardCompanion
 
-  consume :tiles, DotPrison::GridTable(DotPrison::Tile), :Cells
-  # TODO: Does not separate depending on object type
-  consume :objects, DotPrison::IndexedTable(DotPrison::Object), :Objects
+  consume :tiles, DotPrison::GridTable(DotPrison::Prison::Tile), :Cells
+  consume :objects, DotPrison::IndexedTable(DotPrison::Prison::Object), :Objects
   # TODO: Does not separate depending on room type
-  consume :rooms, DotPrison::IndexedTable(DotPrison::Room), :Rooms
-  consume :work_queue, DotPrison::WorkQueue, :WorkQ
-  consume :regime, DotPrison::Regime, :Regime
-  consume :supply_chain, DotPrison::SupplyChain, :SupplyChain
-  consume :finance, DotPrison::Finance, :Finance
+  consume :rooms, DotPrison::IndexedTable(DotPrison::Prison::Room), :Rooms
+  consume :work_queue, DotPrison::Prison::WorkQueue, :WorkQ
+  consume :regime, DotPrison::Prison::Regime, :Regime
+  consume :supply_chain, DotPrison::Prison::SupplyChain, :SupplyChain
+  consume :finance, DotPrison::Prison::Finance, :Finance
 
   # TODO: Unknown format, Store name is xy coordinates followed by 0.
   # Does 0 mean something?
@@ -59,7 +61,7 @@ struct DotPrison::Prison < DotPrison::Consumer
   consume :electricity, DotPrison::GridTable(DotPrison::ElectricityTile), :Electricity
 
   # TODO: Needs to be custom to consume OffValves, don't know what that is though...
-  consume :water, DotPrison::GridTable(DotPrison::WaterTile), :Water
+  consume :water, DotPrison::GridTable(DotPrison::Prison::WaterTile), :Water
 
   # TODO: Nicer object
   consume :research, DotPrison::Table, :Research
