@@ -14,4 +14,8 @@ struct DotPrison::IndexedTable(T) < DotPrison::Consumer
     old.each { |s| new << s if (/^\[i [0-9]+\]$/ =~ s) == nil }
     new
   end
+
+  def each(&block)
+    (0...size).each { |i| yield self[i] }
+  end
 end
