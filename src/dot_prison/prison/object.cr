@@ -22,7 +22,7 @@ abstract struct DotPrison::Prison::Object < DotPrison::Consumer
       when "LargeTv" then LargeTV
       when "Tv" then TV
       else
-        Log.info { "Unrecognised object type #{name}" }
+        Log.info { "Unrecognised object type #{name}" } if name
         UnknownObject
       end
     {% end %}
