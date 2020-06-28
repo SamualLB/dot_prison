@@ -28,7 +28,7 @@ private def to_prison_string(io, k, v, indent = 0)
   io << '\n'
 end
 
-def to_prison_table(io, k, v, indent = 0)
+private def to_prison_table(io, k, v, indent = 0)
   io << "    " * indent if indent > 0
   io << "BEGIN "
   k.to_prison(io)

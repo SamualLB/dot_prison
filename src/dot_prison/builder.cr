@@ -1,44 +1,27 @@
-# Not working
 class DotPrison::Builder
-  def initialize(@io : IO)
+  @root = DotPrison::Table.new
+  @protected = false
+
+  def element(k : String | Symbol, v)
+    raise "Protected builder" if @protected
+    @root[k.to_s] = v.to_s
   end
 
-  def string(value)
-    if value.contains?('"')
-      raise "Contains \", don't know how to support this properly :("
-    elsif value.contains?(' ')
-      # " escaped
-      @io << '"'
-      @io << value
-      @io << '"'
-    else
-      # non-escaped
-      @io << value
+  def element(k : String | Symbol, &v)
+    raise "Protected builder" if @protected
+    @protected = true
+    t = Table.build do |b|
+      yield b
     end
-  end
-
-  def table
-    start_table
-    yield
-    end_table
-  end
-
-  def start_table
-    @io << "BEGIN"
-  end
-
-  def end_table
-    @io << "END"
-  end
-
-  def field(key, value)
-    string(key)
-    value.to_prison(self)
+    @root[k.to_s] = t
+    @protected = false
   end
 end
 
-module DotPrison
-  def self.build(io : IO)
-    builder = DotPrison::Builder.new(io)
+class DotPrison::Table
+  def self.build : DotPrison::Table
+    builder = DotPrison::Builder.new
+    yield builder
+    builder.@root
   end
 end
