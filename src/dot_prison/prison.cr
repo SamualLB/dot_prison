@@ -77,57 +77,25 @@ struct DotPrison::Prison < DotPrison::Consumer
   consume :tunnels, DotPrison::Prison::Tunnels, :Tunnels
   consume :reform, DotPrison::Prison::Reform, :Reform
   consume :victory, DotPrison::Prison::Victory, :Victory
-
   # TODO: Nicer object
   consume :production, DotPrison::Table, :Production
-
-  # TODO: Nicer object
-  consume :informants, DotPrison::Table, :Informants
-
-  # TODO: Nicer object
-  consume :needs_library, DotPrison::Table, :NeedsLibrary
-
-  # TODO: Nicer object
-  consume :deployment_schedule, DotPrison::Table, :DeploymentSchedule
-
-  # TODO: Nicer object
-  consume :intake, DotPrison::Table, :Intake
-
-  # TODO: Nicer object
-  consume :execution, DotPrison::Table, :Execution
-
-  # TODO: Nicer object
-  consume :events, DotPrison::Table, :Events
-
-  # TODO: Nicer object
-  consume :wardens, DotPrison::Table, :Wardens
-
-  # TODO: Nicer object
-  consume :weather_map, DotPrison::Table, :WeatherMap
-
-  # TODO: Nicer object
-  consume :mutator, DotPrison::Table, :MutatorSystem
-
-  # TODO: Nicer object
-  consume :stats_tracker, DotPrison::Table, :StatsTracker
-
-  # TODO: Nicer object
+  consume :informants, DotPrison::Prison::Informants, :Informants
+  consume :needs_library, DotPrison::Prison::NeedsLibrary, :NeedsLibrary
+  consume :deployment_schedule, DotPrison::Prison::DeploymentSchedule, :DeploymentSchedule
+  consume :intake, DotPrison::Prison::Intake, :Intake
+  consume :execution, DotPrison::Prison::Execution, :Execution
+  consume :events, DotPrison::Prison::Events, :Events
+  consume :wardens, DotPrison::Prison::Wardens, :Wardens
+  consume :weather_map, DotPrison::Prison::WeatherMap, :WeatherMap
+  consume :mutator_system, DotPrison::Prison::MutatorSystem, :MutatorSystem
+  consume :stats_tracker, DotPrison::Prison::StatsTracker, :StatsTracker
+  # TODO: Empty
   consume :bridge_data, DotPrison::Table, :BridgeData
-
-  # TODO: Nicer object
-  consume :policy_data, DotPrison::Table, :PolicyData
-
-  # TODO: Nicer object
-  consume :transfer_data, DotPrison::Table, :TransferData
-
-  # TODO: Nicer object
-  consume :script_zones, DotPrison::Table, :ScriptZones
-
-  # TODO: Nicer object
-  consume :crisis_sector_data, DotPrison::Table, :CrisisSectorData
-
-  # TODO: Nicer object
-  consume :desc_dir, DotPrison::Table, :DescDir
+  consume :policy_data, DotPrison::Prison::PolicyData, :PolicyData
+  consume :transfer_data, DotPrison::Prison::TransferData, :TransferData
+  consume :script_zones, DotPrison::Prison::ScriptZones, :ScriptZones
+  consume :crisis_sector_data, DotPrison::GridTable(DotPrison::Prison::CrisisSector), :CrisisSectorData
+  consume :desc_dir, DotPrison::Prison::DescDir, :DescDir
 end
 
 require "./prison/*"

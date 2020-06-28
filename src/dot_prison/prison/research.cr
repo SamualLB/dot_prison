@@ -1,4 +1,17 @@
 struct DotPrison::Prison::Research < DotPrison::Consumer
+  def unconsumed
+    old = previous_def
+    new = [] of String
+    old.each do |o|
+      found = Identifier.each do |i|
+        break true if o == i.to_s
+        false
+      end
+      new << o unless found
+    end
+    new
+  end
+
   def [](id : Identifier)
     Task.new(table.parse_table(id.to_s))
   end
