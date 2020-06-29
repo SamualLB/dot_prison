@@ -56,10 +56,8 @@ struct DotPrison::Prison < DotPrison::Consumer
   # TODO: Unknown format, Store name is xy coordinates followed by 0.
   # Does 0 mean something?
   consume :patrols, DotPrison::Table, :Patrols
-
   # TODO: Awkward
   consume :electricity, DotPrison::GridTable(DotPrison::ElectricityTile), :Electricity
-
   # TODO: Needs to be custom to consume OffValves, don't know what that is though...
   consume :water, DotPrison::GridTable(DotPrison::Prison::WaterTile), :Water
   consume :research, DotPrison::Prison::Research, :Research
@@ -78,7 +76,7 @@ struct DotPrison::Prison < DotPrison::Consumer
   consume :reform, DotPrison::Prison::Reform, :Reform
   consume :victory, DotPrison::Prison::Victory, :Victory
   # TODO: Nicer object
-  consume :production, DotPrison::Table, :Production
+  consume :production, DotPrison::Prison::Production, :Production
   consume :informants, DotPrison::Prison::Informants, :Informants
   consume :needs_library, DotPrison::Prison::NeedsLibrary, :NeedsLibrary
   consume :deployment_schedule, DotPrison::Prison::DeploymentSchedule, :DeploymentSchedule

@@ -38,13 +38,24 @@ struct DotPrison::Prison::StatsTracker < DotPrison::Consumer
     TotalReleasedPrisoners
   end
 
-  # TODO: Array of NewDirectory
-  struct Tracker < DotPrison::Consumer
+  # Pretty much a copy of `DotPrison::ArrayTable(T)` but uses
+  # NewDirectory instead of i
+  struct NewDirectoryConsumer < DotPrison::Consumer
+    consume :NewDirectory
+
+    def [](i : Int32) : Entry
+      Entry.new(table.parse_table_array(:NewDirectory)[i])
+    end
+  end
+
+  struct Entry < DotPrison::Consumer
+    consume :day, Int32, :Day
+    consume :value, Float64, :Value
   end
 
   struct History < DotPrison::Consumer
     {% for t in Tracked.constants %}
-      consume :{{t.id.underscore}}, Tracker, :{{t.id}}
+      consume :{{t.id.underscore}}, NewDirectoryConsumer, :{{t.id}}
     {% end %}
   end
 

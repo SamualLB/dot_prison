@@ -37,7 +37,7 @@ abstract struct DotPrison::Consumer
         \{% elsif typ.id == {Float64, Float64}.id %}
            {table.parse_float(\{{keys[0]}}), table.parse_float(\{{keys[1]}})}
         \{% elsif typ.resolve < Array %}
-           DotPrison::ArrayTable(\{{typ.resolve.type_vars[0]}}).new(table.parse_table_array(\{{keys[0]}}))
+           DotPrison::ArrayTable(\{{typ.resolve.type_vars[0]}}).new(table.parse_table(\{{keys[0]}}))
         \{% elsif typ.resolve == DotPrison::Table %}
            table.parse_table(\{{keys[0]}})
         \{% elsif typ.resolve < DotPrison::Consumer %}

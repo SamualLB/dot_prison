@@ -11,6 +11,14 @@ struct DotPrison::Prison::Contraband < DotPrison::Consumer
   end
 
   struct Tracker < DotPrison::Consumer
+    struct LogEntry < DotPrison::Consumer
+      # TODO: Enum it (Position, Hidden, Found, Stolen, Traded, Thrown)
+      consume :log, String, :Log
+      consume :time, Float64, :Time
+      consume :confirmed, Bool, :Confirmed
+      consume :pos, {Float64, Float64}, :"Pos.x", :"Pos.y"
+    end
+
     # TODO: Enum
     consume :item_type, String, :ItemType
     consume :found_pos, {Float64, Float64}, :"FoundPos.x", :"FoundPos.y"
@@ -26,8 +34,7 @@ struct DotPrison::Prison::Contraband < DotPrison::Consumer
     consume :object_chance, Float64, :"Object.chance"
     consume :from_room_id, Int32, :"FromRoom.i"
     consume :from_room_uid, Int32, :"FromRoom.u"
-    # TODO: ["i"] used as Store array of log items
-    consume :log, DotPrison::Table, :Log
+    consume :log, Array(LogEntry), :Log
   end
 
   consume :timer, Float64, :Timer

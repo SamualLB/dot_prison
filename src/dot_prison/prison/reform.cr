@@ -1,5 +1,10 @@
 struct DotPrison::Prison::Reform < DotPrison::Consumer
   struct Program < DotPrison::Consumer
+    struct Identifier < DotPrison::Consumer
+      consume :id, Int32, :"Id.i"
+      consume :uid, Int32, :"Id.u"
+    end
+
     consume :id, Int32, :Id
     # TODO: Enum
     consume :type, String, :Type
@@ -13,16 +18,22 @@ struct DotPrison::Prison::Reform < DotPrison::Consumer
     consume :teacher_uid, Int32, :"Teacher.u"
     consume :room_id, Int32, :"Room.i"
     consume :room_uid, Int32, :"Room.u"
-    # TODO: i array
-    consume :objects, DotPrison::Table, :Objects
-    # TODO: i array
-    consume :students, DotPrison::Table, :Students
+    consume :objects, Array(Identifier), :Objects
+    consume :students, Array(Identifier), :Students
+  end
+
+  struct Allocation < DotPrison::Consumer
+    consume :object_id, Int32, :"Object.i"
+    consume :object_uid, Int32, :"Object.u"
+    consume :student_id, Int32, :"Student.i"
+    consume :student_uid, Int32, :"Student.u"
+    consume :last_used, Float64, :LastUsed
+    consume :slot_id, Int32, :SlotId
   end
 
   consume :next_program_id, Int32, :NextProgramId
   consume :programs, DotPrison::IndexedTable(Program), :Programs
-  # TODO: i array
-  consume :allocations, DotPrison::Table, :Allocations
+  consume :allocations, Array(Allocation), :Allocations
   # TODO: Enum key to report
   consume :reports, DotPrison::Table, :Reports
 end
