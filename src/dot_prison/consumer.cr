@@ -23,35 +23,69 @@ abstract struct DotPrison::Consumer
          \{% HANDLED_PROPERTIES << k %}
       \{% end %}
 
-      def \{{prop.id}}
-        \{% if typ.id == String.id %}
+      \{% res = typ.resolve %}
+      \{% if res == String %}
+         def \{{prop.id}} : String
            table.parse_string \{{keys[0]}}, ""
-        \{% elsif typ.id == Int32.id %}
+         end
+         def \{{prop.id}}=(v : String)
+           table[\{{keys[0]}}] = v
+         end
+      \{% elsif res == Int32 %}
+         def \{{prop.id}} : Int32
            table.parse_int \{{keys[0]}}
-        \{% elsif typ.id == Float64.id %}
-           table.parse_float \{{keys[0]}}
-        \{% elsif typ.id == Bool.id %}
+         end
+         def \{{prop.id}}=(v : Int)
+           table[\{{keys[0]}}] = v.to_s
+         end
+      \{% elsif res == Float64 %}
+         def \{{prop.id}} : Float64
+           table.parse_int \{{keys[0]}}
+         end
+         def \{{prop.id}}=(v : Float)
+           table[\{{keys[0]}}] = v.to_s
+         end
+         def \{{prop.id}}=(v : Int)
+            table[\{{keys[0]}}] = v.to_s
+         end
+      \{% elsif res == Bool %}
+         def \{{prop.id}} : Bool
            table.parse_bool \{{keys[0]}}
-        \{% elsif typ.id == {Int32, Int32}.id %}
+         end
+         def \{{prop.id}}=(v : Bool)
+           table[\{{keys[0]}}] = v.to_s
+         end
+      \{% elsif res == Tuple(Int32, Int32) %}
+         def \{{prop.id}} : Tuple(Int32, Int32)
            {table.parse_int(\{{keys[0]}}), table.parse_int(\{{keys[1]}})}
-        \{% elsif typ.id == {Float64, Float64}.id %}
+         end
+         def \{{prop.id}}=(v : Tuple(Int32, Int32))
+           table[\{{keys[0]}}] = v[0].to_s
+           table[\{{keys[1]}}] = v[1].to_s
+         end
+      \{% elsif res == Tuple(Float64, Float64) %}
+         def \{{prop.id}} : Tuple(Float64, Float64)
            {table.parse_float(\{{keys[0]}}), table.parse_float(\{{keys[1]}})}
-        \{% elsif typ.resolve < Array %}
-           DotPrison::ArrayTable(\{{typ.resolve.type_vars[0]}}).new(table.parse_table(\{{keys[0]}}))
-        \{% elsif typ.resolve == DotPrison::Table %}
-           table.parse_table(\{{keys[0]}})
-        \{% elsif typ.resolve < DotPrison::Consumer %}
-           \{{typ}}.new(table.parse_table(\{{keys[0]}}))
-        \{% else %}
-           \{% puts typ %}
-           \{% raise "Unhandled type for DotPrison::Consumer" %}
-        \{% end %}
-      end
-    end
-
-    # :nodoc:
-    macro consume_array(prop, typ, key)
-      consume(key)
+         end
+         def \{{prop.id}}=(v : Tuple(Float, Float))
+           table[\{{keys[0]}}] = v[0].to_s
+           table[\{{keys[1]}}] = v[1].to_s
+         end
+      \{% elsif res < Array %}
+         def \{{prop.id}} : DotPrison::ArrayTable(\{{res.type_vars[0]}})
+           DotPrison::ArrayTable(\{{res.type_vars[0]}}).new(table.parse_table(\{{keys[0]}}))
+         end
+      \{% elsif res < DotPrison::Consumer %}
+         def \{{prop.id}} : \{{res}}
+           \{{res}}.new(table.parse_table(\{{keys[0]}}))
+         end
+      \{% elsif res == DotPrison::Table %}
+         def \{{prop.id}} : DotPrison::Table
+           table.parse_table \{{keys[0]}}
+         end
+      \{% else %}
+         \{% raise "Cannot consume type #{res}" %}
+      \{% end %}
     end
 
     # :nodoc:

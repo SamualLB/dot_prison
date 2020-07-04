@@ -2,7 +2,7 @@
 struct DotPrison::Prison::WorkQueueItem < DotPrison::Consumer
   consume :id, Int32, :Id
   consume :type, String, :Type
-  consume :tile, {Int32, Int32}, :CellX, :CellY
+  consume :tile, Tuple(Int32, Int32), :CellX, :CellY
   consume :high_priority, Bool, :HighPri
   consume :in_progress, Bool, :InProg
   consume :work_done, Float64, :WorkDone

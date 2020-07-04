@@ -3,7 +3,7 @@ struct DotPrison::Prison::NeedsLibrary < DotPrison::Consumer
   struct Provider < DotPrison::Consumer
     # TODO: Enum it
     consume :type, Int32, :Type
-    consume :pos, {Float64, Float64}, :"Pos.x", :"Pos.y"
+    consume :pos, Tuple(Float64, Float64), :"Pos.x", :"Pos.y"
     consume :broadcast_slot_id, Int32, :BroadcastSlotId
     consume :id, Int32, :"Id.i"
     consume :uid, Int32, :"Id.u"

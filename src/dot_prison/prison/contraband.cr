@@ -16,12 +16,12 @@ struct DotPrison::Prison::Contraband < DotPrison::Consumer
       consume :log, String, :Log
       consume :time, Float64, :Time
       consume :confirmed, Bool, :Confirmed
-      consume :pos, {Float64, Float64}, :"Pos.x", :"Pos.y"
+      consume :pos, Tuple(Float64, Float64), :"Pos.x", :"Pos.y"
     end
 
     # TODO: Enum
     consume :item_type, String, :ItemType
-    consume :found_pos, {Float64, Float64}, :"FoundPos.x", :"FoundPos.y"
+    consume :found_pos, Tuple(Float64, Float64), :"FoundPos.x", :"FoundPos.y"
     # TODO: Enum
     consume :state, String, :State
     consume :birth_time, Float64, :BirthTime

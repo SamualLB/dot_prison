@@ -6,9 +6,9 @@ struct DotPrison::Prison::Sector < DotPrison::Consumer
   end
 
   consume :id, Int32, :id
-  consume :top_left, {Int32, Int32}, :"TopLeft.x", :"TopLeft.y"
-  consume :bottom_right, {Int32, Int32}, :"BottomRight.x", :"BottomRight.y"
-  consume :centre, {Float64, Float64}, :"Centre.x", :"Centre.y"
+  consume :top_left, Tuple(Int32, Int32), :"TopLeft.x", :"TopLeft.y"
+  consume :bottom_right, Tuple(Int32, Int32), :"BottomRight.x", :"BottomRight.y"
+  consume :centre, Tuple(Float64, Float64), :"Centre.x", :"Centre.y"
   consume :indoor, Bool, :Indoor
   consume :num_squares, Int32, :NumSquares
   consume :num_floor_squares, Int32, :NumFloorSquares

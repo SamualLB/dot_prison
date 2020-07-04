@@ -12,9 +12,9 @@ struct DotPrison::Prison < DotPrison::Consumer
 
   consume :version, String, :Version
   consume :version_number, Int32, :VersionNum
-  consume :size, {Int32, Int32}, :NumCellsX, :NumCellsY
-  consume :origin_pos, {Int32, Int32}, :OriginX, :OriginY
-  consume :origin_size, {Int32, Int32}, :OriginW, :OriginH
+  consume :size, Tuple(Int32, Int32), :NumCellsX, :NumCellsY
+  consume :origin_pos, Tuple(Int32, Int32), :OriginX, :OriginY
+  consume :origin_size, Tuple(Int32, Int32), :OriginW, :OriginH
   consume :time, Float64, :TimeIndex
   consume :time_warp, Float64, :TimeWarpFactor
   consume :seed, Int32, :RandomSeed

@@ -20,8 +20,8 @@ struct DotPrison::Prison::Victory < DotPrison::Consumer
 
   end
 
-  consume :recent_death, {Float64, Float64}, :"RecentDeath.x", :"RecentDeath.y"
-  consume :recent_escape, {Float64, Float64}, :"RecentEscape.x", :"RecentEscape.y"
+  consume :recent_death, Tuple(Float64, Float64), :"RecentDeath.x", :"RecentDeath.y"
+  consume :recent_escape, Tuple(Float64, Float64), :"RecentEscape.x", :"RecentEscape.y"
   consume :log, DotPrison::IndexedTable(Log), :Log
   consume :conditions, Conditions, :Conditions
 end

@@ -117,5 +117,9 @@ class DotPrison::Table
     self.@content == other.@content
   end
 
+  def []=(k : Symbol, v)
+    @content[k.to_s] = v
+  end
+
   delegate :[]?, :[], :[]=, size, empty?, each, to: @content
 end
