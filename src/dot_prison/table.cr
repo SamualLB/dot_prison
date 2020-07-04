@@ -69,50 +69,6 @@ class DotPrison::Table
     end
   end
 
-  def parse_indexed_table(key : String | Symbol | Nil = nil, &block)
-    table = key ? parse_table(key) : self
-    size = table.parse_int(:Size)
-    actual_size = 0
-    (0...size).each do |i|
-      internal = table.parse_table? "[i #{i}]"
-      next unless internal
-      yield internal
-      actual_size += 1
-    end
-  end
-
-  def parse_indexed_table(key : String | Symbol | Nil = nil) : Array(Table)
-    table = key ? parse_table(key) : self
-    size = table.parse_int(:Size)
-    ret = [] of Table
-    (0...size).each do |i|
-      internal = table.parse_table? "[i #{i}]"
-      next unless internal
-      ret << internal
-    end
-    ret
-  end
-
-  def parse_indexed_int(key : String | Symbol | Nil = nil, &block)
-    sto = key ? parse_table(key) : self
-    size = sto.parse_int(:Size)
-    actual_size = 0
-    (0...size).each do |i|
-      yield sto.parse_int "[i #{i}]"
-      actual_size += 1
-    end
-  end
-
-  def parse_indexed_int(key : String | Symbol | Nil = nil) : Array(Int32)
-    sto = key ? parse_table(key) : self
-    size = sto.parse_int(:Size)
-    ret = [] of Int32
-    (0...size).each do |i|
-      ret << sto.parse_int "[i #{i}]"
-    end
-    ret
-  end
-
   def ==(other : self)
     self.@content == other.@content
   end
