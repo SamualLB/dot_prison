@@ -192,6 +192,44 @@ class DotPrison::Table
     end
   end
 
+  def add(k : String, v : String) : self
+    if @content.has_key?(k)
+      old_val = @content[k]
+      case old_val
+      when String then @content[k] = [old_val.as(String)] of String
+      when Array(String) then nil
+      else raise "Mixing String and Table Array at #{k}"
+      end
+      @content[k].as(Array(String)) << v
+    else
+      @content[k] = v
+    end
+    self
+  end
+
+  def add(k : String, v : Table) : self
+    if @content.has_key?(k)
+      old_val = @content[k]
+      case old_val
+      when Table then @content[k] = [old_val.as(Table)] of Table
+      when Array(Table) then nil
+      else raise "Mixing String and Table Array at #{k}"
+      end
+      @content[k].as(Array(Table)) << v
+    else
+      @content[k] = v
+    end
+    self
+  end
+
+  def add(k : Symbol, v : String) : self
+    add(k.to_s, v)
+  end
+
+  def add(k : Symbol, v : Table) : self
+    add(k.to_s, v)
+  end
+
   def ==(other : self)
     self.@content == other.@content
   end
@@ -200,5 +238,25 @@ class DotPrison::Table
     @content[k.to_s] = v
   end
 
-  delegate :[]?, :[], :[]=, size, empty?, each, to: @content
+  def []?(k)
+    @content[k]?
+  end
+
+  def [](k)
+    @content[k]
+  end
+
+  def []=(k, v)
+    @content[k] = v
+  end
+
+  def size
+    @content.size
+  end
+
+  def empty?
+    @content.empty?
+  end
+
+  delegate each, to: @content
 end

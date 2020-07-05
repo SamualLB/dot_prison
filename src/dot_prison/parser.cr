@@ -30,19 +30,7 @@ class DotPrison::Parser
         key = parse_key
         val = parse_text
         Log.debug { "Parsed text: \"#{key}\": \"#{val}\"" }
-        # Check for duplicate key, table in array if duplicated
-        if table[key]?
-          # Duplicate key
-          old_val = table[key]
-          case old_val
-          when String then table[key] = [table[key].as(String)] of String
-          when Array(String) then nil
-          else raise "Mixing string and table array"
-          end
-          table[key].as(Array(String)) << val
-        else
-          table[key] = val
-        end
+        table.add key, val
         next_token
       when :BEGIN
         next_token
@@ -50,18 +38,7 @@ class DotPrison::Parser
         next_token
         val = parse_table
         Log.debug { "Parsed table: \"#{key}\": #{val.size} items" }
-        if table[key]?
-          # Duplicate key
-          old_val = table[key]
-          case old_val
-          when Table then table[key] = [old_val] of Table
-          when Array(Table) then nil
-          else raise "Mixing table and string array"
-          end
-          table[key].as(Array(Table)) << val
-        else
-          table[key] = val
-        end
+        table.add key, val
         next_token
       when :EOF
         raise "Reached EOF without END"

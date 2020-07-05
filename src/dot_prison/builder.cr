@@ -4,7 +4,7 @@ class DotPrison::Builder
 
   def element(k : String | Symbol, v)
     raise "Protected builder" if @protected
-    @root[k.to_s] = v.to_s
+    @root.add k, v.to_s
   end
 
   def element(k : String | Symbol, &v)
@@ -13,7 +13,7 @@ class DotPrison::Builder
     t = Table.build do |b|
       yield b
     end
-    @root[k.to_s] = t
+    @root.add k.to_s, t
     @protected = false
   end
 end
