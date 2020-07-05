@@ -26,7 +26,7 @@ abstract struct DotPrison::Consumer
       \{% res = typ.resolve %}
       \{% if res == String %}
          def \{{prop.id}} : String
-           table.parse_string \{{keys[0]}}, ""
+           table.parse_string \{{keys[0]}}
          end
          def \{{prop.id}}=(v : String)
            table[\{{keys[0]}}] = v
@@ -40,7 +40,7 @@ abstract struct DotPrison::Consumer
          end
       \{% elsif res == Float64 %}
          def \{{prop.id}} : Float64
-           table.parse_int \{{keys[0]}}
+           table.parse_float \{{keys[0]}}
          end
          def \{{prop.id}}=(v : Float)
            table[\{{keys[0]}}] = v.to_s

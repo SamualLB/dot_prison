@@ -13,4 +13,8 @@ struct DotPrison::ArrayTable(T) < DotPrison::Consumer
   def [](i : Int32) : T
     T.new(table.parse_table_array(:i)[i])
   end
+
+  def size
+    table.parse_table_array(:i).size
+  end
 end
