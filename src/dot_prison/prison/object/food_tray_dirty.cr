@@ -1,3 +1,3 @@
 struct DotPrison::Prison::Object::FoodTrayDirty < DotPrison::Prison::Object
-  consume :type, String, :Type
+  include ObjectProperties
 end

@@ -8,6 +8,12 @@ struct DotPrison::IndexedTable(T) < DotPrison::Consumer
     T.new(table.parse_table("[i #{i}]"))
   end
 
+  def []?(i : Int32) : T?
+    tab = table.parse_table?("[i #{i}]")
+    return nil unless tab
+    T.new(tab)
+  end
+
   def unconsumed
     old = previous_def
     new = Array(String).new
@@ -16,6 +22,9 @@ struct DotPrison::IndexedTable(T) < DotPrison::Consumer
   end
 
   def each(&block)
-    (0...size).each { |i| yield self[i] }
+    (0...size).each do |i|
+      v = self[i]?
+      yield v if v
+    end
   end
 end

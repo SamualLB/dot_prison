@@ -29,4 +29,5 @@ abstract struct DotPrison::Prison::Object < DotPrison::Consumer
   end
 end
 
+require "./object/helper/*"
 require "./object/*"

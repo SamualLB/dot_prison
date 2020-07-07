@@ -1,13 +1,23 @@
-struct DotPrison::Prison::Room < DotPrison::Consumer
-  consume :id, Int32, :"Id.i"
-  consume :uid, Int32, :"Id.u"
-  consume :entity_id, Int32, :"Entity.i"
-  consume :entity_uid, Int32, :"Entity.u"
-  consume :type, String, :RoomType
-  consume :name, String, :Name
-  consume :requirementes_failed, Bool, :RequirementsFailed
-  consume :meal_quality, Int32, :MealQuality
-  consume :mean_variety, Int32, :MealVariety
-  consume :quality, Int32, :Quality
-  consume :num_prisoners, Int32, :NumPrisoners
+abstract struct DotPrison::Prison::Room < DotPrison::Consumer
+  def self.new(table : DotPrison::Table)
+    parse_room(table.parse_string(:RoomType)).new(table)
+  end
+
+  private def self.parse_room(name)
+    {% begin %}
+      case name
+        {% for sub in @type.subclasses %}
+          {% unless sub.abstract? %}
+            when {{sub.name.split("::").last}} then {{sub.name.id}}
+          {% end %}
+        {% end %}
+      else
+        Log.info { "Unrecognised room type #{name}" } if name
+        UnknownRoom
+      end
+    {% end %}
+  end
 end
+
+require "./room/helper/*"
+require "./room/*"

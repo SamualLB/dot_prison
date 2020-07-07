@@ -1,3 +1,3 @@
 struct DotPrison::Prison::Object::JailDoorGrey < DotPrison::Prison::Object
-  consume :type, String, :Type
+  include ObjectProperties
 end
