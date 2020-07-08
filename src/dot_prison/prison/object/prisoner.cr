@@ -17,9 +17,9 @@ struct DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
       consume :head_type, String, :HeadType
       consume :body_scale, Float64, :BodyScale
       # TODO: Custom, 0xRRGGBBTT
-      consume :skin_colour, String, :SkinColour
+      consume :skin_colour, Colour, :SkinColour
       # TODO: Custom colour
-      consume :clothing_colour, String, :ClothingColour
+      consume :clothing_colour, Colour, :ClothingColour
     end
 
     consume :forename, String, :Forname
@@ -42,7 +42,7 @@ struct DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
     # TODO: Enum it
     consume :original_category, String, :OriginalCategory
     # TODO: Custom, 0xbd8447ff, 0xRRGGBBTT
-    consume :skin_colour, String, :SkinColour
+    consume :skin_colour, Colour, :SkinColour
     consume :convictions, IndexedTable(Conviction), :Convictions
     consume :family, IndexedTable(FamilyMember), :Family
   end

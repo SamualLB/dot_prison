@@ -25,70 +25,78 @@ abstract struct DotPrison::Consumer
 
       \{% res = typ.resolve %}
       \{% if res == String %}
-         def \{{prop.id}} : String
-           table.parse_string \{{keys[0]}}
-         end
-         def \{{prop.id}}=(v : String)
-           table[\{{keys[0]}}] = v
+        def \{{prop.id}} : String
+          table.parse_string \{{keys[0]}}
+        end
+        def \{{prop.id}}=(v : String)
+         table[\{{keys[0]}}] = v
          end
       \{% elsif res == Int32 %}
-         def \{{prop.id}} : Int32
-           table.parse_int \{{keys[0]}}
-         end
-         def \{{prop.id}}=(v : Int)
-           table[\{{keys[0]}}] = v.to_s
-         end
+        def \{{prop.id}} : Int32
+          table.parse_int \{{keys[0]}}
+        end
+        def \{{prop.id}}=(v : Int)
+          table[\{{keys[0]}}] = v.to_s
+        end
       \{% elsif res == Float64 %}
-         def \{{prop.id}} : Float64
-           table.parse_float \{{keys[0]}}
-         end
-         def \{{prop.id}}=(v : Float)
+        def \{{prop.id}} : Float64
+          table.parse_float \{{keys[0]}}
+        end
+        def \{{prop.id}}=(v : Float)
+          table[\{{keys[0]}}] = v.to_s
+        end
+        def \{{prop.id}}=(v : Int)
            table[\{{keys[0]}}] = v.to_s
-         end
-         def \{{prop.id}}=(v : Int)
-            table[\{{keys[0]}}] = v.to_s
-         end
+        end
       \{% elsif res == Bool %}
-         def \{{prop.id}} : Bool
-           table.parse_bool \{{keys[0]}}
-         end
-         def \{{prop.id}}=(v : Bool)
-           table[\{{keys[0]}}] = v.to_s
-         end
+        def \{{prop.id}} : Bool
+          table.parse_bool \{{keys[0]}}
+        end
+        def \{{prop.id}}=(v : Bool)
+          table[\{{keys[0]}}] = v.to_s
+        end
       \{% elsif res == Tuple(Int32, Int32) %}
-         def \{{prop.id}} : Tuple(Int32, Int32)
-           {table.parse_int(\{{keys[0]}}), table.parse_int(\{{keys[1]}})}
-         end
-         def \{{prop.id}}=(v : Tuple(Int32, Int32))
-           table[\{{keys[0]}}] = v[0].to_s
-           table[\{{keys[1]}}] = v[1].to_s
-         end
+        def \{{prop.id}} : Tuple(Int32, Int32)
+          {table.parse_int(\{{keys[0]}}), table.parse_int(\{{keys[1]}})}
+        end
+        def \{{prop.id}}=(v : Tuple(Int32, Int32))
+          table[\{{keys[0]}}] = v[0].to_s
+          table[\{{keys[1]}}] = v[1].to_s
+        end
       \{% elsif res == Tuple(Float64, Float64) %}
-         def \{{prop.id}} : Tuple(Float64, Float64)
-           {table.parse_float(\{{keys[0]}}), table.parse_float(\{{keys[1]}})}
-         end
-         def \{{prop.id}}=(v : Tuple(Float, Float))
-           table[\{{keys[0]}}] = v[0].to_s
-           table[\{{keys[1]}}] = v[1].to_s
-         end
+        def \{{prop.id}} : Tuple(Float64, Float64)
+          {table.parse_float(\{{keys[0]}}), table.parse_float(\{{keys[1]}})}
+        end
+        def \{{prop.id}}=(v : Tuple(Float, Float))
+          table[\{{keys[0]}}] = v[0].to_s
+          table[\{{keys[1]}}] = v[1].to_s
+        end
+      \{% elsif res == DotPrison::Colour %}
+        def \{{prop.id}} : DotPrison::Colour | String
+          val = table.parse_string(\{{keys[0]}})
+          DotPrison::Colour.parse(val) || val
+        end
+        def \{{prop.id}}=(v : DotPrison::Colour)
+          table[\{{keys[0]}}] = v.to_s
+        end
       \{% elsif res == Array(String) %}
-         def \{{prop.id}} : Array(String)
-           table.parse_string_array(\{{keys[0]}})
-         end
+        def \{{prop.id}} : Array(String)
+          table.parse_string_array(\{{keys[0]}})
+        end
       \{% elsif res < Array %}
-         def \{{prop.id}} : DotPrison::ArrayTable(\{{res.type_vars[0]}})
-           DotPrison::ArrayTable(\{{res.type_vars[0]}}).new(table.parse_table(\{{keys[0]}}))
-         end
+        def \{{prop.id}} : DotPrison::ArrayTable(\{{res.type_vars[0]}})
+          DotPrison::ArrayTable(\{{res.type_vars[0]}}).new(table.parse_table(\{{keys[0]}}))
+        end
       \{% elsif res < DotPrison::Consumer %}
-         def \{{prop.id}} : \{{res}}
-           \{{res}}.new(table.parse_table(\{{keys[0]}}))
-         end
+        def \{{prop.id}} : \{{res}}
+          \{{res}}.new(table.parse_table(\{{keys[0]}}))
+        end
       \{% elsif res == DotPrison::Table %}
-         def \{{prop.id}} : DotPrison::Table
-           table.parse_table \{{keys[0]}}
-         end
+        def \{{prop.id}} : DotPrison::Table
+          table.parse_table \{{keys[0]}}
+        end
       \{% else %}
-         \{% raise "Cannot consume type #{res}" %}
+        \{% raise "Cannot consume type #{res}" %}
       \{% end %}
     end
 
