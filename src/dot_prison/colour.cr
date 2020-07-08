@@ -1,11 +1,17 @@
 struct DotPrison::Colour
+  # :nodoc:
   GROUP_REGEX = /^0x([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})$/
   
+  # Red value 0..255
   getter r : UInt8
+  # Green value 0..255
   getter g : UInt8
+  # Blue value 0..255
   getter b : UInt8
+  # Alpha value 0..255
   getter a : UInt8
 
+  # Create by specifying the red, green, blue, and optionally alpha values
   def initialize(r, g, b, a = 255)
     @r = (r % 256).to_u8
     @g = (g % 256).to_u8
@@ -29,6 +35,7 @@ struct DotPrison::Colour
     io << s
   end
 
+  # Create from the stored value, or nil on invalid values
   def self.parse(str : String) : self?
     return nil unless (res = GROUP_REGEX.match(str))
     Colour.new(res[1].to_u8(16), res[2].to_u8(16), res[3].to_u8(16), res[4].to_u8(16))

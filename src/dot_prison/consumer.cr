@@ -76,7 +76,7 @@ abstract struct DotPrison::Consumer
           val = table.parse_string(\{{keys[0]}})
           DotPrison::Colour.parse(val) || val
         end
-        def \{{prop.id}}=(v : DotPrison::Colour)
+        def \{{prop.id}}=(v)
           table[\{{keys[0]}}] = v.to_s
         end
       \{% elsif res == Array(String) %}
