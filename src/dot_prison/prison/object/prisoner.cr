@@ -44,8 +44,74 @@ struct DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
     consume :family, IndexedTable(FamilyMember), :Family
   end
 
+  struct Need < DotPrison::Consumer
+    consume :id, Int32, :"id.i"
+    consume :uid, Int32, :"id.u"
+    # TODO: Enum
+    consume :type, String, :Type
+    consume :action_point, Float64, :ActionPoint
+    consume :time_to_action, Float64, :TimeToAction
+    consume :time_to_failure, Float64, :TimeToFailure
+    consume :charge, Float64, :Charge
+  end
+
+  struct Needs < DotPrison::Consumer
+    consume :timer, Float64, :Timer
+    # TODO: is this an enum? Maybe just a count of unfulfilled needs
+    consume :complaining, Int32, :Complaining
+    # TODO: Enum (Do-Regime)
+    consume :action, String, :Action
+    # TODO: Might be an Enum but who knows
+    consume :priority, Int32, :Priority
+    consume :last_ate, Float64, :LastAte
+    consume :complain_need_id, Int32, :"ComplainNeedId.i"
+    consume :complain_need_uid, Int32, :"ComplainNeedId.u"
+    consume :starve_timer, Float64, :StarveTimer
+    consume :needs, IndexedTable(Need), :Needs
+  end
+
+  struct ExperienceStats < DotPrison::Consumer
+    consume :total_time, Float64, :TotalTime
+    consume :misconduct, Float64, :Misconduct
+    consume :locked_down, Float64, :LockedDown
+    consume :regime, Float64, :Regime
+    consume :sleep, Float64, :Sleep
+    consume :work, Float64, :Work
+    consume :exercise, Float64, :Exercise
+    consume :class, Float64, :Class
+    consume :freetime, Float64, :Freetime
+    consume :mood_bad, Float64, :MoodBad
+    consume :mood_normal, Float64, :MoodNormal
+    consume :mood_good, Float64, :MoodGood
+    consume :no_condition, Float64, :NoCondition
+    consume :kod, Float64, :KOd
+    consume :suppresssed, Float64, :Suppressed
+    consume :reform_attendance, Float64, :ReformAttendance
+    consume :reform_understanding, Float64, :ReformUnderstanding
+  end
+
+  struct ExperienceResult < DotPrison::Consumer
+    consume :passed, Int32, :Passed
+    consume :failed, Int32, :Failed
+    consume :attended, Float64, :Attended
+  end
+
+  # TODO: consume enums I guess
+  struct Results < DotPrison::Consumer
+    consume :kitchen_induction, ExperienceResult, :KitchenInduction
+  end
+
+  struct Experience < DotPrison::Consumer
+    consume :tick_timer, Float64, :TickTimer
+    consume :starting_reoffending_chance, Int32, :StartingReoffendingChance
+    consume :experience, ExperienceStats, :Experience
+    consume :results, Results, :Results
+  end
+
   include ObjectProperties
   consume :cell_id, Int32, :"Cell.i"
   consume :cell_uid, Int32, :"Cell.u"
   consume :bio, Bio, :Bio
+  consume :needs, Needs, :Needs
+  consume :experience, Experience, :Experience
 end
