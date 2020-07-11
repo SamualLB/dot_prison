@@ -1,8 +1,66 @@
 struct DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
+  enum Category
+    Protected
+    MinSec
+    Normal
+    MaxSec
+    SuperMax
+    DeathRow
+  end
+
   struct Bio < DotPrison::Consumer
     struct Conviction < DotPrison::Consumer
-      # TODO: Enum (Murder, AttemptedMurder, GreviousBodilyHarm, ArmedRobbery)
-      consume :crime, String, :Crime
+      enum Crime
+        AggravatedAssault
+        AggravatedBurglary
+        AggravatedVehicleTheft
+        ArmedRobbery
+        Arson
+        Assault
+        AssaultingAnOfficer
+        AttemptedMurder
+        Blackmail
+        Bribery
+        CarJacking
+        CarTheft
+        CounterfeightingCurrency
+        Burglary
+        CriminalDamage
+        DangerousDriving
+        DeathByDangerousDriving
+        DrivingUnderInfluence
+        DrunkDisorderlyBehaviour
+        FalseAccounting
+        FalseImprisonment
+        Forgery
+        Fraud
+        GreviousBodilyHarm
+        GrossIndecency
+        HandlingStolenGoods
+        IndieVideoGamePiracy
+        InsiderTrading
+        JoyRiding
+        Kidnapping
+        Manslaughter
+        MoneyLaundering
+        Murder
+        Perjury
+        Pickpocketing
+        Possession
+        PossessionIntentToSupply
+        Rape
+        Rioting
+        Robbery
+        Shoplifting
+        Torture
+        Trafficking
+        Vandalism
+        VideoGamePiracy
+        ViolentDisorder
+        Voyeurism
+      end
+
+      consume :crime, Crime, :Crime
       consume :sentence, Int32, :Sentence
       consume :guilty, Bool, :Guilty
     end
@@ -72,25 +130,41 @@ struct DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
       consume :clothing_colour, Colour, :ClothingColour
     end
 
+    enum HeadType
+      Fig2
+      Fig46854
+      Fig81147
+      Fig88222
+      Fig103155
+      Fig165219
+      Fig370087
+      {% for i in 1..40 %}
+        Head{{i}}
+      {% end %}
+    end
+
+    enum NextParole
+      Failed
+      Half
+      ThreeQuarters
+    end
+
     consume :forename, String, :Forname
     consume :surname, String, :Surname
     consume :age, Float64, :Age
     # TODO: Int Enum?
     consume :body_type, Int32, :BodyType
-    # TODO String Enum?
-    consume :head_type, String, :HeadType
+    consume :head_type, HeadType, :HeadType
     # TODO: New consumer, Array(Enum) kind of thing
     consume :traits, Array(String), :Traits
     consume :reputation_revealed, Bool, :ReputationRevealed
     consume :sentence, Int32, :Sentence
     consume :served, Float64, :Served
-    # TODO: Enum? (Failed)
-    consume :next_parole, String, :NextParole
+    consume :next_parole, NextParole, :NextParole
     # TODO: May be an array somewhere?
     consume :drug_addiction, String, :DrugAddiction
     consume :clemency_chance, Float64, :ClemencyChance
-    # TODO: Enum it
-    consume :original_category, String, :OriginalCategory
+    consume :original_category, Category, :OriginalCategory
     consume :skin_colour, Colour, :SkinColour
     consume :convictions, IndexedTable(Conviction), :Convictions
     consume :family, IndexedTable(FamilyMember), :Family
@@ -219,6 +293,7 @@ struct DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
   include ObjectProperties
   consume :cell_id, Int32, :"Cell.i"
   consume :cell_uid, Int32, :"Cell.u"
+  consume :category, Category, :Category
   consume :bio, Bio, :Bio
   consume :needs, Needs, :Needs
   consume :experience, Experience, :Experience
