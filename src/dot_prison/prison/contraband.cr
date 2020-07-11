@@ -1,29 +1,63 @@
 struct DotPrison::Prison::Contraband < DotPrison::Consumer
+  enum Item
+    Booze
+    Cigs
+    Club
+    Drill
+    Drugs
+    Fork
+    FountainPen
+    Hammer
+    Knife
+    Lighter
+    MobilePhone
+    Needle
+    Poison
+    Rope
+    Saw
+    Scissors
+    SedativeSyringe
+    Shank
+    Sheers
+    Spoon
+    WoodenPickAxe
+  end
+
   struct Prisoner < DotPrison::Consumer
     consume :prisoner_id, Int32, :"PrisonerId.i"
     consume :prisoner_uid, Int32, :"PrisonerId.u"
     consume :room_id, Int32, :"RoomId.i"
     consume :room_uid, Int32, :"RoomId.u"
     consume :time_index, Float64, :TimeIndex
-    # TODO: Enum? Object?
-    consume :theft_item, String, :TheftItem
+    consume :theft_item, Item, :TheftItem
     consume :max_chance, Float64, :MaxChance
   end
 
   struct Tracker < DotPrison::Consumer
     struct LogEntry < DotPrison::Consumer
-      # TODO: Enum it (Position, Hidden, Found, Stolen, Traded, Thrown)
-      consume :log, String, :Log
+      enum Event
+        Hidden
+        Position
+        Smuggled
+        Stolen
+        Thrown
+        Traded
+      end
+
+      consume :log, Event, :Log
       consume :time, Float64, :Time
       consume :confirmed, Bool, :Confirmed
       consume :pos, Tuple(Float64, Float64), :"Pos.x", :"Pos.y"
     end
 
-    # TODO: Enum
-    consume :item_type, String, :ItemType
+    enum State
+      Stolen
+      Owned
+    end
+
+    consume :item_type, Item, :ItemType
     consume :found_pos, Tuple(Float64, Float64), :"FoundPos.x", :"FoundPos.y"
-    # TODO: Enum
-    consume :state, String, :State
+    consume :state, State, :State
     consume :birth_time, Float64, :BirthTime
     consume :found_time, Float64, :FoundTime
     consume :prisoner_id, Int32, :"Prisoner.i"

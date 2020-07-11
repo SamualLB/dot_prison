@@ -71,6 +71,14 @@ abstract struct DotPrison::Consumer
           table[\{{keys[0]}}] = v[0].to_s
           table[\{{keys[1]}}] = v[1].to_s
         end
+      \{% elsif res < Enum %}
+        def \{{prop.id}} : \{{res}} | String
+          val = table.parse_string(\{{keys[0]}})
+          parsed = \{{res}}.parse?(val)
+          return parsed if parsed
+          Log.warn { "Unknown Enum value #{val} for \{{res}}" } unless val.empty?
+          val
+        end
       \{% elsif res == DotPrison::Colour %}
         def \{{prop.id}} : DotPrison::Colour | String
           val = table.parse_string(\{{keys[0]}})
