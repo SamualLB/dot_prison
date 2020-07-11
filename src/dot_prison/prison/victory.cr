@@ -1,8 +1,13 @@
 struct DotPrison::Prison::Victory < DotPrison::Consumer
-  # TODO: Separate out depending on `type`
-  struct Log < DotPrison::Consumer
-    # TODO: Enum
-    consume :type, String, :Type
+  struct LogEntry < DotPrison::Consumer
+    enum Type
+      Died
+      Escaped
+      Executed
+      ServedTerm
+    end
+
+    consume :type, Type, :Type
     consume :time_index, Float64, :TimeIndex
     consume :reoffending_chance, Float64, :ReoffendingChance
     consume :grading_punishment, Int32, :Grading_Punishment
@@ -22,6 +27,6 @@ struct DotPrison::Prison::Victory < DotPrison::Consumer
 
   consume :recent_death, Tuple(Float64, Float64), :"RecentDeath.x", :"RecentDeath.y"
   consume :recent_escape, Tuple(Float64, Float64), :"RecentEscape.x", :"RecentEscape.y"
-  consume :log, DotPrison::IndexedTable(Log), :Log
+  consume :log, DotPrison::IndexedTable(LogEntry), :Log
   consume :conditions, Conditions, :Conditions
 end
