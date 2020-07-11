@@ -8,13 +8,65 @@ struct DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
     end
 
     struct FamilyMember < DotPrison::Consumer
-      # TODO: Enum
-      consume :type, String, :Type
+      enum Type
+        Daughter
+        ExWife
+        Father
+        Girlfriend
+        Mother
+        Son
+        Wife
+      end
+
+      enum BodyType
+        FemaleBody
+        FemaleBody2
+        FemaleBody3
+        Prisoner
+        Prisoner2
+        Prisoner3
+        Prisoner4
+      end
+
+      enum HeadType
+        FaceDaughter
+        FaceDaughter2
+        {% for i in 1..5 %}
+          FaceOldMan{{i}}
+        {% end %}
+        {% for i in 1..3 %}
+          FaceOldWoman{{i}}
+        {% end %}
+        FaceWife
+        FaceSon
+        FaceSon2
+        FemaleHeadGang
+        FemaleHeadGang2
+        {% for i in 1..25 %}
+          FemaleHead{{i}}
+        {% end %}
+        Head3
+        Head5
+        Head7
+        Head10
+        Head11
+        Head14
+        Head18
+        Head20
+        Head21
+        Head22
+        Head24
+        Head26
+        Head29
+        Head30
+        Head34
+        Head39
+      end
+
+      consume :type, Type, :Type
       consume :age, Float64, :Age
-      # TODO: Enum it!!!
-      consume :body_type, String, :BodyType
-      # TODO: Enum again
-      consume :head_type, String, :HeadType
+      consume :body_type, BodyType, :BodyType
+      consume :head_type, HeadType, :HeadType
       consume :body_scale, Float64, :BodyScale
       consume :skin_colour, Colour, :SkinColour
       consume :clothing_colour, Colour, :ClothingColour
