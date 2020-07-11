@@ -8,7 +8,7 @@ abstract struct DotPrison::Prison::Room < DotPrison::Consumer
       case name
         {% for sub in @type.subclasses %}
           {% unless sub.abstract? %}
-            when {{sub.name.split("::").last}} then {{sub.name.id}}
+            when {{sub.name.split("::").last.underscore.camelcase}} then {{sub.name.id}}
           {% end %}
         {% end %}
       else

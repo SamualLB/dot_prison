@@ -8,19 +8,9 @@ abstract struct DotPrison::Prison::Object < DotPrison::Consumer
       case name
       {% for sub in @type.subclasses %}
         {% unless sub.abstract? %}
-          {% unless sub == DotPrison::Prison::Object::UnknownObject ||
-              sub == DotPrison::Prison::Object::CCTVMonitor ||
-              sub == DotPrison::Prison::Object::CCTV ||
-              sub == DotPrison::Prison::Object::LargeTV ||
-              sub == DotPrison::Prison::Object::TV %}
-            when {{sub.name.split("::").last}} then {{sub.name.id}}
-          {% end %}
+          when {{sub.name.split("::").last.underscore.camelcase}} then {{sub.name.id}}
         {% end %}
       {% end %}
-      when "CctvMonitor" then CCTVMonitor
-      when "Cctv" then CCTV
-      when "LargeTv" then LargeTV
-      when "Tv" then TV
       else
         Log.info { "Unrecognised object type #{name}" } if name
         UnknownObject
