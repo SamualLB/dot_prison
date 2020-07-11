@@ -56,11 +56,45 @@ struct DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
   end
 
   struct Needs < DotPrison::Consumer
+    enum Action
+      DoRegime
+      Eat
+      Use
+      UsePhone
+      ReadBook
+      ReformProgram
+      Visitation
+      Work
+
+      def self.parse?(string : String) : self?
+        {% begin %}
+          case string.camelcase.downcase
+          {% for member in @type.constants %}
+           when {{member.stringify.camelcase.downcase}}
+              new({{@type.constant(member)}})
+          {% end %}
+          when {{"Do-Regime".camelcase.downcase}} then new(DoRegime)
+          else
+            nil
+          end
+        {% end %}
+      end
+
+      def to_s : String
+        return "Do-Regime" if self == DoRegime
+        {% for member, i in @type.constants %}
+          if value == {{@type.constant(member)}}
+            return {{member.stringify}}
+          end
+        {% end %}
+        value.to_s
+      end
+    end
+
     consume :timer, Float64, :Timer
     # TODO: is this an enum? Maybe just a count of unfulfilled needs
     consume :complaining, Int32, :Complaining
-    # TODO: Enum (Do-Regime)
-    consume :action, String, :Action
+    consume :action, Action, :Action
     # TODO: Might be an Enum but who knows
     consume :priority, Int32, :Priority
     consume :last_ate, Float64, :LastAte

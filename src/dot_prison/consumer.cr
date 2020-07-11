@@ -79,6 +79,9 @@ abstract struct DotPrison::Consumer
           Log.warn { "Unknown Enum value #{val} for \{{res}}" } unless val.empty?
           val
         end
+        def \{{prop.id}}=(v : \{{res}})
+          table[\{{keys[0]}}] = v.to_s
+        end
       \{% elsif res == DotPrison::Colour %}
         def \{{prop.id}} : DotPrison::Colour | String
           val = table.parse_string(\{{keys[0]}})
