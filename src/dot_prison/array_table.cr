@@ -17,4 +17,10 @@ struct DotPrison::ArrayTable(T) < DotPrison::Consumer
   def size
     table.parse_table_array(:i).size
   end
+
+  def each(&block)
+    table.parse_table_array(:i).each do |v|
+      yield T.new(v)
+    end
+  end
 end
