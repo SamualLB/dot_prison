@@ -5,6 +5,17 @@ struct DotPrison::Prison::Sector < DotPrison::Consumer
     consume :last_occupied, Float64, :LastOccupied
   end
 
+  enum Zone
+    ProtectedOnly
+    MinSecOnly
+    MedSecOnly
+    MaxSecOnly
+    SuperMaxOnly
+    DeathRowOnly
+    StaffOnly
+    Custom
+  end
+
   consume :id, Int32, :id
   consume :top_left, Tuple(Int32, Int32), :"TopLeft.x", :"TopLeft.y"
   consume :bottom_right, Tuple(Int32, Int32), :"BottomRight.x", :"BottomRight.y"
@@ -13,8 +24,7 @@ struct DotPrison::Prison::Sector < DotPrison::Consumer
   consume :num_squares, Int32, :NumSquares
   consume :num_floor_squares, Int32, :NumFloorSquares
 
-  # TODO: Enum this
-  consume :zone, String, :Zone
+  consume :zone, Zone, :Zone
   consume :room_id, Int32, :"Room.i"
   consume :room_uid, Int32, :"Room.u"
   {% for i in 0..10 %}
