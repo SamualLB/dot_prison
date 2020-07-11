@@ -1,11 +1,24 @@
 struct DotPrison::Prison::Misconduct < DotPrison::Consumer
   struct Report < DotPrison::Consumer
     struct Entry < DotPrison::Consumer
+      enum Type
+        ContrabandLuxuries
+        ContrabandNarcotics
+        ContrabandTools
+        ContrabandWeapons
+        Destruction
+        EscapeAttempt
+        InjuredPrisoner
+        InjuredStaff
+        Intoxicated
+        Murder
+        SeriousInjury
+      end
+
       consume :quantity, Float64, :Quantity
       consume :convicted, Bool, :Convicted
       consume :punished, Bool, :Punished
-      # TODO: Enum
-      consume :type, String, :Type
+      consume :type, Type, :Type
     end
 
     consume :prisoner_id, Int32, :"PrisonerId.i"
