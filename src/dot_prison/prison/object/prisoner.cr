@@ -45,10 +45,32 @@ struct DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
   end
 
   struct Need < DotPrison::Consumer
+    enum Type
+      Alcohol
+      Bladder
+      Bowels
+      Clothing
+      Comfort
+      Drugs
+      Environment
+      Exercise
+      Family
+      Food
+      Freedom
+      Hygiene
+      Literacy
+      Luxuries
+      Privacy
+      Recreation
+      Safety
+      Sleep
+      Spirituality
+      Warmth
+    end
+
     consume :id, Int32, :"id.i"
     consume :uid, Int32, :"id.u"
-    # TODO: Enum
-    consume :type, String, :Type
+    consume :type, Type, :Type
     consume :action_point, Float64, :ActionPoint
     consume :time_to_action, Float64, :TimeToAction
     consume :time_to_failure, Float64, :TimeToFailure
