@@ -45,9 +45,20 @@ struct DotPrison::Prison::Reform < DotPrison::Consumer
     consume :slot_id, Int32, :SlotId
   end
 
+  struct Report < DotPrison::Consumer
+    consume :started, Int32, :Started
+    consume :finished, Int32, :Finished
+    consume :passed, Int32, :Passed
+  end
+
+  struct Reports < DotPrison::Consumer
+    def [](v : Program::Type)
+      Report.new(table.parse_table(v.to_s))
+    end
+  end
+
   consume :next_program_id, Int32, :NextProgramId
   consume :programs, DotPrison::IndexedTable(Program), :Programs
   consume :allocations, Array(Allocation), :Allocations
-  # TODO: Enum key to report
-  consume :reports, DotPrison::Table, :Reports
+  consume :reports, Reports, :Reports
 end
