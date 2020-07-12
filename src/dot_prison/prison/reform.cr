@@ -5,9 +5,23 @@ struct DotPrison::Prison::Reform < DotPrison::Consumer
       consume :uid, Int32, :"Id.u"
     end
 
+    enum Type
+      AlcoholicsMeeting
+      Carpentry
+      DeathRowAppeal
+      FoundationEducation
+      GeneralEducation
+      KitchenInduction
+      Methadone
+      ParoleHearing
+      SpiritualGuidance
+      TazerTraining
+      Therapy
+      WorkshopInduction
+    end
+
     consume :id, Int32, :Id
-    # TODO: Enum
-    consume :type, String, :Type
+    consume :type, Type, :Type
     consume :start_hour, Int32, :StartHour
     # TODO: Unknown meaning
     consume :error, String, :Error
