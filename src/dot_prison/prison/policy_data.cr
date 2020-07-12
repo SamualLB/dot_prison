@@ -3,13 +3,23 @@ struct DotPrison::Prison::PolicyData < DotPrison::Consumer
   struct Category < DotPrison::Consumer
     struct Misconduct < DotPrison::Consumer
       struct Policy < DotPrison::Consumer
-        # Enum (None, Lockdown, Solitary)
-        consume :punishment, String, :Punishment
+        enum Punishment
+          None
+          Lockdown
+          Solitary
+        end
+
+        enum CategoryChange
+          None
+          Up
+          SetMax
+        end
+
+        consume :punishment, Punishment, :Punishment
         consume :quantity, Int32, :Quantity
         consume :search_prisoner, Bool, :SearchPrisoner
         consume :search_cell, Bool, :SearchCell
-        # Enum (None, Up, SetMax)
-        consume :category_change, String, :CategoryChange
+        consume :category_change, CategoryChange, :CategoryChange
       end
 
       enum Infraction
