@@ -6,12 +6,15 @@ struct DotPrison::Prison::WeatherMap < DotPrison::Consumer
       consume :hottest_temp, Float64, :HottestTemp
     end
 
+    enum WeatherType
+      None
+    end
+
     consume :interval, Float64, :Interval
     consume :timer, Float64, :Timer
     consume :day, Int32, :Day
     consume :weather_timer, Float64, :WeatherTimer
-    # TODO: Enum this
-    consume :current_weather, String, :CurrentWeather
+    consume :current_weather, WeatherType, :CurrentWeather
     consume :weather_duration, Float64, :WeatherDuration
     consume :current, Weather, :Current
     consume :next, Weather, :Next
