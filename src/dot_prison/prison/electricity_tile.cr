@@ -2,6 +2,6 @@
 # if a wire exists
 #
 # Maybe some sort of bool system instead?
-struct DotPrison::ElectricityTile < DotPrison::Consumer
+struct DotPrison::Prison::ElectricityTile < DotPrison::Consumer
 
 end

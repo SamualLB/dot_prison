@@ -1,2 +1,2 @@
-struct DotPrison::Needs < DotPrison::Consumer
+struct DotPrison::Prison::Needs < DotPrison::Consumer
 end

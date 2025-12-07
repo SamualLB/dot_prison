@@ -1,4 +1,4 @@
-struct DotPrison::CategoryRegime < DotPrison::Consumer
+struct DotPrison::Prison::CategoryRegime < DotPrison::Consumer
   consume :current_activity, String, :CurrentActivity
   consume :previous_activity, String, :PreviousActivity
   

@@ -57,7 +57,7 @@ struct DotPrison::Prison < DotPrison::Consumer
   # Does 0 mean something?
   consume :patrols, DotPrison::Table, :Patrols
   # TODO: Awkward
-  consume :electricity, DotPrison::GridTable(DotPrison::ElectricityTile), :Electricity
+  consume :electricity, DotPrison::GridTable(Prison::ElectricityTile), :Electricity
   # TODO: Needs to be custom to consume OffValves, don't know what that is though...
   consume :water, DotPrison::GridTable(DotPrison::Prison::WaterTile), :Water
   consume :research, DotPrison::Prison::Research, :Research

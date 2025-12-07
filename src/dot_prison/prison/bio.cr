@@ -1,2 +1,2 @@
-struct DotPrison::Bio < DotPrison::Consumer
+struct DotPrison::Prison::Bio < DotPrison::Consumer
 end
