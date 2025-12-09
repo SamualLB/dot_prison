@@ -19,18 +19,34 @@ struct DotPrison::Prison < DotPrison::Consumer
   consume :time_warp, Float64, :TimeWarpFactor
   consume :seed, Int32, :RandomSeed
   consume :playtime, Int32, :SecondsPlayed
+  consume :reoffend, Int32, :Reoffend # Unknown use
   consume :next_id, Int32, :"ObjectId.next"
 
   consume :electricity_enabled, Bool, :EnabledElectricity
   consume :water_enabled, Bool, :EnabledWater
   consume :food_enabled, Bool, :EnabledFood
   consume :misconduct_enabled, Bool, :EnabledMisconduct
+  consume :criminally_insane_enabled, Bool, :EnabledCriminallyInsane
   consume :decay_enabled, Bool, :EnabledDecay
+  consume :visibility_enabled, Bool, :EnabledVisibility
+  consume :intake_enabled, Bool, :EnabledIntake
+  consume :weather_enabled, Bool, :EnabledWeather
 
+  consume :immediate_materials, Bool, :ImmediateMaterials
+  consume :generate_forests, Bool, :GenerateForests
+  consume :generate_lakes, Bool, :GenerateLakes
+  consume :island_plot, Bool, :IslandPlot
+  consume :island_bridge, Bool, :IslandBridge
   consume :desert_plot, Bool, :DesertPlot
+  consume :jungle_plot, Bool, :JunglePlot
   consume :centre_aligned, Bool, :ObjectsCentreAligned
   consume :failure_conditions_enabled, Bool, :FailureConditions
   consume :unlimited_funds, Bool, :UnlimitedFunds
+
+  consume :food_quantity, Int32, :FoodQuantity
+  consume :food_variation, Int32, :FoodVariation
+
+  consume :lethal_force_enabled, Bool, :LethalForce
 
   consume :bio_version, Int32, :BioVersions
   consume :needs_version, Int32, :NeedsVersion
@@ -41,8 +57,22 @@ struct DotPrison::Prison < DotPrison::Consumer
   consume :first_death_row_notice, Bool, :FirstDeathRowNotice
   consume :transfers_enabled, Bool, :prisonerTransfers
   consume :escape_plans_enabled, Bool, :EscapePlans
+  consume :punishment_by_sector_enabled, Bool, :UsePunishmentBySector
   consume :balance, Float64, :Balance
   consume :selected_guard_companion, Int32, :SelectedGuardCompanion
+  consume :game_speed, Float64, :GameSpeed
+  consume :block_land_expansion, Bool, :BlockLandExpansion
+
+  consume :uniform_colour_none, DotPrison::Colour, :None_colourUniform
+  consume :uniform_colour_min_sec, DotPrison::Colour, :MinSec_colourUniform
+  consume :uniform_colour_normal, DotPrison::Colour, :Normal_colourUniform
+  consume :uniform_colour_max_sec, DotPrison::Colour, :MaxSec_colourUniform
+  consume :uniform_colour_protected, DotPrison::Colour, :Protected_colourUniform
+  consume :uniform_colour_super_max, DotPrison::Colour, :SuperMax_colourUniform
+  consume :uniform_colour_death_row, DotPrison::Colour, :DeathRow_colourUniform
+  consume :uniform_colour_insane, DotPrison::Colour, :Insane_colourUniform
+  consume :uniform_colour_transfer_prisoner, DotPrison::Colour, :PrisonerTransfer_colourUniform
+
 
   consume :tiles, DotPrison::GridTable(DotPrison::Prison::Tile), :Cells
   consume :objects, DotPrison::IndexedTable(DotPrison::Prison::Object), :Objects
