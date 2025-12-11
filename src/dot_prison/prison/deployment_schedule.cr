@@ -14,7 +14,7 @@ struct DotPrison::Prison::DeploymentSchedule < DotPrison::Consumer
       consume :priority_level, Int32, :PriorityLevel
     end
 
-    {% for i in 0..0 %}
+    {% for i in 0..3 %}
       consume :"Schedule {{i}}"
     {% end %}
 

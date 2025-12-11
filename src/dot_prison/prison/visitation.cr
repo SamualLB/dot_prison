@@ -11,6 +11,7 @@ struct DotPrison::Prison::Visitation < DotPrison::Consumer
     consume :prisoner_uid, Int32, :"Prisoner.u"
   end
 
+  consume :waiting, Int32, :Waiting
   consume :timer, Float64, :Timer
   consume :visit_count, Int32, :VisitCount
   consume :active_groups, Int32, :ActiveVisitorGroups

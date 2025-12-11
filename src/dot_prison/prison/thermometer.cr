@@ -13,4 +13,5 @@ struct DotPrison::Prison::Thermometer < DotPrison::Consumer
   consume :recent_searches, Float64, :RecentSearches
   consume :recent_calmed, Float64, :RecentCalmed
   consume :hours_on_roll_call, Float64, :HoursOnRollcall
+  consume :happy_staff, Float64, :HappyStaff
 end

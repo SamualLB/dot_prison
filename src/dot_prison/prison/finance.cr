@@ -8,6 +8,64 @@ struct DotPrison::Prison::Finance < DotPrison::Consumer
   consume :ownership, Int32, :Ownership
   consume :warden_cut, Float64, :WardensCut
   consume :staff_pay_modifier, Float64, :StaffPayModifier
+  consume :starting_funds, Int32, :StartingFunds
+
+  consume :prisoner_wage_rate_none, Float64, :PrisonerWageRate_None
+  consume :prisoner_wage_rate_cell, Float64, :PrisonerWageRate_Cell
+  consume :prisoner_wage_rate_holding_cell, Float64, :PrisonerWageRate_HoldingCell
+  consume :prisoner_wage_rate_solitary, Float64, :PrisonerWageRate_Solitary
+  consume :prisoner_wage_rate_superior_cell, Float64, :PrisonerWageRate_SuperiorCell
+  consume :prisoner_wage_rate_dormitory, Float64, :PrisonerWageRate_Dormitory
+  consume :prisoner_wage_rate_family_cell, Float64, :PrisonerWageRate_FamilyCell
+  consume :prisoner_wage_rate_canteen, Float64, :PrisonerWageRate_Canteen
+  consume :prisoner_wage_rate_kitchen, Float64, :PrisonerWageRate_Kitchen
+  consume :prisoner_wage_rate_shower, Float64, :PrisonerWageRate_Shower
+  consume :prisoner_wage_rate_yard, Float64, :PrisonerWageRate_Yard
+  consume :prisoner_wage_rate_storage, Float64, :PrisonerWageRate_Storage
+  consume :prisoner_wage_rate_deliveries, Float64, :PrisonerWageRate_Deliveries
+  consume :prisoner_wage_rate_garbage, Float64, :PrisonerWageRate_Garbage
+  consume :prisoner_wage_rate_execution, Float64, :PrisonerWageRate_Execution
+  consume :prisoner_wage_rate_workshop, Float64, :PrisonerWageRate_Workshop
+  consume :prisoner_wage_rate_security, Float64, :PrisonerWageRate_Security
+  consume :prisoner_wage_rate_office, Float64, :PrisonerWageRate_Office
+  consume :prisoner_wage_rate_medical_ward, Float64, :PrisonerWageRate_MedicalWard
+  consume :prisoner_wage_rate_morgue, Float64, :PrisonerWageRate_Morgue
+  consume :prisoner_wage_rate_common_room, Float64, :PrisonerWageRate_CommonRoom
+  consume :prisoner_wage_rate_laundry, Float64, :PrisonerWageRate_Laundry
+  consume :prisoner_wage_rate_visitation, Float64, :PrisonerWageRate_Visitation
+  consume :prisoner_wage_rate_cleaning_cupboard, Float64, :PrisonerWageRate_CleaningCupboard
+  consume :prisoner_wage_rate_kennel, Float64, :PrisonerWageRate_Kennel
+  consume :prisoner_wage_rate_armoury, Float64, :PrisonerWageRate_Armoury
+  consume :prisoner_wage_rate_staffroom, Float64, :PrisonerWageRate_Staffroom
+  consume :prisoner_wage_rate_library, Float64, :PrisonerWageRate_Library
+  consume :prisoner_wage_rate_forestry, Float64, :PrisonerWageRate_Forestry
+  consume :prisoner_wage_rate_classroom, Float64, :PrisonerWageRate_Classroom
+  consume :prisoner_wage_rate_exports, Float64, :PrisonerWageRate_Exports
+  consume :prisoner_wage_rate_chapel, Float64, :PrisonerWageRate_Chapel
+  consume :prisoner_wage_rate_clear_rooms, Float64, :PrisonerWageRate_ClearRooms
+  consume :prisoner_wage_rate_parole_room, Float64, :PrisonerWageRate_ParoleRoom
+  consume :prisoner_wage_rate_intake, Float64, :PrisonerWageRate_Intake
+  consume :prisoner_wage_rate_mail_room, Float64, :PrisonerWageRate_MailRoom
+  consume :prisoner_wage_rate_shop, Float64, :PrisonerWageRate_Shop
+  consume :prisoner_wage_rate_nursery, Float64, :PrisonerWageRate_Nursery
+  consume :prisoner_wage_rate_padded_cell, Float64, :PrisonerWageRate_PaddedCell
+  consume :prisoner_wage_rate_padded_holding_cell, Float64, :PrisonerWageRate_PaddedHoldingCell
+  consume :prisoner_wage_rate_padded_solitary, Float64, :PrisonerWageRate_PaddedSolitary
+  consume :prisoner_wage_rate_psychiatrist_office, Float64, :PrisonerWageRate_PsychiatristOffice
+  consume :prisoner_wage_rate_gymnasium, Float64, :PrisonerWageRate_Gymnasium
+  consume :prisoner_wage_rate_helipad, Float64, :PrisonerWageRate_Helipad
+  consume :prisoner_wage_rate_dock, Float64, :PrisonerWageRate_Dock
+  consume :prisoner_wage_rate_vegetable_allotment, Float64, :PrisonerWageRate_VegetableAllotment
+  consume :prisoner_wage_rate_fruit_orchard, Float64, :PrisonerWageRate_FruitOrchard
+  consume :prisoner_wage_rate_farming_field, Float64, :PrisonerWageRate_FarmingField
+  consume :prisoner_wage_rate_pantry, Float64, :PrisonerWageRate_Pantry
+  consume :prisoner_wage_rate_flower_garden, Float64, :PrisonerWageRate_FlowerGarden
+  consume :prisoner_wage_rate_restaurant, Float64, :PrisonerWageRate_Restaurant
+  consume :prisoner_wage_rate_therapy_room, Float64, :PrisonerWageRate_TherapyRoom
+  consume :prisoner_wage_rate_bakery, Float64, :PrisonerWageRate_Bakery
+  consume :prisoner_wage_rate_weather_centre, Float64, :PrisonerWageRate_WeatherCentre
+  consume :prisoner_wage_rate_training_room, Float64, :PrisonerWageRate_TrainingRoom
+
   consume :daily_exports, Float64, :DailyExports
   consume :yesterday_exports, Int32, :DailyExportsYesterday
   consume :daily_shop_revenue, Float64, :DailyShopRevenue
@@ -16,4 +74,19 @@ struct DotPrison::Prison::Finance < DotPrison::Consumer
   consume :yesterday_prisoner_wages, Int32, :DailyPrisonerWagesYesterday
   consume :daily_staff_food, Float64, :DailyStaffFood
   consume :yesterday_staff_food, Int32, :DailyStaffFoodYesterday
+
+  consume :daily_power_exports, Float64, :DailyPowerExports
+  consume :daily_power_exports_yesterday, Int32, :DailyPowerExportsYesterday
+  consume :daily_imported_ingredient, Float64, :DailyImportedIngredient
+  consume :daily_imported_ingredient_yesterday, Int32, :DailyImportedIngredientYesterday
+  consume :daily_farm_ingredient_produce_count, Float64, :DailyFarmIngredientProduceCount
+  consume :daily_farm_ingredient_produce_count_yesterday, Int32, :DailyFarmIngredientProduceCountYesterday
+  consume :daily_farm_ingredient_seed_cost, Float64, :DailyFarmIngredientSeedCost
+  consume :daily_farm_ingredient_seed_cost_yesterday, Int32, :DailyFarmIngredientSeedCostYesterday
+  consume :daily_civilian_commerce, Float64, :DailyCivilianCommerce
+  consume :daily_civilian_commerce_yesterday, Int32, :DailyCivilianCommerceYesterday
+  consume :daily_prisoner_reoffend, Float64, :DailyPrisonerReoffend
+  consume :daily_prisoner_reoffend_yesterday, Int32, :DailyPrisonerReoffendYesterday
+  consume :daily_prisoner_reform, Float64, :DailyPrisonerReform
+  consume :daily_prisoner_reform_yesterday, Int32, :DailyPrisonerReformYesterday
 end

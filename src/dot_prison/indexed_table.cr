@@ -3,6 +3,8 @@
 # Starting at "[i 0]" and going up to (size-1) "[i size-1]"
 struct DotPrison::IndexedTable(T) < DotPrison::Consumer
   consume :size, Int32, :Size
+  # Seems to be used on some newer stuff, probably don't care about it
+  consume :array_type_id, String, :tID
 
   def [](i : Int32) : T
     T.new(table.parse_table("[i #{i}]"))

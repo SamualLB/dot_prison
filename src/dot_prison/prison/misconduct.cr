@@ -33,7 +33,20 @@ struct DotPrison::Prison::Misconduct < DotPrison::Consumer
 
   # TODO: fill with enum stuff
   struct Policy < DotPrison::Consumer
-
+    consume :none, DotPrison::Table, :None
+    consume :complaint, DotPrison::Table, :Complaint
+    consume :destruction, DotPrison::Table, :Destruction
+    consume :escape_attempt, DotPrison::Table, :EscapeAttempt
+    consume :injured_prisoner, DotPrison::Table, :InjuredPrisoner
+    consume :injured_staff, DotPrison::Table, :InjuredStaff
+    consume :serious_injury, DotPrison::Table, :SeriousInjury
+    consume :intoxicated, DotPrison::Table, :Intoxicated
+    consume :murder, DotPrison::Table, :Murder
+    consume :contraband_weapons, DotPrison::Table, :ContrabandWeapons
+    consume :contraband_tools, DotPrison::Table, :ContrabandTools
+    consume :contraband_narcotics, DotPrison::Table, :ContrabandNarcotics
+    consume :produced_narcotics, DotPrison::Table, :ProducedNarcotics
+    consume :contraband_luxuries, DotPrison::Table, :ContrabandLuxuries
   end
 
   consume :time_without_incident, Float64, :TimeWithoutIncident

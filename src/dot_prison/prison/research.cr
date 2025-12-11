@@ -34,6 +34,7 @@ struct DotPrison::Prison::Research < DotPrison::Consumer
     Health
     Cleaning
     GroundsKeeping
+    Clone
     Deployment
     Patrols
     Dogs
@@ -60,6 +61,9 @@ struct DotPrison::Prison::Research < DotPrison::Consumer
     GuardTowers
     ForestryLabour
     Orderly
+    Farming
+    RecyclingIncentive
+    NonLethalSniper
 
     def to_s : String
       return "Cctv" if self == CCTV

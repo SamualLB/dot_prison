@@ -55,6 +55,10 @@ struct DotPrison::Prison::Reform < DotPrison::Consumer
     def [](v : Program::Type)
       Report.new(table.parse_table(v.to_s))
     end
+
+    {% for r in Program::Type.constants %}
+      consume :{{r}}
+    {% end %}
   end
 
   consume :next_program_id, Int32, :NextProgramId

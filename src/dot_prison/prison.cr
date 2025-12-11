@@ -63,6 +63,7 @@ struct DotPrison::Prison < DotPrison::Consumer
   consume :game_speed, Float64, :GameSpeed
   consume :block_land_expansion, Bool, :BlockLandExpansion
 
+  # TODO: This may all have moved to `#uniform_colour`
   consume :uniform_colour_none, DotPrison::Colour, :None_colourUniform
   consume :uniform_colour_min_sec, DotPrison::Colour, :MinSec_colourUniform
   consume :uniform_colour_normal, DotPrison::Colour, :Normal_colourUniform
@@ -114,6 +115,8 @@ struct DotPrison::Prison < DotPrison::Consumer
   consume :execution, DotPrison::Prison::Execution, :Execution
   consume :events, DotPrison::Prison::Events, :Events
   consume :wardens, DotPrison::Prison::Wardens, :Wardens
+  # TODO: Empty
+  consume :climate, DotPrison::Table, :Climate
   consume :weather_map, DotPrison::Prison::WeatherMap, :WeatherMap
   consume :mutator_system, DotPrison::Prison::MutatorSystem, :MutatorSystem
   consume :stats_tracker, DotPrison::Prison::StatsTracker, :StatsTracker
@@ -121,9 +124,28 @@ struct DotPrison::Prison < DotPrison::Consumer
   consume :bridge_data, DotPrison::Table, :BridgeData
   consume :policy_data, DotPrison::Prison::PolicyData, :PolicyData
   consume :transfer_data, DotPrison::Prison::TransferData, :TransferData
+  consume :road_delivery_stop, DotPrison::Prison::RoadDeliveryStop, :RoadDeliveryStop
+  # TODO: Empty
+  consume :staff_alerts, DotPrison::Table, :StaffAlerts
+  consume :objectives, DotPrison::Prison::Objectives, :Objectives
+  # TODO: Empty
+  consume :civilian_customer, DotPrison::Table, :CivilianCustomer
+  consume :sentences_data, DotPrison::Prison::SentencesData, :SentencesData
+  consume :adviser_system, DotPrison::Prison::AdviserSystem, :AdviserSystem
+  consume :coverage_plan, DotPrison::Prison::CoveragePlan, :CoveragePlan
+  # TODO: Empty
+  consume :calamity_surface, DotPrison::Table, :CalamitySurface
+  consume :calamity_rewards, DotPrison::Prison::CalamityRewards, :CalamityRewards
+  consume :uniform_colour, DotPrison::Prison::UniformColour, :UniformColourData
+  consume :visibility, DotPrison::GridTable(DotPrison::Prison::Visibility), :Visibility
   consume :script_zones, DotPrison::Prison::ScriptZones, :ScriptZones
   consume :crisis_sector_data, DotPrison::GridTable(DotPrison::Prison::CrisisSector), :CrisisSectorData
   consume :desc_dir, DotPrison::Prison::DescDir, :DescDir
+
+  # TODO: Implement this, maybe?
+  consume :first_time_built_object, DotPrison::Table, :FirstTimeBuiltObjectDir
+  # TODO: Implement this, maybe?
+  consume :first_time_built_room, DotPrison::Table, :FirstTimeBuiltRoomDir
 end
 
 require "./prison/*"

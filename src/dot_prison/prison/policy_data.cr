@@ -35,6 +35,7 @@ struct DotPrison::Prison::PolicyData < DotPrison::Consumer
         ContrabandWeapons
         ContrabandTools
         ContrabandNarcotics
+        ProducedNarcotics
         ContrabandLuxuries
       end
 
@@ -63,6 +64,7 @@ struct DotPrison::Prison::PolicyData < DotPrison::Consumer
     consume :quantity, Int32, :Quantity
     consume :variety, Int32, :Variety
     consume :parole_cutoff, Int32, :ParoleCutoff
+    consume :visitation_hours, Int32, :VisitationHours
     consume :misconduct, Misconduct, :Misconduct
     consume :privilege, Privilege, :Privilege
   end
