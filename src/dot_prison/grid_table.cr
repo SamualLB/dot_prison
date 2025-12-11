@@ -10,6 +10,13 @@ struct DotPrison::GridTable(T) < DotPrison::Consumer
     T.new(table.parse_table("#{x} #{y}"))
   end
 
+  # Custom `#unconsumed` that removes `#[]` entries
+  #
+  # Keys for the associated table that have not been consumed
+  #
+  # This may be because they have not been implemented yet,
+  # they may have an unknown purpose, or could be part of an
+  # unsupported mod
   def unconsumed
     old = previous_def
     new = Array(String).new

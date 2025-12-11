@@ -137,13 +137,8 @@ abstract struct DotPrison::Consumer
       # Similar to `#unconsumed`, but travels the whole tree
       def unconsumed_tree : Array({String, String})
         arr = Array({String, String}).new
-        sorted = HANDLED_KEYS.sort
-          table.each do |k, v|
-            found = sorted.each do |s|
-              break true if s.to_s == k.to_s
-              false
-            end
-          arr << {self.class.to_s, k.to_s} unless found
+        unconsumed.each do |u|
+          arr << {self.class.to_s, u}
         end
         \{% for variable in HANDLED_VARIABLES %}
           if (v = \{{variable.id}}).is_a?(DotPrison::Consumer)
