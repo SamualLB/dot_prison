@@ -15,13 +15,17 @@ abstract struct DotPrison::Consumer
     end
 
     # :nodoc:
-    HANDLED_PROPERTIES = [] of Symbol
+    HANDLED_KEYS = [] of Symbol
+    # :nodoc:
+    HANDLED_VARIABLES = [] of Symbol
 
     # :nodoc:
     macro consume(prop, typ, *keys)
       \{% for k in keys %}
-         \{% HANDLED_PROPERTIES << k %}
+         \{% HANDLED_KEYS << k %}
       \{% end %}
+
+      \{% HANDLED_VARIABLES << prop %}
 
       \{% res = typ.resolve %}
       \{% if res == String %}
@@ -113,15 +117,41 @@ abstract struct DotPrison::Consumer
 
     # :nodoc:
     macro consume(key)
-      \{% HANDLED_PROPERTIES << key %}
+      \{% HANDLED_KEYS << key %}
     end
 
     # :nodoc:
     macro consume(key1, key2)
       \{%
-        HANDLED_PROPERTIES << key1
-        HANDLED_PROPERTIES << key2
+        HANDLED_KEYS << key1
+        HANDLED_KEYS << key2
         %}
+    end
+
+    macro finished
+      # Returns a recursive array of the {class name, key} that have not been consumed
+      #
+      # Uses the `Consumer::HANDLED_VARIABLES` constant, so custom `Consumer::consume`
+      # macro use may not work
+      #
+      # Similar to `#unconsumed`, but travels the whole tree
+      def unconsumed_tree : Array({String, String})
+        arr = Array({String, String}).new
+        sorted = HANDLED_KEYS.sort
+          table.each do |k, v|
+            found = sorted.each do |s|
+              break true if s.to_s == k.to_s
+              false
+            end
+          arr << {self.class.to_s, k.to_s} unless found
+        end
+        \{% for variable in HANDLED_VARIABLES %}
+          if (v = \{{variable.id}}).is_a?(DotPrison::Consumer)
+            v.unconsumed_tree.each { |c| arr << c }
+          end
+        \{% end %}
+        arr
+      end
     end
 
     # Keys for the associated table that have not been consumed
@@ -131,7 +161,7 @@ abstract struct DotPrison::Consumer
     # unsupported mod
     def unconsumed : Array(String)
       out = [] of String
-      sorted = HANDLED_PROPERTIES.sort
+      sorted = HANDLED_KEYS.sort
       table.each do |k, v|
         found = sorted.each do |s|
           break true if s.to_s == k.to_s
