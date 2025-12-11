@@ -260,7 +260,7 @@ struct DotPrison::Prison::Object::Prisoner < DotPrison::Prison::Object
     consume :sleep, Float64, :Sleep
     consume :work, Float64, :Work
     consume :exercise, Float64, :Exercise
-    consume :class, Float64, :Class
+    consume :classes, Float64, :Class
     consume :freetime, Float64, :Freetime
     consume :mood_bad, Float64, :MoodBad
     consume :mood_normal, Float64, :MoodNormal

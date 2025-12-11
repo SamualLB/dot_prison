@@ -17,7 +17,7 @@ struct DotPrison::Prison::WeatherMap < DotPrison::Consumer
     consume :current_weather, WeatherType, :CurrentWeather
     consume :weather_duration, Float64, :WeatherDuration
     consume :current, Weather, :Current
-    consume :next, Weather, :Next
+    consume :next_weather, Weather, :Next
   end
 
   struct Temperature < DotPrison::Consumer  
