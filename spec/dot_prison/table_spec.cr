@@ -1,4 +1,4 @@
-require "./spec_helper"
+require "../spec_helper"
 
 describe DotPrison::Table do
   describe "#parse_string" do

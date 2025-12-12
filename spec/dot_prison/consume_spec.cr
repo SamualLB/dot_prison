@@ -1,4 +1,4 @@
-require "./spec_helper"
+require "../spec_helper"
 
 FILE_CONTENTS = "
 StringTest   HelloThere
