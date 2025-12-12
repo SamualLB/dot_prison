@@ -46,11 +46,8 @@ abstract struct DotPrison::Consumer
         def \{{prop.id}} : Float64
           table.parse_float \{{keys[0]}}
         end
-        def \{{prop.id}}=(v : Float)
+        def \{{prop.id}}=(v : Number)
           table[\{{keys[0]}}] = v.to_s
-        end
-        def \{{prop.id}}=(v : Int)
-           table[\{{keys[0]}}] = v.to_s
         end
       \{% elsif res == Bool %}
         def \{{prop.id}} : Bool
@@ -63,7 +60,7 @@ abstract struct DotPrison::Consumer
         def \{{prop.id}} : Tuple(Int32, Int32)
           {table.parse_int(\{{keys[0]}}), table.parse_int(\{{keys[1]}})}
         end
-        def \{{prop.id}}=(v : Tuple(Int32, Int32))
+        def \{{prop.id}}=(v : Tuple(Number, Number))
           table[\{{keys[0]}}] = v[0].to_s
           table[\{{keys[1]}}] = v[1].to_s
         end
